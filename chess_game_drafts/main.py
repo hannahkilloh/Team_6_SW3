@@ -1,4 +1,7 @@
 import pygame
+import chess
+import chess.engine
+
 from chess_game_drafts.data.classes.board import Board
 
 pygame.init()
@@ -100,3 +103,8 @@ if __name__ == '__main__':
 
         # Draw the board
         draw(screen)
+
+def stockfish_move(board):
+    with chess.engine.SimpleEngine.popen_uci("path/to/stockfish") as engine:
+        result = engine.play(board, chess.engine.Limit(time=2.0))
+        return result.move
