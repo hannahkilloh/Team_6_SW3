@@ -15,6 +15,7 @@ while run:
     settings.timer.tick(settings.fps)
     settings.screen.fill('violet')
     helpers.draw_board()
+    helpers.draw_pieces()
 
     # Event handling
     for event in pygame.event.get():

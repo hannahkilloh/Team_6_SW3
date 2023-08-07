@@ -1,61 +1,78 @@
 import pygame
 
-# load in game piece images (queen, king, rook, bishop, knight, pawn) x 2
-black_queen = pygame.image.load('assets/images/black queen.png')
-black_queen = pygame.transform.scale(black_queen, (80, 80))
-black_queen_small = pygame.transform.scale(black_queen, (45, 45))
 
-black_king = pygame.image.load('assets/images/black king.png')
-black_king = pygame.transform.scale(black_king, (80, 80))
-black_king_small = pygame.transform.scale(black_king, (45, 45))
+class Images:
+    def __init__(self):
+        self.black_queen = self.load_and_scale(
+            'assets/images/black queen.png', (80, 80))
+        self.black_queen_small = self.load_and_scale(
+            'assets/images/black queen.png', (45, 45))
 
-black_rook = pygame.image.load('assets/images/black rook.png')
-black_rook = pygame.transform.scale(black_rook, (80, 80))
-black_rook_small = pygame.transform.scale(black_rook, (45, 45))
+        self.black_king = self.load_and_scale(
+            'assets/images/black king.png', (80, 80))
+        self.black_king_small = self.load_and_scale(
+            'assets/images/black king.png', (45, 45))
 
-black_bishop = pygame.image.load('assets/images/black bishop.png')
-black_bishop = pygame.transform.scale(black_bishop, (80, 80))
-black_bishop_small = pygame.transform.scale(black_bishop, (45, 45))
+        self.black_rook = self.load_and_scale(
+            'assets/images/black rook.png', (80, 80))
+        self.black_rook_small = self.load_and_scale(
+            'assets/images/black rook.png', (45, 45))
 
-black_knight = pygame.image.load('assets/images/black knight.png')
-black_knight = pygame.transform.scale(black_knight, (80, 80))
-black_knight_small = pygame.transform.scale(black_knight, (45, 45))
+        self.black_bishop = self.load_and_scale(
+            'assets/images/black bishop.png', (80, 80))
+        self.black_bishop_small = self.load_and_scale(
+            'assets/images/black bishop.png', (45, 45))
 
-black_pawn = pygame.image.load('assets/images/black pawn.png')
-black_pawn = pygame.transform.scale(black_pawn, (65, 65))
-black_pawn_small = pygame.transform.scale(black_pawn, (45, 45))
+        self.black_knight = self.load_and_scale(
+            'assets/images/black knight.png', (80, 80))
+        self.black_knight_small = self.load_and_scale(
+            'assets/images/black knight.png', (45, 45))
 
-white_queen = pygame.image.load('assets/images/white queen.png')
-white_queen = pygame.transform.scale(white_queen, (80, 80))
-white_queen_small = pygame.transform.scale(white_queen, (45, 45))
+        self.black_pawn = self.load_and_scale(
+            'assets/images/black pawn.png', (65, 65))
+        self.black_pawn_small = self.load_and_scale(
+            'assets/images/black pawn.png', (45, 45))
 
-white_king = pygame.image.load('assets/images/white king.png')
-white_king = pygame.transform.scale(white_king, (80, 80))
-white_king_small = pygame.transform.scale(white_king, (45, 45))
+        self.white_queen = self.load_and_scale(
+            'assets/images/white queen.png', (80, 80))
+        self.white_queen_small = self.load_and_scale(
+            'assets/images/white queen.png', (45, 45))
 
-white_rook = pygame.image.load('assets/images/white rook.png')
-white_rook = pygame.transform.scale(white_rook, (80, 80))
-white_rook_small = pygame.transform.scale(white_rook, (45, 45))
+        self.white_king = self.load_and_scale(
+            'assets/images/white king.png', (80, 80))
+        self.white_king_small = self.load_and_scale(
+            'assets/images/white king.png', (45, 45))
 
-white_bishop = pygame.image.load('assets/images/white bishop.png')
-white_bishop = pygame.transform.scale(white_bishop, (80, 80))
-white_bishop_small = pygame.transform.scale(white_bishop, (45, 45))
+        self.white_rook = self.load_and_scale(
+            'assets/images/white rook.png', (80, 80))
+        self.white_rook_small = self.load_and_scale(
+            'assets/images/white rook.png', (45, 45))
 
-white_knight = pygame.image.load('assets/images/white knight.png')
-white_knight = pygame.transform.scale(white_knight, (80, 80))
-white_knight_small = pygame.transform.scale(white_knight, (45, 45))
+        self.white_bishop = self.load_and_scale(
+            'assets/images/white bishop.png', (80, 80))
+        self.white_bishop_small = self.load_and_scale(
+            'assets/images/white bishop.png', (45, 45))
 
-white_pawn = pygame.image.load('assets/images/white pawn.png')
-white_pawn = pygame.transform.scale(white_pawn, (65, 65))
-white_pawn_small = pygame.transform.scale(white_pawn, (45, 45))
+        self.white_knight = self.load_and_scale(
+            'assets/images/white knight.png', (80, 80))
+        self.white_knight_small = self.load_and_scale(
+            'assets/images/white knight.png', (45, 45))
 
-# Create list with the images
-white_images = [white_pawn, white_queen, white_king,
-                white_knight, white_rook, white_bishop]
-small_white_images = [white_pawn_small, white_queen_small, white_king_small,
-                      white_knight_small, white_rook_small, white_bishop_small]
+        self.white_pawn = self.load_and_scale(
+            'assets/images/white pawn.png', (65, 65))
+        self.white_pawn_small = self.load_and_scale(
+            'assets/images/white pawn.png', (45, 45))
 
-black_images = [black_pawn, black_queen, black_king,
-                black_knight, black_rook, black_bishop]
-small_black_images = [black_pawn_small, black_queen_small, black_king_small,
-                      black_knight_small, black_rook_small, black_bishop_small]
+        self.white_images = [self.white_pawn, self.white_queen, self.white_king,
+                             self.white_knight, self.white_rook, self.white_bishop]
+        self.small_white_images = [self.white_pawn_small, self.white_queen_small, self.white_king_small,
+                                   self.white_knight_small, self.white_rook_small, self.white_bishop_small]
+
+        self.black_images = [self.black_pawn, self.black_queen, self.black_king,
+                             self.black_knight, self.black_rook, self.black_bishop]
+        self.small_black_images = [self.black_pawn_small, self.black_queen_small, self.black_king_small,
+                                   self.black_knight_small, self.black_rook_small, self.black_bishop_small]
+
+    def load_and_scale(self, image_path, size):
+        image = pygame.image.load(image_path)
+        return pygame.transform.scale(image, size)

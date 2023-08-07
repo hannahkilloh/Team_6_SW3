@@ -1,8 +1,10 @@
 import pygame
 from models.settings import Settings
+from models.images import Images
 
 # Create an instance of the Settings class
 settings = Settings()
+images = Images()
 pygame.font.init()
 font = pygame.font.Font('freesansbold.ttf', 20)
 medium_font = pygame.font.Font('freesansbold.ttf', 40)
@@ -47,3 +49,25 @@ def draw_board():
 def draw_pieces():
     for i in range(len(settings.white_pieces)):
         index = settings.piece_list.index(settings.white_pieces[i])
+        if settings.white_pieces[i] == 'pawn':
+            settings.screen.blit(
+                images.white_pawn, (settings.white_locations[i][0] * 100 + 22, settings.white_locations[i][1] * 100 + 30))
+        else:
+            settings.screen.blit(images.white_images[index], (
+                settings.white_locations[i][0] * 100 + 1, settings.white_locations[i][1] * 100 + 10))
+        if settings.turn_step < 2:
+            if settings.selection == i:
+                pygame.draw.rect(settings.screen, 'red', [settings.white_locations[i][0] * 100 + 1, settings.white_locations[i][1] * 100 + 1,
+                                                          100, 100], 2)
+    for i in range(len(settings.black_pieces)):
+        index = settings.piece_list.index(settings.black_pieces[i])
+        if settings.black_pieces[i] == 'pawn':
+            settings.screen.blit(
+                images.black_pawn, (settings.black_locations[i][0] * 100 + 22, settings.black_locations[i][1] * 100 + 30))
+        else:
+            settings.screen.blit(images.black_images[index], (
+                settings.black_locations[i][0] * 100 + 10, settings.black_locations[i][1] * 100 + 10))
+        if settings.turn_step >= 2:
+            if settings.selection == i:
+                pygame.draw.rect(settings.screen, 'blue', [settings.black_locations[i][0] * 100 + 1, settings.black_locations[i][1] * 100 + 1,
+                                                           100, 100], 2)
