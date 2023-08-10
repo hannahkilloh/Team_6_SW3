@@ -1,14 +1,16 @@
 import pygame
 from models.settings import Settings
-from models.helpers import Board
+from models.helpers import Board, BoardSettings
 
 pygame.init()
-
+pygame.font.init()
 pygame.display.set_caption('🐍🐍 Welcome to the Pythonic Chess 🐍🐍')
 
 # can pass in any colours, to set theme up easier
-board = Board("white", "black", "pink", "black")
+board_settings = BoardSettings("light grey", "dark grey", "pink", "black", 'freesansbold.ttf')
+board = Board(board_settings)
 
+game_state = 'start_menu'
 # Main game loop
 run = True
 while run:
