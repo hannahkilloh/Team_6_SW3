@@ -136,18 +136,34 @@ def check_rook(position, color):
 
 # check valid pawn moves
 def check_pawn(position, color):
-    moves_list = []
+    moves_list = []  # moves list calculates the possible moves of each piece
     if color == 'white':
-        if (position[0], position[1] + 1) not in settings.white_locations and \
-                         (position[0], position[1] + 1) not in settings.black_locations and position[1] < 7:
-            moves_list.append((position[0], position[1] + 1))
-        if (position[0], position[1] + 2) not in settings.white_locations and (position[0], position[1] + 2) \
-                not in settings.black_locations and position[1] == 1:
+        no_blocking_white_piece = (position[0], position[1] + 1) not in settings.white_locations
+        no_blocking_black_piece = (position[0], position[1] + 1) not in settings.black_locations
+        is_not_bottom_of_board = position[1] < 7
+
+        # calculates one step forward move
+        if no_blocking_white_piece and no_blocking_black_piece and is_not_bottom_of_board:
+            moves_list.append((position[0], position[1] + 1))  # adds available tile to moves list []
+
+        is_first_move = position[1] == 1
+        no_blocking_white_piece_for_two = (position[0], position[1] + 2) not in settings.white_locations
+        no_blocking_black_piece_for_two = (position[0], position[1] + 2) not in settings.black_locations
+
+        # calculates two steps forward move
+        if no_blocking_white_piece_for_two and no_blocking_black_piece_for_two and is_first_move:
             moves_list.append((position[0], position[1] + 2))
-        if (position[0] + 1, position[1] + 1) in settings.black_locations:
-            moves_list.append((position[0], position[1] + 1))
-        if (position[0] - 1, position[1] + 1) in settings.black_locations:
+
+        # checks diagonal right for black piece
+        diagonal_right_is_black = (position[0] + 1, position[1] + 1) in settings.black_locations
+        if diagonal_right_is_black:
+            moves_list.append((position[0] + 1, position[1] + 1))
+
+        # checks diagonal left for black piece
+        diagonal_left_is_black = (position[0] - 1, position[1] + 1) in settings.black_locations
+        if diagonal_left_is_black:
             moves_list.append((position[0] - 1, position[1] + 1))
+
     else:
         if (position[0], position[1] - 1) not in settings.white_locations and \
                          (position[0], position[1] - 1) not in settings.black_locations and position[1] > 0:

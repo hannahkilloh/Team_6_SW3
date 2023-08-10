@@ -1,7 +1,6 @@
 import pygame
 
 
-# rename 'helpers' to 'board'
 class BoardSettings:
     def __init__(self, tile_colour_1, tile_colour_2, status_text_background, tile_border_colour,
                  font):
