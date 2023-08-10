@@ -1,4 +1,5 @@
 import pygame
+pygame.init()
 
 
 class Settings:
@@ -7,7 +8,7 @@ class Settings:
         self.WIDTH = 1000
         self.HEIGHT = 900
         self.screen = pygame.display.set_mode([self.WIDTH, self.HEIGHT])
-
+        self.game_over = False
         self.timer = pygame.time.Clock()
         self.fps = 60
 
@@ -33,3 +34,4 @@ class Settings:
         # Current piece selection, default to a value not in the board
         self.selection = 100
         self.valid_moves = []
+        self.winner = ""

@@ -1,6 +1,4 @@
 import pygame
-from models.settings import Settings
-from models.images import Images
 
 
 # rename 'helpers' to 'board'
@@ -17,10 +15,10 @@ class BoardSettings:
 
 
 class Board:
-    def __init__(self, board_settings):
+    def __init__(self, board_settings, settings, images):
         self.board_settings = board_settings
-        self.settings = Settings()
-        self.images = Images()
+        self.settings = settings
+        self.images = images
 
     def initialise(self):
         self.settings.timer.tick(self.settings.fps)
