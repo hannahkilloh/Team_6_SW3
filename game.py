@@ -135,6 +135,7 @@ def check_rook(position, color):
                 path = False
     return moves_list
 
+
 # check valid pawn moves
 def check_pawn(position, color):
     moves_list = []  # moves list calculates the possible moves of each piece
@@ -151,7 +152,7 @@ def check_pawn(position, color):
         no_blocking_white_piece_for_two = (position[0], position[1] + 2) not in settings.white_locations
         no_blocking_black_piece_for_two = (position[0], position[1] + 2) not in settings.black_locations
 
-        # calculates two steps forward move
+        # calculates two steps forward first move
         if no_blocking_white_piece_for_two and no_blocking_black_piece_for_two and is_first_move:
             moves_list.append((position[0], position[1] + 2))
 
@@ -166,16 +167,32 @@ def check_pawn(position, color):
             moves_list.append((position[0] - 1, position[1] + 1))
 
     else:
-        if (position[0], position[1] - 1) not in settings.white_locations and \
-                         (position[0], position[1] - 1) not in settings.black_locations and position[1] > 0:
+        no_blocking_white_piece = (position[0], position[1] - 1) not in settings.white_locations
+        no_blocking_black_piece = (position[0], position[1] - 1) not in settings.black_locations
+        is_not_top_of_board = position[1] > 0
+
+        # calculates one step forward
+        if no_blocking_white_piece and no_blocking_black_piece and is_not_top_of_board:
             moves_list.append((position[0], position[1] - 1))
-        if (position[0], position[1] - 2) not in settings.white_locations and (position[0], position[1] + 2) \
-                not in settings.black_locations and position[1] == 6:
+
+        is_first_move = position[1] == 6
+        no_blocking_white_piece_for_two = (position[0], position[1] - 2) not in settings.white_locations
+        no_blocking_black_piece_for_two = (position[0], position[1] - 2) not in settings.black_locations
+
+        # calculates two steps forward first move
+        if no_blocking_white_piece_for_two and no_blocking_black_piece_for_two and is_first_move:
             moves_list.append((position[0], position[1] - 2))
-        if (position[0] + 1, position[1] - 1) in settings.white_locations:
+
+        # checks diagonal right for white piece
+        diagonal_right_is_white = (position[0] + 1, position[1] - 1) in settings.white_locations
+        if diagonal_right_is_white:
             moves_list.append((position[0] + 1, position[1] - 1))
-        if (position[0] - 1, position[1] - 1) in settings.white_locations:
+
+        # checks diagonal left for white piece
+        diagonal_left_is_white = (position[0] - 1, position[1] - 1) in settings.white_locations
+        if diagonal_left_is_white:
             moves_list.append((position[0] - 1, position[1] - 1))
+
     return moves_list
 
 
