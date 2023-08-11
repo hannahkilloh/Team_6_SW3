@@ -6,6 +6,7 @@ from models.images import Images
 pygame.init()
 pygame.font.init()
 pygame.display.set_caption('🐍🐍 Welcome to the Pythonic Chess 🐍🐍')
+pygame.display.set_icon(pygame.image.load('assets/images/chess_icon.ico'))
 
 # can pass in any colours, to set theme up easier
 
