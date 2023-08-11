@@ -6,10 +6,10 @@ pygame.init()
 screen = pygame.display.set_mode((1000, 900))
 pygame.display.set_caption("Welcome Menu")
 
-BG = pygame.image.load("assets/images/black king.png").convert()
+BG = pygame.image.load("assets/images/b_king.png").convert()
 BG.set_alpha(128)
 screen.blit(BG, (-550, 0))
-BG2 = pygame.image.load("assets/images/black queen.png").convert()
+BG2 = pygame.image.load("assets/images/b_queen.png").convert()
 BG2.set_alpha(128)
 screen.blit(BG2, (450, 0))
 
@@ -81,11 +81,11 @@ def main_menu():
         menu_text = get_font(100).render("", True, "light pink")
         menu_rect = menu_text.get_rect(center=(500, 450))
 
-        play_button = Button(image=pygame.image.load("assets/images/Play Rect.png"), pos=(500, 250),
+        play_button = Button(image=pygame.image.load("assets/images/play_rect.png"), pos=(500, 250),
                              text_input="PLAY CHESS", font=get_font(75), base_color="light pink", hovering_color="White")
-        options_button = Button(image=pygame.image.load("assets/images/Play Rect.png"), pos=(500, 400),
+        options_button = Button(image=pygame.image.load("assets/images/play_rect.png"), pos=(500, 400),
                                 text_input="GAMES HISTORY", font=get_font(75), base_color="light pink", hovering_color="White")
-        quit_button = Button(image=pygame.image.load("assets/images/Play Rect.png"), pos=(500, 550),
+        quit_button = Button(image=pygame.image.load("assets/images/play_rect.png"), pos=(500, 550),
                              text_input="QUIT", font=get_font(75), base_color="light pink", hovering_color="White")
 
         screen.blit(menu_text, menu_rect)
