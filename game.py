@@ -241,74 +241,75 @@ def draw_valid(moves):
     for i in range(len(moves)):
         pygame.draw.circle(settings.screen, color, (moves[i][0] * 100 + 50, moves[i][1] * 100 + 50), 5)
 
-
-
 black_options = check_options(settings.black_pieces, settings.black_locations, 'black')
 white_options = check_options(settings.white_pieces, settings.white_locations, 'white')
+
+
 # Main game loop
-run = True
-while run:
-    board.initialise()
-    draw_captured()
+def play_game():
+    run = True
+    while run:
+        board.initialise()
+        draw_captured()
 
-    if settings.selection != 100:
-        settings.valid_moves = check_valid_moves()
-        draw_valid(settings.valid_moves)
+        if settings.selection != 100:
+            settings.valid_moves = check_valid_moves()
+            draw_valid(settings.valid_moves)
 
 
-    # Event handling
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            run = False
+        # Event handling
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
 
-        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and not settings.game_over:
-            x_coord = event.pos[0] // 100  # x coord
-            y_coord = event.pos[1] // 100  # y coord
-            click_coords = (x_coord, y_coord)
-            if settings.turn_step <= 1:
-                if click_coords == (8, 8) or click_coords == (9, 8):
-                    settings.winner = 'black'
-                if click_coords in settings.white_locations:
-                    settings.selection = settings.white_locations.index(click_coords)  # piece location we want the index of that piece
-                    if settings.turn_step == 0:
-                        settings.turn_step = 1
-                if click_coords in settings.valid_moves and settings.selection != 100:  # don't want to be able to click somewhere and
-                    # move without a piece selected
-                    settings.white_locations[settings.selection] = click_coords  # the piece is allowed to go to where is selected
-                    if click_coords in settings.black_locations:  # checking it takes us to where a black piece is sitting
-                        black_piece = settings.black_locations.index(click_coords)
-                        settings.captured_pieces_white.append(settings.black_pieces[black_piece])
-                        if settings.black_pieces[black_piece] == 'king':
-                            settings.winner = 'white'
-                        settings.black_pieces.pop(black_piece)
-                        settings.black_locations.pop(black_piece)
-                    black_options = check_options(settings.black_pieces, settings.black_locations, 'black')
-                    white_options = check_options(settings.white_pieces, settings.white_locations, 'white')
-                    settings.turn_step = 2
-                    settings.selection = 100
-                    settings.valid_moves = []
-            if settings.turn_step > 1:
-                if click_coords == (8, 8) or click_coords == (9, 8):
-                    settings.winner = 'white'
-                if click_coords in settings.black_locations:
-                    settings.selection = settings.black_locations.index(click_coords)  # piece location we want the index of that piece
-                    if settings.turn_step == 2:
-                        settings.turn_step = 3
-                if click_coords in settings.valid_moves and settings.selection != 100:  # don't want to be able to click somewhere and
-                    # move without a piece selected
-                    settings.black_locations[settings.selection] = click_coords  # the piece is allowed to go to where is selected
-                    if click_coords in settings.white_locations:  # checking it takes us to where a black piece is sitting
-                        white_piece = settings.white_locations.index(click_coords)
-                        settings.captured_pieces_black.append(settings.white_pieces[white_piece])
-                        if settings.black_pieces[white_piece] == 'king':
-                            settings.winner = 'black'
-                        settings.white_pieces.pop(white_piece)
-                        settings.white_locations.pop(white_piece)
-                    black_options = check_options(settings.black_pieces, settings.black_locations, 'black')
-                    white_options = check_options(settings.white_pieces, settings.white_locations, 'white')
-                    settings.turn_step = 0
-                    settings.selection = 100
-                    settings.valid_moves = []
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and not settings.game_over:
+                x_coord = event.pos[0] // 100  # x coord
+                y_coord = event.pos[1] // 100  # y coord
+                click_coords = (x_coord, y_coord)
+                if settings.turn_step <= 1:
+                    if click_coords == (8, 8) or click_coords == (9, 8):
+                        settings.winner = 'black'
+                    if click_coords in settings.white_locations:
+                        settings.selection = settings.white_locations.index(click_coords)  # piece location we want the index of that piece
+                        if settings.turn_step == 0:
+                            settings.turn_step = 1
+                    if click_coords in settings.valid_moves and settings.selection != 100:  # don't want to be able to click somewhere and
+                        # move without a piece selected
+                        settings.white_locations[settings.selection] = click_coords  # the piece is allowed to go to where is selected
+                        if click_coords in settings.black_locations:  # checking it takes us to where a black piece is sitting
+                            black_piece = settings.black_locations.index(click_coords)
+                            settings.captured_pieces_white.append(settings.black_pieces[black_piece])
+                            if settings.black_pieces[black_piece] == 'king':
+                                settings.winner = 'white'
+                            settings.black_pieces.pop(black_piece)
+                            settings.black_locations.pop(black_piece)
+                        black_options = check_options(settings.black_pieces, settings.black_locations, 'black')
+                        white_options = check_options(settings.white_pieces, settings.white_locations, 'white')
+                        settings.turn_step = 2
+                        settings.selection = 100
+                        settings.valid_moves = []
+                if settings.turn_step > 1:
+                    if click_coords == (8, 8) or click_coords == (9, 8):
+                        settings.winner = 'white'
+                    if click_coords in settings.black_locations:
+                        settings.selection = settings.black_locations.index(click_coords)  # piece location we want the index of that piece
+                        if settings.turn_step == 2:
+                            settings.turn_step = 3
+                    if click_coords in settings.valid_moves and settings.selection != 100:  # don't want to be able to click somewhere and
+                        # move without a piece selected
+                        settings.black_locations[settings.selection] = click_coords  # the piece is allowed to go to where is selected
+                        if click_coords in settings.white_locations:  # checking it takes us to where a black piece is sitting
+                            white_piece = settings.white_locations.index(click_coords)
+                            settings.captured_pieces_black.append(settings.white_pieces[white_piece])
+                            if settings.black_pieces[white_piece] == 'king':
+                                settings.winner = 'black'
+                            settings.white_pieces.pop(white_piece)
+                            settings.white_locations.pop(white_piece)
+                        black_options = check_options(settings.black_pieces, settings.black_locations, 'black')
+                        white_options = check_options(settings.white_pieces, settings.white_locations, 'white')
+                        settings.turn_step = 0
+                        settings.selection = 100
+                        settings.valid_moves = []
 
-    pygame.display.flip()
-pygame.quit()
+        pygame.display.flip()
+    pygame.quit()
