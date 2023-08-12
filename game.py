@@ -2,6 +2,7 @@ import pygame
 from models.settings import Settings
 from models.board import Board, BoardSettings
 from models.images import Images
+from pieces.pawn import Pawn
 
 pygame.init()
 pygame.font.init()
@@ -14,6 +15,15 @@ board_settings = BoardSettings("light grey", "dark grey", "pink", "black", 'free
 settings = Settings()
 images = Images()
 board = Board(board_settings, settings, images)
+
+# for testing
+# pawn = Pawn('white', (0, 1))  # instantiates an instance of the Pawn class with an instance called pawn
+# valid_moves = pawn.get_valid_moves(settings.white_locations, settings.black_locations)
+# # calls function get_valid_moves from pawn file and assigns it to valid_moves variable
+# print(valid_moves)
+# pawn.move_to_selected_position((0, 2))
+# print(pawn.get_valid_moves(settings.white_locations, settings.black_locations))
+
 
 # function to check all pieces valid options on board
 def check_options(pieces, locations, turn):
@@ -212,7 +222,6 @@ def check_knight(position, color):
     return moves_list
 
 
-
 def draw_captured():
     for i in range(len(settings.captured_pieces_white)):
         captured_piece = settings.captured_pieces_white[i]
@@ -241,6 +250,7 @@ def draw_valid(moves):
     for i in range(len(moves)):
         pygame.draw.circle(settings.screen, color, (moves[i][0] * 100 + 50, moves[i][1] * 100 + 50), 5)
 
+
 black_options = check_options(settings.black_pieces, settings.black_locations, 'black')
 white_options = check_options(settings.white_pieces, settings.white_locations, 'white')
 
@@ -255,7 +265,6 @@ def play_game():
         if settings.selection != 100:
             settings.valid_moves = check_valid_moves()
             draw_valid(settings.valid_moves)
-
 
         # Event handling
         for event in pygame.event.get():
@@ -289,6 +298,7 @@ def play_game():
                         settings.selection = 100
                         settings.valid_moves = []
                 if settings.turn_step > 1:
+                    # todo: this doesnt seem right
                     if click_coords == (8, 8) or click_coords == (9, 8):
                         settings.winner = 'white'
                     if click_coords in settings.black_locations:
