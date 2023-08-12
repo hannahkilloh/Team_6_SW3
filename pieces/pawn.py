@@ -1,3 +1,4 @@
+
 class Pawn:
     def __init__(self, colour, current_position):
         self.__colour = colour  # private variables with __
@@ -7,6 +8,8 @@ class Pawn:
     def move_to_selected_position(self, new_position):
         if new_position in self.__valid_moves:
             self.__current_position = new_position
+
+        return self.__current_position
 
     def get_valid_moves(self, white_locations, black_locations):
         moves_list = []  # moves list calculates the possible moves of each piece

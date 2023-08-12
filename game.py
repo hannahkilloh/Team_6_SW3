@@ -16,14 +16,6 @@ settings = Settings()
 images = Images()
 board = Board(board_settings, settings, images)
 
-# for testing
-# pawn = Pawn('white', (0, 1))  # instantiates an instance of the Pawn class with an instance called pawn
-# valid_moves = pawn.get_valid_moves(settings.white_locations, settings.black_locations)
-# # calls function get_valid_moves from pawn file and assigns it to valid_moves variable
-# print(valid_moves)
-# pawn.move_to_selected_position((0, 2))
-# print(pawn.get_valid_moves(settings.white_locations, settings.black_locations))
-
 
 # function to check all pieces valid options on board
 def check_options(pieces, locations, turn):
