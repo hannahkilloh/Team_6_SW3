@@ -1,6 +1,5 @@
 import unittest
 from Team_6_SW3.pieces.pawn import Pawn
-# from pieces.pawn import Pawn
 
 
 class PawnTests(unittest.TestCase):
