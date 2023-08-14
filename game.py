@@ -249,6 +249,9 @@ white_options = check_options(settings.white_pieces, settings.white_locations, '
 
 # Main game loop
 def play_game():
+    global black_options
+    global white_options
+
     run = True
     while run:
         board.initialise()
@@ -271,13 +274,16 @@ def play_game():
                     if click_coords == (8, 8) or click_coords == (9, 8):
                         settings.winner = 'black'
                     if click_coords in settings.white_locations:
-                        settings.selection = settings.white_locations.index(click_coords)  # piece location we want the index of that piece
+                        # piece location we want the index of that piece
+                        settings.selection = settings.white_locations.index(click_coords)
                         if settings.turn_step == 0:
                             settings.turn_step = 1
-                    if click_coords in settings.valid_moves and settings.selection != 100:  # don't want to be able to click somewhere and
-                        # move without a piece selected
-                        settings.white_locations[settings.selection] = click_coords  # the piece is allowed to go to where is selected
-                        if click_coords in settings.black_locations:  # checking it takes us to where a black piece is sitting
+                            # don't want to be able to click somewhere and move without a piece selected
+                    if click_coords in settings.valid_moves and settings.selection != 100:
+                        # the piece is allowed to go to where is selected
+                        settings.white_locations[settings.selection] = click_coords
+                        # checking it takes us to where a black piece is sitting
+                        if click_coords in settings.black_locations:
                             black_piece = settings.black_locations.index(click_coords)
                             settings.captured_pieces_white.append(settings.black_pieces[black_piece])
                             if settings.black_pieces[black_piece] == 'king':
@@ -294,13 +300,16 @@ def play_game():
                     if click_coords == (8, 8) or click_coords == (9, 8):
                         settings.winner = 'white'
                     if click_coords in settings.black_locations:
-                        settings.selection = settings.black_locations.index(click_coords)  # piece location we want the index of that piece
+                        # piece location we want the index of that piece
+                        settings.selection = settings.black_locations.index(click_coords)
                         if settings.turn_step == 2:
                             settings.turn_step = 3
-                    if click_coords in settings.valid_moves and settings.selection != 100:  # don't want to be able to click somewhere and
-                        # move without a piece selected
-                        settings.black_locations[settings.selection] = click_coords  # the piece is allowed to go to where is selected
-                        if click_coords in settings.white_locations:  # checking it takes us to where a black piece is sitting
+                            # don't want to be able to click somewhere and move without a piece selected
+                    if click_coords in settings.valid_moves and settings.selection != 100:
+                        # the piece is allowed to go to where is selected
+                        settings.black_locations[settings.selection] = click_coords
+                        # checking it takes us to where a black piece is sitting
+                        if click_coords in settings.white_locations:
                             white_piece = settings.white_locations.index(click_coords)
                             settings.captured_pieces_black.append(settings.white_pieces[white_piece])
                             if settings.black_pieces[white_piece] == 'king':
