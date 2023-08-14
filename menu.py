@@ -3,6 +3,10 @@ import sys
 from models.buttons import Button
 import game
 
+
+# if __name__ == '__main__':
+
+
 pygame.init()
 
 screen = pygame.display.set_mode((1000, 900))
@@ -17,7 +21,7 @@ screen.blit(BG2, (450, 0))
 
 
 def get_font(size):  # Returns Press-Start-2P in the desired size
-    return pygame.font.Font('freesansbold.ttf', 40)
+    return pygame.font.Font('freesansbold.ttf', 40)  # add size variable to settings file
 
 
 # def play():
