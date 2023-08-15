@@ -54,7 +54,7 @@ class Board:
                 pygame.draw.line(self.settings.screen, self.board_settings.tile_border_colour,
                                  (100 * line, 0), (100 * line, 800), 2)
             self.settings.screen.blit(self.board_settings.medium_font.render(
-                'Forfeit', True, 'white'), (810, 830))
+                'Sacrifice', True, 'white'), (810, 830))
 
     def draw_pieces(self):  # draw pieces into the board
         for i in range(len(self.settings.white_pieces)):

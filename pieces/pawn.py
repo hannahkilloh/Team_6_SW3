@@ -5,6 +5,10 @@ class Pawn:
         self.__current_position = current_position
         self.__valid_moves = []
 
+    def get_current_position(self):
+        return self.__current_position
+
+
     def move_to_selected_position(self, new_position):
         if new_position in self.__valid_moves:
             self.__current_position = new_position

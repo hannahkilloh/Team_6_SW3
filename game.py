@@ -20,7 +20,7 @@ board = Board(board_settings, settings, images)
 # function to check all pieces valid options on board
 def check_options(pieces, locations, turn):
     moves_list = []
-    all_moves_list = []  # gets every poss move for every piece
+    all_moves_list = []  # gets every possible move for every piece
     for i in range((len(pieces))):
         location = locations[i]
         piece = pieces[i]
@@ -38,6 +38,14 @@ def check_options(pieces, locations, turn):
             moves_list = check_king(location, turn)
         all_moves_list.append(moves_list)
     return all_moves_list
+
+
+def check_object_options(piece_objects):
+    all_moves_list = []  # gets every possible move for every piece
+    for piece in piece_objects:
+        all_moves_list.append(piece.get_valid_moves(settings.white_locations, settings.black_locations))
+    return all_moves_list
+
 
 
 # check king valid moves
@@ -226,6 +234,7 @@ def draw_captured():
 
 
 def check_valid_moves():
+    # if it's whites turn or blacks turn
     if settings.turn_step < 2:
         options_list = white_options
     else:
@@ -247,6 +256,26 @@ black_options = check_options(settings.black_pieces, settings.black_locations, '
 white_options = check_options(settings.white_pieces, settings.white_locations, 'white')
 
 
+def get_object_coords(piece):
+    return piece.get_current_position
+
+
+def get_clicked_white(click_coords):
+    for piece in settings.white_piece_objects:
+        if click_coords == piece.get_current_position():
+            return piece
+
+def get_white_object_coords():
+    # maps through white_piece_objects array of objects and passes each object into the
+    # get_object_co-ords function and returns the co-ords as an array
+    return list(map(get_object_coords, settings.white_piece_objects))
+
+def get_black_object_coords():
+    # maps through black_piece_objects array of objects and passes each object into the
+    # get_object_co-ords function and returns the co-ords as an array
+    return list(map(get_object_coords, settings.black_piece_objects))
+
+
 # Main game loop
 def play_game():
     global black_options
@@ -257,7 +286,9 @@ def play_game():
         board.initialise()
         draw_captured()
 
+        # if tile on the board is selected,
         if settings.selection != 100:
+        # then set the valid_moves for that piece
             settings.valid_moves = check_valid_moves()
             draw_valid(settings.valid_moves)
 
@@ -270,9 +301,28 @@ def play_game():
                 x_coord = event.pos[0] // 100  # x coord
                 y_coord = event.pos[1] // 100  # y coord
                 click_coords = (x_coord, y_coord)
+                # if the step is 0 or 1 then it is the whites turn
                 if settings.turn_step <= 1:
+                    # this is when they click 'sacrifice'
                     if click_coords == (8, 8) or click_coords == (9, 8):
                         settings.winner = 'black'
+
+                    # maps through white_piece_objects array of objects and passes each object into the
+                    # get_object_co-ords function and returns the co-ords as an array
+                    white_object_coords = list(map(get_object_coords, settings.white_piece_objects))
+
+                    if click_coords in white_object_coords:  # if white piece has been clicked
+                        settings.selected_piece = get_clicked_white(click_coords)
+                        if settings.turn_step == 0:  # if steps is 0 it moves onto the next step(1)
+                            settings.turn_step = 1
+                    elif settings.selected_piece is not None and click_coords in \
+                            settings.selected_piece.get_valid_moves(get_white_object_coords, get_black_object_coords):
+                        # moves selected piece to position only if it is a valid move
+                        settings.selected_piece.move_to_selected_position(click_coords)
+
+
+
+
                     if click_coords in settings.white_locations:
                         # piece location we want the index of that piece
                         settings.selection = settings.white_locations.index(click_coords)
@@ -295,10 +345,12 @@ def play_game():
                         settings.turn_step = 2
                         settings.selection = 100
                         settings.valid_moves = []
+                # if the step is 2 or 3 then it is the blacks turn
                 if settings.turn_step > 1:
-                    # todo: this doesnt seem right
+                    # this is when they click 'sacrifice'
                     if click_coords == (8, 8) or click_coords == (9, 8):
                         settings.winner = 'white'
+
                     if click_coords in settings.black_locations:
                         # piece location we want the index of that piece
                         settings.selection = settings.black_locations.index(click_coords)

@@ -4,9 +4,6 @@ from models.buttons import Button
 import game
 
 
-# if __name__ == '__main__':
-
-
 pygame.init()
 
 screen = pygame.display.set_mode((1000, 900))
