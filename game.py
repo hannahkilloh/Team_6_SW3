@@ -257,7 +257,7 @@ white_options = check_options(settings.white_pieces, settings.white_locations, '
 
 
 def get_object_coords(piece):
-    return piece.get_current_position
+    return piece.get_current_position()
 
 
 def get_clicked_white(click_coords):
@@ -310,6 +310,7 @@ def play_game():
                     # maps through white_piece_objects array of objects and passes each object into the
                     # get_object_co-ords function and returns the co-ords as an array
                     white_object_coords = list(map(get_object_coords, settings.white_piece_objects))
+                    print(white_object_coords)
 
                     if click_coords in white_object_coords:  # if white piece has been clicked
                         settings.selected_piece = get_clicked_white(click_coords)

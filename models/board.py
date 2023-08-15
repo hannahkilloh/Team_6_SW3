@@ -76,12 +76,19 @@ class Board:
         for piece in self.settings.white_piece_objects:
             self.settings.screen.blit(
                 piece.get_image(), (piece.get_current_position()[0] * 100 + 22, piece.get_current_position()[1] * 100 + 30))
-        
+            if piece == self.settings.selected_piece:  # if this is the selected piece
+                pygame.draw.rect(self.settings.screen, 'red', [piece.get_current_position()[0] * 100 + 1,
+                                                               piece.get_current_position()[1] * 100 + 1,
+                                                               100, 100], 2)
+
+                # todo: draw possible moves for selected piece onto board
+
+                # draw red circle options onto board with the piece.get_valid_moves with the code that draws the circle
+
+
         for piece in self.settings.black_piece_objects:
             self.settings.screen.blit(
                 piece.get_image(), (piece.get_current_position()[0] * 100 + 22, piece.get_current_position()[1] * 100 + 30))
-
-
 
 
 
