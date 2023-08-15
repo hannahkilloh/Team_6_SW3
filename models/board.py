@@ -76,6 +76,11 @@ class Board:
         for piece in self.settings.white_piece_objects:
             self.settings.screen.blit(
                 piece.get_image(), (piece.get_current_position()[0] * 100 + 22, piece.get_current_position()[1] * 100 + 30))
+        
+        for piece in self.settings.black_piece_objects:
+            self.settings.screen.blit(
+                piece.get_image(), (piece.get_current_position()[0] * 100 + 22, piece.get_current_position()[1] * 100 + 30))
+
 
 
 
