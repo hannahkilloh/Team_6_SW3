@@ -71,6 +71,15 @@ class Board:
                     pygame.draw.rect(self.settings.screen, 'red', [self.settings.white_locations[i][0] * 100 + 1,
                                                                    self.settings.white_locations[i][1] * 100 + 1,
                                                                    100, 100], 2)
+
+        # drawing new object pieces. calling all these functions on each piece object
+        for piece in self.settings.white_piece_objects:
+            self.settings.screen.blit(
+                piece.get_image(), (piece.get_current_position()[0] * 100 + 22, piece.get_current_position()[1] * 100 + 30))
+
+
+
+
         for i in range(len(self.settings.black_pieces)):
             index = self.settings.piece_list.index(self.settings.black_pieces[i])
             if self.settings.black_pieces[i] == 'pawn':

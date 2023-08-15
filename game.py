@@ -12,8 +12,8 @@ pygame.display.set_icon(pygame.image.load('assets/images/chess_icon.ico'))
 # can pass in any colours, to set theme up easier
 
 board_settings = BoardSettings("light grey", "dark grey", "pink", "black", 'freesansbold.ttf')
-settings = Settings()
 images = Images()
+settings = Settings(images)
 board = Board(board_settings, settings, images)
 
 

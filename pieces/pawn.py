@@ -1,9 +1,13 @@
 
 class Pawn:
-    def __init__(self, colour, current_position):
+    def __init__(self, colour, current_position, image):
         self.__colour = colour  # private variables with __
         self.__current_position = current_position
         self.__valid_moves = []
+        self.__image = image
+
+    def get_image(self):
+        return self.__image
 
     def get_current_position(self):
         return self.__current_position
