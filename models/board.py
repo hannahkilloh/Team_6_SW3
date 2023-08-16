@@ -1,6 +1,5 @@
 import pygame
 
-
 class BoardSettings:
     def __init__(self, tile_colour_1, tile_colour_2, status_text_background, tile_border_colour,
                  font):
@@ -56,6 +55,11 @@ class Board:
             self.settings.screen.blit(self.board_settings.medium_font.render(
                 'Sacrifice', True, 'white'), (810, 830))
 
+    def draw_move_suggestions(self, colour, potential_moves):
+        for i in range(len(potential_moves)):
+            pygame.draw.circle(self.settings.screen, colour,
+                               (potential_moves[i][0] * 100 + 50, potential_moves[i][1] * 100 + 50), 5)
+
     def draw_pieces(self):  # draw pieces into the board
         for i in range(len(self.settings.white_pieces)):
             index = self.settings.piece_list.index(self.settings.white_pieces[i])
@@ -80,17 +84,23 @@ class Board:
                 pygame.draw.rect(self.settings.screen, 'red', [piece.get_current_position()[0] * 100 + 1,
                                                                piece.get_current_position()[1] * 100 + 1,
                                                                100, 100], 2)
+                self.draw_move_suggestions('red', self.settings.selected_piece.get_valid_moves())
+
 
                 # todo: draw possible moves for selected piece onto board
 
                 # draw red circle options onto board with the piece.get_valid_moves with the code that draws the circle
+        # for piece in self.settings.white_piece_objects:
+        #     self.settings.screen.blit(
+        #         piece.get_image(),
+        #         (piece.get_current_position()[0] * 100 + 22, piece.get_current_position()[1] * 100 + 30))
+        #     if piece == self.settings.selected_piece:
+        #         piece.draw_valid(self.settings.valid_moves)
 
 
         for piece in self.settings.black_piece_objects:
             self.settings.screen.blit(
                 piece.get_image(), (piece.get_current_position()[0] * 100 + 22, piece.get_current_position()[1] * 100 + 30))
-
-
 
         for i in range(len(self.settings.black_pieces)):
             index = self.settings.piece_list.index(self.settings.black_pieces[i])

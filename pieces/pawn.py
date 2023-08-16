@@ -1,7 +1,7 @@
-
 class Pawn:
     def __init__(self, colour, current_position, image):
-        self.__colour = colour  # private variables with __
+        # private variables with __
+        self.__colour = colour
         self.__current_position = current_position
         self.__valid_moves = []
         self.__image = image
@@ -12,6 +12,8 @@ class Pawn:
     def get_current_position(self):
         return self.__current_position
 
+    def get_valid_moves(self):
+        return self.__valid_moves
 
     def move_to_selected_position(self, new_position):
         if new_position in self.__valid_moves:
@@ -19,7 +21,7 @@ class Pawn:
 
         return self.__current_position
 
-    def get_valid_moves(self, white_locations, black_locations):
+    def calculate_valid_moves(self, white_locations, black_locations):
         moves_list = []  # moves list calculates the possible moves of each piece
         if self.__colour == 'white':
             no_blocking_white_piece = (self.__current_position[0], self.__current_position[1] + 1) not in white_locations

@@ -2,7 +2,7 @@ import pygame
 from models.settings import Settings
 from models.board import Board, BoardSettings
 from models.images import Images
-from pieces.pawn import Pawn
+# from pieces.pawn import Pawn
 
 pygame.init()
 pygame.font.init()
@@ -39,13 +39,12 @@ def check_options(pieces, locations, turn):
         all_moves_list.append(moves_list)
     return all_moves_list
 
-
-def check_object_options(piece_objects):
-    all_moves_list = []  # gets every possible move for every piece
-    for piece in piece_objects:
-        all_moves_list.append(piece.get_valid_moves(settings.white_locations, settings.black_locations))
-    return all_moves_list
-
+# unsure if needed
+# def check_object_options(piece_objects):
+#     all_moves_list = []  # gets every possible move for every piece
+#     for piece in piece_objects:
+#         all_moves_list.append(piece.get_valid_moves(settings.white_locations, settings.black_locations))
+#     return all_moves_list
 
 
 # check king valid moves
@@ -265,10 +264,12 @@ def get_clicked_white(click_coords):
         if click_coords == piece.get_current_position():
             return piece
 
+
 def get_white_object_coords():
     # maps through white_piece_objects array of objects and passes each object into the
     # get_object_co-ords function and returns the co-ords as an array
     return list(map(get_object_coords, settings.white_piece_objects))
+
 
 def get_black_object_coords():
     # maps through black_piece_objects array of objects and passes each object into the
@@ -288,7 +289,7 @@ def play_game():
 
         # if tile on the board is selected,
         if settings.selection != 100:
-        # then set the valid_moves for that piece
+            # then set the valid_moves for that piece
             settings.valid_moves = check_valid_moves()
             draw_valid(settings.valid_moves)
 
@@ -314,15 +315,15 @@ def play_game():
 
                     if click_coords in white_object_coords:  # if white piece has been clicked
                         settings.selected_piece = get_clicked_white(click_coords)
+                        settings.selected_piece.calculate_valid_moves(get_white_object_coords(),
+                                                                      get_black_object_coords())
+
                         if settings.turn_step == 0:  # if steps is 0 it moves onto the next step(1)
                             settings.turn_step = 1
                     elif settings.selected_piece is not None and click_coords in \
-                            settings.selected_piece.get_valid_moves(get_white_object_coords, get_black_object_coords):
+                            settings.selected_piece.get_valid_moves():
                         # moves selected piece to position only if it is a valid move
                         settings.selected_piece.move_to_selected_position(click_coords)
-
-
-
 
                     if click_coords in settings.white_locations:
                         # piece location we want the index of that piece
