@@ -1,4 +1,5 @@
 import pygame
+from models.buttons import ImageOnScreen
 
 
 class BoardSettings:
@@ -9,7 +10,7 @@ class BoardSettings:
         self.status_text_background = status_text_background
         self.tile_border_colour = tile_border_colour
         self.font = pygame.font.Font(font, 20)
-        self.medium_font = pygame.font.Font(font, 40)
+        self.medium_font = pygame.font.Font(font, 30)
         self.big_font = pygame.font.Font(font, 50)
 
 
@@ -22,6 +23,11 @@ class Board:
     def initialise(self):
         self.settings.timer.tick(self.settings.fps)
         self.settings.screen.fill(self.board_settings.tile_colour_1)
+
+        # Adding the main game background and setting the position
+        main_game_background = pygame.image.load("assets/images/test_background_image.png").convert()
+        self.settings.screen.blit(main_game_background, (0, 0))
+
         self.draw_board()
         self.draw_pieces()
 
@@ -32,29 +38,34 @@ class Board:
             row = i // 4
             if row % 2 == 0:
                 pygame.draw.rect(self.settings.screen, self.board_settings.tile_colour_2, [
-                                 600 - (column * 200), row * 100, 100, 100])
+                    600 - (column * 200), row * 100, 100, 100])
             else:
                 pygame.draw.rect(self.settings.screen, self.board_settings.tile_colour_2, [
-                                 700 - (column * 200), row * 100, 100, 100])
-            pygame.draw.rect(self.settings.screen, self.board_settings.status_text_background, [
-                             0, 800, self.settings.WIDTH, 100])
-            pygame.draw.rect(self.settings.screen, self.board_settings.tile_border_colour, [
-                             0, 800, self.settings.WIDTH, 100], 2)
-            pygame.draw.rect(self.settings.screen, self.board_settings.tile_border_colour, [
-                             800, 0, 200, self.settings.HEIGHT], 2)
+                    700 - (column * 200), row * 100, 100, 100])
+            # pygame.draw.rect(self.settings.screen, self.board_settings.status_text_background, [
+            #                  800, 0, self.settings.WIDTH, 100])
+            # pygame.image.load(self.images("assets/images/test_background_image.png"))
+            # pygame.draw.rect(self.settings.screen, self.board_settings.status_text_background, [
+            #                  0, 800, self.settings.WIDTH, 100])
+            # pygame.draw.rect(self.settings.screen, self.board_settings.tile_border_colour, [
+            #                  0, 800, self.settings.WIDTH, 100], 2)
+            # pygame.draw.rect(self.settings.screen, self.board_settings.tile_border_colour, [
+            #                  800, 0, 200, self.settings.HEIGHT], 2)
+            # pygame.draw.rect(self.settings.screen, self.board_settings.status_text_background, [
+            #     0, 800, 200, self.settings.HEIGHT], 2)
             status_text = ['White: Select a Piece to Move!', 'White: Select a Destination!',
                            'Black: Select a Piece to Move!', 'Black: Select a Destination!']
             self.settings.screen.blit(self.board_settings.medium_font.render(
-                status_text[self.settings.turn_step], True, 'black'), (20, 820))
+                status_text[self.settings.turn_step], True, 'blue'), (20, 820))
 
             # Adds horizontal and vertical lines to the board
-            for line in range(9):
-                pygame.draw.line(self.settings.screen, self.board_settings.tile_border_colour,
-                                 (0, 100 * line), (800, 100 * line), 2)
-                pygame.draw.line(self.settings.screen, self.board_settings.tile_border_colour,
-                                 (100 * line, 0), (100 * line, 800), 2)
+            # for line in range(9):
+            # pygame.draw.line(self.settings.screen, self.board_settings.tile_border_colour,
+            #                  (0, 100 * line), (800, 100 * line), 2)
+            # pygame.draw.line(self.settings.screen, self.board_settings.tile_border_colour,
+            #                  (100 * line, 0), (100 * line, 800), 2)
             self.settings.screen.blit(self.board_settings.medium_font.render(
-                'Forfeit', True, 'white'), (810, 830))
+                'Resign?', True, 'blue'), (810, 830))
 
     def draw_pieces(self):  # draw pieces into the board
         for i in range(len(self.settings.white_pieces)):
@@ -65,12 +76,12 @@ class Board:
                                              self.settings.white_locations[i][1] * 100 + 30))
             else:
                 self.settings.screen.blit(self.images.white_images[index], (
-                    self.settings.white_locations[i][0] * 100 + 1, self.settings.white_locations[i][1] * 100 + 10))
+                    self.settings.white_locations[i][0] * 100 + 10, self.settings.white_locations[i][1] * 100 + 10))
             if self.settings.turn_step < 2:
                 if self.settings.selection == i:
-                    pygame.draw.rect(self.settings.screen, 'red', [self.settings.white_locations[i][0] * 100 + 1,
-                                                                   self.settings.white_locations[i][1] * 100 + 1,
-                                                                   100, 100], 2)
+                    pygame.draw.rect(self.settings.screen, 'blue', [self.settings.white_locations[i][0] * 100 + 1,
+                                                                    self.settings.white_locations[i][1] * 100 + 1,
+                                                                    100, 100], 2)
         for i in range(len(self.settings.black_pieces)):
             index = self.settings.piece_list.index(self.settings.black_pieces[i])
             if self.settings.black_pieces[i] == 'pawn':
@@ -79,9 +90,10 @@ class Board:
                                              self.settings.black_locations[i][1] * 100 + 30))
             else:
                 self.settings.screen.blit(self.images.black_images[index], (
-                    self.settings.black_locations[i][0] * 100 + 10, self.settings.black_locations[i][1] * 100 + 10))
+                    self.settings.black_locations[i][0] * 100 + 1, self.settings.black_locations[i][1] * 100 + 10))
             if self.settings.turn_step >= 2:
                 if self.settings.selection == i:
-                    pygame.draw.rect(self.settings.screen, 'blue', [self.settings.black_locations[i][0] * 100 + 1,
-                                                                    self.settings.black_locations[i][1] * 100 + 1,
-                                                                    100, 100], 2)
+                    pygame.draw.rect(self.settings.screen, 'red', [self.settings.black_locations[i][0] * 100 + 1,
+                                                                   self.settings.black_locations[i][1] * 100 + 1,
+                                                                   100, 100], 2)
+
