@@ -1,4 +1,5 @@
 import pygame
+from models.buttons import ImageOnScreen
 
 
 class BoardSettings:
@@ -22,21 +23,24 @@ class Board:
     def initialise(self):
         self.settings.timer.tick(self.settings.fps)
         self.settings.screen.fill(self.board_settings.tile_colour_1)
+
+        main_game_background = pygame.image.load("assets/images/test_background_image.png").convert()
+        self.settings.screen.blit(main_game_background, (0, 0))
+
         self.draw_board()
         self.draw_pieces()
 
     #  Function that will create the tiles of the board (8x8)
     def draw_board(self):
-
         for i in range(32):
             column = i % 4
             row = i // 4
             if row % 2 == 0:
                 pygame.draw.rect(self.settings.screen, self.board_settings.tile_colour_2, [
-                                 600 - (column * 200), row * 100, 100, 100])
+                    600 - (column * 200), row * 100, 100, 100])
             else:
                 pygame.draw.rect(self.settings.screen, self.board_settings.tile_colour_2, [
-                                 700 - (column * 200), row * 100, 100, 100])
+                    700 - (column * 200), row * 100, 100, 100])
             # pygame.draw.rect(self.settings.screen, self.board_settings.status_text_background, [
             #                  800, 0, self.settings.WIDTH, 100])
             # pygame.image.load(self.images("assets/images/test_background_image.png"))
@@ -55,10 +59,10 @@ class Board:
 
             # Adds horizontal and vertical lines to the board
             # for line in range(9):
-                # pygame.draw.line(self.settings.screen, self.board_settings.tile_border_colour,
-                #                  (0, 100 * line), (800, 100 * line), 2)
-                # pygame.draw.line(self.settings.screen, self.board_settings.tile_border_colour,
-                #                  (100 * line, 0), (100 * line, 800), 2)
+            # pygame.draw.line(self.settings.screen, self.board_settings.tile_border_colour,
+            #                  (0, 100 * line), (800, 100 * line), 2)
+            # pygame.draw.line(self.settings.screen, self.board_settings.tile_border_colour,
+            #                  (100 * line, 0), (100 * line, 800), 2)
             self.settings.screen.blit(self.board_settings.medium_font.render(
                 'Resign?', True, 'blue'), (810, 830))
 

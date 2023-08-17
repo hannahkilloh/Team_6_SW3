@@ -17,6 +17,7 @@ images = Images()
 board = Board(board_settings, settings, images)
 
 
+
 # function to check all pieces valid options on board
 def check_options(pieces, locations, turn):
     moves_list = []
