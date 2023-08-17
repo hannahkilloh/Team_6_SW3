@@ -4,7 +4,7 @@ from models.buttons import Button
 import game
 
 
-# if __name__ == '__main__':
+# if __name__ == '__main__': # need to run main function after this
 
 
 pygame.init()
@@ -21,7 +21,7 @@ screen.blit(BG2, (450, 0))
 
 
 def get_font(size):  # Returns Press-Start-2P in the desired size
-    return pygame.font.Font('freesansbold.ttf', 40)  # add size variable to settings file
+    return pygame.font.Font('assets/fonts/JetBrainsMono-Regular.ttf', 40)  # add size variable to settings file
 
 
 def history():
