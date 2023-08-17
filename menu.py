@@ -1,6 +1,6 @@
 import pygame
 import sys
-from models.buttons import Button
+from models.buttons import Button, ImageOnScreen
 import game
 
 
@@ -10,18 +10,18 @@ import game
 pygame.init()
 
 screen = pygame.display.set_mode((1000, 900))
-pygame.display.set_caption("Welcome Menu")
+pygame.display.set_caption("Chess Battle")
 
-BG = pygame.image.load("assets/images/background_b_king.png").convert()
-BG.set_alpha(128)
-screen.blit(BG, (-550, 0))
-BG2 = pygame.image.load("assets/images/background_b_queen.png").convert()
-BG2.set_alpha(128)
-screen.blit(BG2, (450, 0))
+BG = pygame.image.load("assets/images/menu_background.png").convert()
+BG.set_alpha(400)
+screen.blit(BG, (0, 0))
+# BG2 = pygame.image.load("assets/images/background_b_queen.png").convert()
+# BG2.set_alpha(128)
+# screen.blit(BG2, (450, 0))
 
 
 def get_font(size):  # Returns Press-Start-2P in the desired size
-    return pygame.font.Font('assets/fonts/JetBrainsMono-Regular.ttf', 40)  # add size variable to settings file
+    return pygame.font.Font('assets/fonts/JetBrainsMono-Bold.ttf', 50)  # add size variable to settings file
 
 
 def history():
@@ -59,17 +59,22 @@ def main_menu():
 
         menu_mouse_pos = pygame.mouse.get_pos()
 
-        menu_text = get_font(100).render("", True, "light pink")
+        menu_text = get_font(60).render("", True, "blue")
         menu_rect = menu_text.get_rect(center=(500, 450))
 
-        play_button = Button(image=pygame.image.load("assets/images/play_rect.png"), pos=(500, 250),
-                             text_input="PLAY CHESS", font=get_font(75), base_color="light pink", hovering_color="white")
-        history_button = Button(image=pygame.image.load("assets/images/play_rect.png"), pos=(500, 400),
-                                text_input="GAMES HISTORY", font=get_font(75), base_color="light pink", hovering_color="white")
-        quit_button = Button(image=pygame.image.load("assets/images/play_rect.png"), pos=(500, 550),
-                             text_input="QUIT", font=get_font(75), base_color="light pink", hovering_color="White")
+        game_logo = ImageOnScreen(image=pygame.image.load("assets/images/game_logo_very_small.png"), pos=(500, 100))
+
+        play_button = Button(image=pygame.image.load("assets/images/blank_button_long.png"), pos=(500, 350),
+                             text_input="Play Chess", font=get_font(75), base_color="blue", hovering_color='#7BFCFC')
+        history_button = Button(image=pygame.image.load("assets/images/blank_button_long.png"), pos=(500, 500),
+                                text_input="Games History", font=get_font(75), base_color="blue", hovering_color='#7BFCFC')
+        quit_button = Button(image=pygame.image.load("assets/images/blank_button_long.png"), pos=(500, 650),
+                             text_input="Quit", font=get_font(75), base_color="blue", hovering_color='#7BFCFC')
 
         screen.blit(menu_text, menu_rect)
+
+        for logo in [game_logo]:
+            logo.update(screen)
 
         for button in [play_button, history_button, quit_button]:
             button.change_color(menu_mouse_pos)
