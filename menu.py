@@ -15,9 +15,6 @@ pygame.display.set_caption("Chess Battle")
 BG = pygame.image.load("assets/images/menu_background.png").convert()
 BG.set_alpha(400)
 screen.blit(BG, (0, 0))
-# BG2 = pygame.image.load("assets/images/background_b_queen.png").convert()
-# BG2.set_alpha(128)
-# screen.blit(BG2, (450, 0))
 
 
 def get_font(size):  # Returns Press-Start-2P in the desired size

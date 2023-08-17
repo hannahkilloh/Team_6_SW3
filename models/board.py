@@ -9,7 +9,7 @@ class BoardSettings:
         self.status_text_background = status_text_background
         self.tile_border_colour = tile_border_colour
         self.font = pygame.font.Font(font, 20)
-        self.medium_font = pygame.font.Font(font, 40)
+        self.medium_font = pygame.font.Font(font, 30)
         self.big_font = pygame.font.Font(font, 50)
 
 
@@ -27,6 +27,7 @@ class Board:
 
     #  Function that will create the tiles of the board (8x8)
     def draw_board(self):
+
         for i in range(32):
             column = i % 4
             row = i // 4
@@ -36,25 +37,30 @@ class Board:
             else:
                 pygame.draw.rect(self.settings.screen, self.board_settings.tile_colour_2, [
                                  700 - (column * 200), row * 100, 100, 100])
-            pygame.draw.rect(self.settings.screen, self.board_settings.status_text_background, [
-                             0, 800, self.settings.WIDTH, 100])
-            pygame.draw.rect(self.settings.screen, self.board_settings.tile_border_colour, [
-                             0, 800, self.settings.WIDTH, 100], 2)
-            pygame.draw.rect(self.settings.screen, self.board_settings.tile_border_colour, [
-                             800, 0, 200, self.settings.HEIGHT], 2)
+            # pygame.draw.rect(self.settings.screen, self.board_settings.status_text_background, [
+            #                  800, 0, self.settings.WIDTH, 100])
+            # pygame.image.load(self.images("assets/images/test_background_image.png"))
+            # pygame.draw.rect(self.settings.screen, self.board_settings.status_text_background, [
+            #                  0, 800, self.settings.WIDTH, 100])
+            # pygame.draw.rect(self.settings.screen, self.board_settings.tile_border_colour, [
+            #                  0, 800, self.settings.WIDTH, 100], 2)
+            # pygame.draw.rect(self.settings.screen, self.board_settings.tile_border_colour, [
+            #                  800, 0, 200, self.settings.HEIGHT], 2)
+            # pygame.draw.rect(self.settings.screen, self.board_settings.status_text_background, [
+            #     0, 800, 200, self.settings.HEIGHT], 2)
             status_text = ['White: Select a Piece to Move!', 'White: Select a Destination!',
                            'Black: Select a Piece to Move!', 'Black: Select a Destination!']
             self.settings.screen.blit(self.board_settings.medium_font.render(
-                status_text[self.settings.turn_step], True, 'black'), (20, 820))
+                status_text[self.settings.turn_step], True, 'blue'), (20, 820))
 
             # Adds horizontal and vertical lines to the board
-            for line in range(9):
-                pygame.draw.line(self.settings.screen, self.board_settings.tile_border_colour,
-                                 (0, 100 * line), (800, 100 * line), 2)
-                pygame.draw.line(self.settings.screen, self.board_settings.tile_border_colour,
-                                 (100 * line, 0), (100 * line, 800), 2)
+            # for line in range(9):
+                # pygame.draw.line(self.settings.screen, self.board_settings.tile_border_colour,
+                #                  (0, 100 * line), (800, 100 * line), 2)
+                # pygame.draw.line(self.settings.screen, self.board_settings.tile_border_colour,
+                #                  (100 * line, 0), (100 * line, 800), 2)
             self.settings.screen.blit(self.board_settings.medium_font.render(
-                'Forfeit', True, 'white'), (810, 830))
+                'Resign?', True, 'blue'), (810, 830))
 
     def draw_pieces(self):  # draw pieces into the board
         for i in range(len(self.settings.white_pieces)):
