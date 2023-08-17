@@ -20,11 +20,9 @@ class Settings:
         # Coordinates for pieces
         self.white_locations = [(0, 0), (1, 0), (2, 0), (3, 0), (4, 0), (5, 0), (6, 0), (7, 0)]
 
-        self.black_pieces = ['rook', 'knight', 'bishop', 'king', 'queen', 'bishop', 'knight', 'rook',
-                             'pawn', 'pawn', 'pawn', 'pawn', 'pawn', 'pawn', 'pawn', 'pawn']
+        self.black_pieces = ['rook', 'knight', 'bishop', 'king', 'queen', 'bishop', 'knight', 'rook']
 
-        self.black_locations = [(0, 7), (1, 7), (2, 7), (3, 7), (4, 7), (5, 7), (6, 7), (7, 7),
-                                (0, 6), (1, 6), (2, 6), (3, 6), (4, 6), (5, 6), (6, 6), (7, 6)]
+        self.black_locations = [(0, 7), (1, 7), (2, 7), (3, 7), (4, 7), (5, 7), (6, 7), (7, 7)]
 
         self.black_piece_objects = [Pawn('black', (0, 6), images.black_pawn), Pawn('black', (1, 6), images.black_pawn),
                                     Pawn('black', (2, 6), images.black_pawn), Pawn('black', (3, 6), images.black_pawn),
@@ -42,10 +40,14 @@ class Settings:
         self.captured_pieces_white = []
         self.captured_pieces_black = []
 
+
+        self.captured_piece_objects_white = []
+        self.captured_piece_objects_black = []
+
         # Which phase we are, valid moves
         self.turn_step = 0
         # Current piece selection, default to a value not in the board
-        self.selection = 100
+        self.selection = 100  # once done game.py delete me
         self.selected_piece = None
         self.valid_moves = []
         self.winner = ""

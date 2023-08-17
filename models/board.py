@@ -76,31 +76,28 @@ class Board:
                                                                    self.settings.white_locations[i][1] * 100 + 1,
                                                                    100, 100], 2)
 
+
+# ============================= new code
         # drawing new object pieces. calling all these functions on each piece object
         for piece in self.settings.white_piece_objects:
             self.settings.screen.blit(
-                piece.get_image(), (piece.get_current_position()[0] * 100 + 22, piece.get_current_position()[1] * 100 + 30))
-            if piece == self.settings.selected_piece:  # if this is the selected piece
-                pygame.draw.rect(self.settings.screen, 'red', [piece.get_current_position()[0] * 100 + 1,
-                                                               piece.get_current_position()[1] * 100 + 1,
-                                                               100, 100], 2)
-                self.draw_move_suggestions('red', self.settings.selected_piece.get_valid_moves())
-
-
-                # todo: draw possible moves for selected piece onto board
-
-                # draw red circle options onto board with the piece.get_valid_moves with the code that draws the circle
-        # for piece in self.settings.white_piece_objects:
-        #     self.settings.screen.blit(
-        #         piece.get_image(),
-        #         (piece.get_current_position()[0] * 100 + 22, piece.get_current_position()[1] * 100 + 30))
-        #     if piece == self.settings.selected_piece:
-        #         piece.draw_valid(self.settings.valid_moves)
-
+                piece.get_image(),
+                (piece.get_current_position()[0] * 100 + 22, piece.get_current_position()[1] * 100 + 30))
 
         for piece in self.settings.black_piece_objects:
             self.settings.screen.blit(
                 piece.get_image(), (piece.get_current_position()[0] * 100 + 22, piece.get_current_position()[1] * 100 + 30))
+
+
+        if self.settings.selected_piece is not None:
+            selected_piece_is_white = self.settings.selected_piece.get_colour() == 'white'
+            colour = 'red' if selected_piece_is_white else 'blue'
+            pygame.draw.rect(self.settings.screen, colour, [self.settings.selected_piece.get_current_position()[0] * 100 + 1,
+                                                           self.settings.selected_piece.get_current_position()[1] * 100 + 1,
+                                                           100, 100], 2)
+            self.draw_move_suggestions(colour, self.settings.selected_piece.get_valid_moves())
+# ============================= new code
+
 
         for i in range(len(self.settings.black_pieces)):
             index = self.settings.piece_list.index(self.settings.black_pieces[i])

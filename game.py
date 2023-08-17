@@ -232,6 +232,18 @@ def draw_captured():
         settings.screen.blit(images.small_white_images[index], (925, 5 + 50*i))
 
 
+# todo: loop captured pieces
+def draw_captured_objects():
+    for captured_piece in range(len(settings.captured_piece_objects)):
+        captured_piece = settings.captured_pieces_white[i]
+        index = settings.piece_list.index(captured_piece)
+        settings.screen.blit(images.small_black_images[index], (825, 5 + 50*i))
+    for i in range(len(settings.captured_piece_objects)):
+        captured_piece = settings.captured_pieces_black[i]
+        index = settings.piece_list.index(captured_piece)
+        settings.screen.blit(images.small_white_images[index], (925, 5 + 50*i))
+
+
 def check_valid_moves():
     # if it's whites turn or blacks turn
     if settings.turn_step < 2:
@@ -261,6 +273,12 @@ def get_object_coords(piece):
 
 def get_clicked_white(click_coords):
     for piece in settings.white_piece_objects:
+        if click_coords == piece.get_current_position():
+            return piece
+
+
+def get_clicked_black(click_coords):
+    for piece in settings.black_piece_objects:
         if click_coords == piece.get_current_position():
             return piece
 
@@ -302,6 +320,7 @@ def play_game():
                 x_coord = event.pos[0] // 100  # x coord
                 y_coord = event.pos[1] // 100  # y coord
                 click_coords = (x_coord, y_coord)
+
                 # if the step is 0 or 1 then it is the whites turn
                 if settings.turn_step <= 1:
                     # this is when they click 'sacrifice'
@@ -311,8 +330,9 @@ def play_game():
                     # maps through white_piece_objects array of objects and passes each object into the
                     # get_object_co-ords function and returns the co-ords as an array
                     white_object_coords = list(map(get_object_coords, settings.white_piece_objects))
-                    print(white_object_coords)
+                    black_object_coords = list(map(get_object_coords, settings.black_piece_objects))
 
+                    # ================================== new white moves ======================================
                     if click_coords in white_object_coords:  # if white piece has been clicked
                         settings.selected_piece = get_clicked_white(click_coords)
                         settings.selected_piece.calculate_valid_moves(get_white_object_coords(),
@@ -325,6 +345,19 @@ def play_game():
                         # moves selected piece to position only if it is a valid move
                         settings.selected_piece.move_to_selected_position(click_coords)
 
+                        if click_coords in black_object_coords:
+                            black_piece = get_clicked_black(click_coords)
+                            settings.captured_piece_objects_white.append(black_piece)
+                            # sets black piece array to new array excluding the one that has been clicked
+                            settings.black_piece_objects = [x for x in settings.black_piece_objects if x.get_current_position() != click_coords]
+                            print(settings.black_piece_objects)
+
+                        settings.turn_step = 2  # turns to other player now
+                        settings.selected_piece = None  # so resets the variable used for tracking the currently selected piece
+                    # ================================== end of new white moves ======================================
+
+
+                    # ================================== old white moves ======================================
                     if click_coords in settings.white_locations:
                         # piece location we want the index of that piece
                         settings.selection = settings.white_locations.index(click_coords)
@@ -347,11 +380,43 @@ def play_game():
                         settings.turn_step = 2
                         settings.selection = 100
                         settings.valid_moves = []
+                    # ================================== end of old white moves ======================================
+
+
                 # if the step is 2 or 3 then it is the blacks turn
                 if settings.turn_step > 1:
                     # this is when they click 'sacrifice'
                     if click_coords == (8, 8) or click_coords == (9, 8):
                         settings.winner = 'white'
+
+                    # ================================== new black moves ======================================
+
+                    # maps through white_piece_objects array of objects and passes each object into the
+                    # get_object_co-ords function and returns the co-ords as an array
+                    white_object_coords = list(map(get_object_coords, settings.white_piece_objects))
+                    black_object_coords = list(map(get_object_coords, settings.black_piece_objects))
+
+                    if click_coords in black_object_coords:  # if black piece has been clicked
+                        settings.selected_piece = get_clicked_black(click_coords)
+                        settings.selected_piece.calculate_valid_moves(get_white_object_coords(),
+                                                                      get_black_object_coords())
+
+                        if settings.turn_step == 2:  # if step is 2 it moves onto the next step(3) of black player
+                            settings.turn_step = 3
+                    elif settings.selected_piece is not None and click_coords in \
+                            settings.selected_piece.get_valid_moves():
+                        settings.selected_piece.move_to_selected_position(click_coords)
+                        if click_coords in white_object_coords:
+                            white_piece = get_clicked_white(click_coords)
+                            settings.captured_piece_objects_black.append(white_piece)
+                            # sets white piece array to new array excluding the one that has been clicked
+                            settings.white_piece_objects = [x for x in settings.white_piece_objects if x.get_current_position() != click_coords]
+
+                        settings.turn_step = 0  # turns back to other player now
+                        # so resets the variable used for tracking the currently selected piece
+                        settings.selected_piece = None
+
+                    # ================================== end new black moves ======================================
 
                     if click_coords in settings.black_locations:
                         # piece location we want the index of that piece

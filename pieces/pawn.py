@@ -9,6 +9,9 @@ class Pawn:
     def get_image(self):
         return self.__image
 
+    def get_colour(self):
+        return self.__colour
+
     def get_current_position(self):
         return self.__current_position
 
@@ -18,6 +21,7 @@ class Pawn:
     def move_to_selected_position(self, new_position):
         if new_position in self.__valid_moves:
             self.__current_position = new_position
+            self.__valid_moves = []
 
         return self.__current_position
 
