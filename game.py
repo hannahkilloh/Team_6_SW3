@@ -1,6 +1,7 @@
 import pygame
 from models.settings import Settings
 from models.board import Board, BoardSettings
+from models.pieces.rook import Rook
 from models.images import Images
 
 pygame.init()
@@ -10,7 +11,8 @@ pygame.display.set_icon(pygame.image.load('assets/images/chess_icon.ico'))
 
 # can pass in any colours, to set theme up easier
 
-board_settings = BoardSettings("light grey", "dark grey", "pink", "black", 'freesansbold.ttf')
+board_settings = BoardSettings(
+    "light grey", "dark grey", "pink", "black", 'freesansbold.ttf')
 settings = Settings()
 images = Images()
 board = Board(board_settings, settings, images)
@@ -47,7 +49,8 @@ def check_king(position, color):
     else:
         friends_list = settings.black_locations
     # 8 squares to check for kings moves, they can go one square in any direction
-    targets = [(1, 0), (1, 1), (1, -1), (-1, 0), (-1, 1), (-1, -1), (0, 1), (0, -1)]
+    targets = [(1, 0), (1, 1), (1, -1), (-1, 0),
+               (-1, 1), (-1, -1), (0, 1), (0, -1)]
     for i in range(8):
         target = (position[0] + targets[i][0], position[1] + targets[i][1])
         if target not in friends_list and 0 <= target[0] <= 7 and 0 <= target[1] <= 7:
@@ -92,7 +95,8 @@ def check_bishop(position, color):
         while path:
             if (position[0] + (chain * x), position[1] + (chain * y)) not in friends_list and \
                     0 <= position[0] + (chain * x) <= 7 and 0 <= position[1] + (chain * y) <= 7:
-                moves_list.append((position[0] + (chain * x), position[1] + (chain * y)))
+                moves_list.append(
+                    (position[0] + (chain * x), position[1] + (chain * y)))
                 if (position[0] + (chain * x), position[1] + (chain * y)) in enemies_list:
                     path = False
                 chain += 1
@@ -103,73 +107,62 @@ def check_bishop(position, color):
 
 # check rook
 def check_rook(position, color):
-    moves_list = []
+    rook = Rook(colour=color, current_position=position)
+
     if color == 'white':
         enemies_list = settings.black_locations
         friends_list = settings.white_locations
     else:
         friends_list = settings.black_locations
         enemies_list = settings.white_locations
-    for i in range(4):  # down, up, right, left
-        path = True
-        chain = 1
-        if i == 0:
-            x = 0
-            y = 1
-        elif i == 1:
-            x = 0
-            y = -1
-        elif i == 2:
-            x = 1
-            y = 0
-        else:
-            x = -1
-            y = 0
-        while path:
-            if (position[0] + (chain * x), position[1] + (chain * y)) not in friends_list and \
-                    0 <= position[0] + (chain * x) <= 7 and 0 <= position[1] + (chain * y) <= 7:
-                moves_list.append((position[0] + (chain * x), position[1] + (chain * y)))
-                if (position[0] + (chain * x), position[1] + (chain * y)) in enemies_list:
-                    path = False
-                chain += 1
-            else:
-                path = False
-    return moves_list
 
+    valid_moves = rook.get_valid_moves(friends_list, enemies_list)
+    return valid_moves
 
 # check valid pawn moves
+
+
 def check_pawn(position, color):
     moves_list = []  # moves list calculates the possible moves of each piece
     if color == 'white':
-        no_blocking_white_piece = (position[0], position[1] + 1) not in settings.white_locations
-        no_blocking_black_piece = (position[0], position[1] + 1) not in settings.black_locations
+        no_blocking_white_piece = (
+            position[0], position[1] + 1) not in settings.white_locations
+        no_blocking_black_piece = (
+            position[0], position[1] + 1) not in settings.black_locations
         is_not_bottom_of_board = position[1] < 7
 
         # calculates one step forward move
         if no_blocking_white_piece and no_blocking_black_piece and is_not_bottom_of_board:
-            moves_list.append((position[0], position[1] + 1))  # adds available tile to moves list []
+            # adds available tile to moves list []
+            moves_list.append((position[0], position[1] + 1))
 
         is_first_move = position[1] == 1
-        no_blocking_white_piece_for_two = (position[0], position[1] + 2) not in settings.white_locations
-        no_blocking_black_piece_for_two = (position[0], position[1] + 2) not in settings.black_locations
+        no_blocking_white_piece_for_two = (
+            position[0], position[1] + 2) not in settings.white_locations
+        no_blocking_black_piece_for_two = (
+            position[0], position[1] + 2) not in settings.black_locations
 
         # calculates two steps forward first move
         if no_blocking_white_piece_for_two and no_blocking_black_piece_for_two and is_first_move:
             moves_list.append((position[0], position[1] + 2))
 
         # checks diagonal right for black piece
-        diagonal_right_is_black = (position[0] + 1, position[1] + 1) in settings.black_locations
+        diagonal_right_is_black = (
+            position[0] + 1, position[1] + 1) in settings.black_locations
         if diagonal_right_is_black:
             moves_list.append((position[0] + 1, position[1] + 1))
 
         # checks diagonal left for black piece
-        diagonal_left_is_black = (position[0] - 1, position[1] + 1) in settings.black_locations
+        diagonal_left_is_black = (
+            position[0] - 1, position[1] + 1) in settings.black_locations
         if diagonal_left_is_black:
             moves_list.append((position[0] - 1, position[1] + 1))
 
     else:
-        no_blocking_white_piece = (position[0], position[1] - 1) not in settings.white_locations
-        no_blocking_black_piece = (position[0], position[1] - 1) not in settings.black_locations
+        no_blocking_white_piece = (
+            position[0], position[1] - 1) not in settings.white_locations
+        no_blocking_black_piece = (
+            position[0], position[1] - 1) not in settings.black_locations
         is_not_top_of_board = position[1] > 0
 
         # calculates one step forward
@@ -177,20 +170,24 @@ def check_pawn(position, color):
             moves_list.append((position[0], position[1] - 1))
 
         is_first_move = position[1] == 6
-        no_blocking_white_piece_for_two = (position[0], position[1] - 2) not in settings.white_locations
-        no_blocking_black_piece_for_two = (position[0], position[1] - 2) not in settings.black_locations
+        no_blocking_white_piece_for_two = (
+            position[0], position[1] - 2) not in settings.white_locations
+        no_blocking_black_piece_for_two = (
+            position[0], position[1] - 2) not in settings.black_locations
 
         # calculates two steps forward first move
         if no_blocking_white_piece_for_two and no_blocking_black_piece_for_two and is_first_move:
             moves_list.append((position[0], position[1] - 2))
 
         # checks diagonal right for white piece
-        diagonal_right_is_white = (position[0] + 1, position[1] - 1) in settings.white_locations
+        diagonal_right_is_white = (
+            position[0] + 1, position[1] - 1) in settings.white_locations
         if diagonal_right_is_white:
             moves_list.append((position[0] + 1, position[1] - 1))
 
         # checks diagonal left for white piece
-        diagonal_left_is_white = (position[0] - 1, position[1] - 1) in settings.white_locations
+        diagonal_left_is_white = (
+            position[0] - 1, position[1] - 1) in settings.white_locations
         if diagonal_left_is_white:
             moves_list.append((position[0] - 1, position[1] - 1))
 
@@ -205,7 +202,8 @@ def check_knight(position, color):
     else:
         friends_list = settings.black_locations
     # 8 squares to check for knights moves, they can go two squares in one direction and one in another direction
-    targets = [(1, 2), (1, -2), (2, 1), (2, -1), (-1, 2), (-1, -2), (-2, 1), (-2, -1)]
+    targets = [(1, 2), (1, -2), (2, 1), (2, -1),
+               (-1, 2), (-1, -2), (-2, 1), (-2, -1)]
     for i in range(8):
         target = (position[0] + targets[i][0], position[1] + targets[i][1])
         if target not in friends_list and 0 <= target[0] <= 7 and 0 <= target[1] <= 7:
@@ -239,11 +237,14 @@ def draw_valid(moves):
     else:
         color = 'blue'
     for i in range(len(moves)):
-        pygame.draw.circle(settings.screen, color, (moves[i][0] * 100 + 50, moves[i][1] * 100 + 50), 5)
+        pygame.draw.circle(settings.screen, color,
+                           (moves[i][0] * 100 + 50, moves[i][1] * 100 + 50), 5)
 
 
-black_options = check_options(settings.black_pieces, settings.black_locations, 'black')
-white_options = check_options(settings.white_pieces, settings.white_locations, 'white')
+black_options = check_options(
+    settings.black_pieces, settings.black_locations, 'black')
+white_options = check_options(
+    settings.white_pieces, settings.white_locations, 'white')
 
 
 # Main game loop
@@ -274,7 +275,8 @@ def play_game():
                         settings.winner = 'black'
                     if click_coords in settings.white_locations:
                         # piece location we want the index of that piece
-                        settings.selection = settings.white_locations.index(click_coords)
+                        settings.selection = settings.white_locations.index(
+                            click_coords)
                         if settings.turn_step == 0:
                             settings.turn_step = 1
                             # don't want to be able to click somewhere and move without a piece selected
@@ -283,14 +285,18 @@ def play_game():
                         settings.white_locations[settings.selection] = click_coords
                         # checking it takes us to where a black piece is sitting
                         if click_coords in settings.black_locations:
-                            black_piece = settings.black_locations.index(click_coords)
-                            settings.captured_pieces_white.append(settings.black_pieces[black_piece])
+                            black_piece = settings.black_locations.index(
+                                click_coords)
+                            settings.captured_pieces_white.append(
+                                settings.black_pieces[black_piece])
                             if settings.black_pieces[black_piece] == 'king':
                                 settings.winner = 'white'
                             settings.black_pieces.pop(black_piece)
                             settings.black_locations.pop(black_piece)
-                        black_options = check_options(settings.black_pieces, settings.black_locations, 'black')
-                        white_options = check_options(settings.white_pieces, settings.white_locations, 'white')
+                        black_options = check_options(
+                            settings.black_pieces, settings.black_locations, 'black')
+                        white_options = check_options(
+                            settings.white_pieces, settings.white_locations, 'white')
                         settings.turn_step = 2
                         settings.selection = 100
                         settings.valid_moves = []
@@ -299,7 +305,8 @@ def play_game():
                         settings.winner = 'white'
                     if click_coords in settings.black_locations:
                         # piece location we want the index of that piece
-                        settings.selection = settings.black_locations.index(click_coords)
+                        settings.selection = settings.black_locations.index(
+                            click_coords)
                         if settings.turn_step == 2:
                             settings.turn_step = 3
                             # don't want to be able to click somewhere and move without a piece selected
@@ -308,14 +315,18 @@ def play_game():
                         settings.black_locations[settings.selection] = click_coords
                         # checking it takes us to where a black piece is sitting
                         if click_coords in settings.white_locations:
-                            white_piece = settings.white_locations.index(click_coords)
-                            settings.captured_pieces_black.append(settings.white_pieces[white_piece])
+                            white_piece = settings.white_locations.index(
+                                click_coords)
+                            settings.captured_pieces_black.append(
+                                settings.white_pieces[white_piece])
                             if settings.black_pieces[white_piece] == 'king':
                                 settings.winner = 'black'
                             settings.white_pieces.pop(white_piece)
                             settings.white_locations.pop(white_piece)
-                        black_options = check_options(settings.black_pieces, settings.black_locations, 'black')
-                        white_options = check_options(settings.white_pieces, settings.white_locations, 'white')
+                        black_options = check_options(
+                            settings.black_pieces, settings.black_locations, 'black')
+                        white_options = check_options(
+                            settings.white_pieces, settings.white_locations, 'white')
                         settings.turn_step = 0
                         settings.selection = 100
                         settings.valid_moves = []
