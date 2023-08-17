@@ -24,6 +24,7 @@ class Board:
         self.settings.timer.tick(self.settings.fps)
         self.settings.screen.fill(self.board_settings.tile_colour_1)
 
+        # Adding the main game background and setting the position
         main_game_background = pygame.image.load("assets/images/test_background_image.png").convert()
         self.settings.screen.blit(main_game_background, (0, 0))
 
@@ -75,12 +76,12 @@ class Board:
                                              self.settings.white_locations[i][1] * 100 + 30))
             else:
                 self.settings.screen.blit(self.images.white_images[index], (
-                    self.settings.white_locations[i][0] * 100 + 1, self.settings.white_locations[i][1] * 100 + 10))
+                    self.settings.white_locations[i][0] * 100 + 10, self.settings.white_locations[i][1] * 100 + 10))
             if self.settings.turn_step < 2:
                 if self.settings.selection == i:
-                    pygame.draw.rect(self.settings.screen, 'red', [self.settings.white_locations[i][0] * 100 + 1,
-                                                                   self.settings.white_locations[i][1] * 100 + 1,
-                                                                   100, 100], 2)
+                    pygame.draw.rect(self.settings.screen, 'blue', [self.settings.white_locations[i][0] * 100 + 1,
+                                                                    self.settings.white_locations[i][1] * 100 + 1,
+                                                                    100, 100], 2)
         for i in range(len(self.settings.black_pieces)):
             index = self.settings.piece_list.index(self.settings.black_pieces[i])
             if self.settings.black_pieces[i] == 'pawn':
@@ -89,9 +90,10 @@ class Board:
                                              self.settings.black_locations[i][1] * 100 + 30))
             else:
                 self.settings.screen.blit(self.images.black_images[index], (
-                    self.settings.black_locations[i][0] * 100 + 10, self.settings.black_locations[i][1] * 100 + 10))
+                    self.settings.black_locations[i][0] * 100 + 1, self.settings.black_locations[i][1] * 100 + 10))
             if self.settings.turn_step >= 2:
                 if self.settings.selection == i:
-                    pygame.draw.rect(self.settings.screen, 'blue', [self.settings.black_locations[i][0] * 100 + 1,
-                                                                    self.settings.black_locations[i][1] * 100 + 1,
-                                                                    100, 100], 2)
+                    pygame.draw.rect(self.settings.screen, 'red', [self.settings.black_locations[i][0] * 100 + 1,
+                                                                   self.settings.black_locations[i][1] * 100 + 1,
+                                                                   100, 100], 2)
+
