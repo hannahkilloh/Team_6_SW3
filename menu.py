@@ -21,7 +21,7 @@ screen.blit(BG, (0, 0))
 
 
 def get_font(size):  # Returns Press-Start-2P in the desired size
-    return pygame.font.Font('assets/fonts/JetBrainsMono-Bold.ttf', 50)  # add size variable to settings file
+    return pygame.font.Font('assets/fonts/JetBrainsMono-Bold.ttf', 35)  # add size variable to settings file
 
 
 def history():
@@ -31,12 +31,12 @@ def history():
         screen.fill("black")
 
         history_text = get_font(45).render(
-            "This is the history of moves screen.", True, "Black")
+            "This is the history of moves screen.", True, "white")
         history_rect = history_text.get_rect(center=(500, 350))
         screen.blit(history_text, history_rect)
 
         history_back = Button(image=None, pos=(500, 450),
-                              text_input="BACK", font=get_font(75), base_color="light pink", hovering_color="white")
+                              text_input="BACK", font=get_font(75), base_color="blue", hovering_color="#7BFCFC")
 
         history_back.change_color(history_mouse_pos)
         history_back.update(screen)
