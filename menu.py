@@ -4,9 +4,7 @@ from models.buttons import Button, ImageOnScreen
 import game
 
 
-if __name__ == '__main__': # need to run main function after this
-
-
+if __name__ == '__main__':
     pygame.init()
 
     screen = pygame.display.set_mode((1000, 900))
