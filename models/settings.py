@@ -24,17 +24,15 @@ class Settings:
 
         self.black_locations = [(0, 7), (1, 7), (2, 7), (3, 7), (4, 7), (5, 7), (6, 7), (7, 7)]
 
-        self.black_piece_objects = [Pawn('black', (0, 6), images.black_pawn), Pawn('black', (1, 6), images.black_pawn),
-                                    Pawn('black', (2, 6), images.black_pawn), Pawn('black', (3, 6), images.black_pawn),
-                                    Pawn('black', (4, 6), images.black_pawn),
-                                    Pawn('black', (5, 6), images.black_pawn), Pawn('black', (6, 6), images.black_pawn),
-                                    Pawn('black', (7, 6), images.black_pawn)]
+        self.black_piece_objects = [Pawn('black', (0, 6)), Pawn('black', (1, 6)),
+                                    Pawn('black', (2, 6)), Pawn('black', (3, 6)),
+                                    Pawn('black', (4, 6)), Pawn('black', (5, 6)),
+                                    Pawn('black', (6, 6)), Pawn('black', (7, 6))]
 
-        self.white_piece_objects = [Pawn('white', (0, 1), images.white_pawn), Pawn('white', (1, 1), images.white_pawn),
-                                    Pawn('white', (2, 1), images.white_pawn), Pawn('white', (3, 1), images.white_pawn),
-                                    Pawn('white', (4, 1), images.white_pawn),
-                                    Pawn('white', (5, 1), images.white_pawn), Pawn('white', (6, 1), images.white_pawn),
-                                    Pawn('white', (7, 1), images.white_pawn)]
+        self.white_piece_objects = [Pawn('white', (0, 1)), Pawn('white', (1, 1)),
+                                    Pawn('white', (2, 1)), Pawn('white', (3, 1)),
+                                    Pawn('white', (4, 1)), Pawn('white', (5, 1)),
+                                    Pawn('white', (6, 1)), Pawn('white', (7, 1))]
 
         # Lists to keep track of captured pieces per team
         self.captured_pieces_white = []

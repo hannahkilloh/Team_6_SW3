@@ -1,13 +1,27 @@
+import pygame
+
+
 class Pawn:
-    def __init__(self, colour, current_position, image):
+    def __init__(self, colour, current_position):
         # private variables with __
         self.__colour = colour
         self.__current_position = current_position
         self.__valid_moves = []
-        self.__image = image
+        image_url = f'assets/images/{colour[0]}_pawn.png'
+        self.__image = self.load_and_scale(image_url, (65, 65))
+        self.__small_image = self.load_and_scale(image_url, (45, 45))
+
+
+    # todo: move to helper func or super class
+    def load_and_scale(self, image_path, size):
+        image = pygame.image.load(image_path)
+        return pygame.transform.scale(image, size)
 
     def get_image(self):
         return self.__image
+
+    def get_small_image(self):
+        return self.__small_image
 
     def get_colour(self):
         return self.__colour

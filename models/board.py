@@ -96,7 +96,7 @@ class Board:
                                                            self.settings.selected_piece.get_current_position()[1] * 100 + 1,
                                                            100, 100], 2)
             self.draw_move_suggestions(colour, self.settings.selected_piece.get_valid_moves())
-# ============================= new code
+# ============================= end of new code
 
 
         for i in range(len(self.settings.black_pieces)):

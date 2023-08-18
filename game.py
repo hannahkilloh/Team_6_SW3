@@ -232,16 +232,11 @@ def draw_captured():
         settings.screen.blit(images.small_white_images[index], (925, 5 + 50*i))
 
 
-# todo: loop captured pieces
 def draw_captured_objects():
-    for captured_piece in range(len(settings.captured_piece_objects)):
-        captured_piece = settings.captured_pieces_white[i]
-        index = settings.piece_list.index(captured_piece)
-        settings.screen.blit(images.small_black_images[index], (825, 5 + 50*i))
-    for i in range(len(settings.captured_piece_objects)):
-        captured_piece = settings.captured_pieces_black[i]
-        index = settings.piece_list.index(captured_piece)
-        settings.screen.blit(images.small_white_images[index], (925, 5 + 50*i))
+    for index in range(len(settings.captured_piece_objects_white)):
+        settings.screen.blit(settings.captured_piece_objects_white[index].get_small_image(), (825, 5 + 50 * index))
+    for index in range(len(settings.captured_piece_objects_black)):
+        settings.screen.blit(settings.captured_piece_objects_black[index].get_small_image(), (925, 5 + 50 * index))
 
 
 def check_valid_moves():
@@ -304,6 +299,7 @@ def play_game():
     while run:
         board.initialise()
         draw_captured()
+        draw_captured_objects()
 
         # if tile on the board is selected,
         if settings.selection != 100:
