@@ -7,7 +7,8 @@ import game
 if __name__ == '__main__':
     pygame.init()
 
-    screen = pygame.display.set_mode((1000, 900))
+    # surface = pygame.display.set_mode((900, 900), pygame.RESIZABLE)
+    screen = pygame.display.set_mode((1000, 900), pygame.RESIZABLE)
     pygame.display.set_caption("Chess Battle")
 
     BG = pygame.image.load("assets/images/menu_background.png").convert()

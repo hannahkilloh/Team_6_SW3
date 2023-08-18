@@ -1,5 +1,4 @@
 import pygame
-from models.buttons import ImageOnScreen
 
 
 class BoardSettings:
@@ -33,15 +32,16 @@ class Board:
 
     #  Function that will create the tiles of the board (8x8)
     def draw_board(self):
-        for i in range(32):
-            column = i % 4
-            row = i // 4
-            if row % 2 == 0:
-                pygame.draw.rect(self.settings.screen, self.board_settings.tile_colour_2, [
-                    600 - (column * 200), row * 100, 100, 100])
-            else:
-                pygame.draw.rect(self.settings.screen, self.board_settings.tile_colour_2, [
-                    700 - (column * 200), row * 100, 100, 100])
+
+            for i in range(32):
+                column = i % 4
+                row = i // 4
+                if row % 2 == 0:
+                    pygame.draw.rect(self.settings.screen, self.board_settings.tile_colour_2, [
+                        600 - (column * 200), row * 100, 100, 100])
+                else:
+                    pygame.draw.rect(self.settings.screen, self.board_settings.tile_colour_2, [
+                        700 - (column * 200), row * 100, 100, 100])
             # pygame.draw.rect(self.settings.screen, self.board_settings.status_text_background, [
             #                  800, 0, self.settings.WIDTH, 100])
             # pygame.image.load(self.images("assets/images/test_background_image.png"))

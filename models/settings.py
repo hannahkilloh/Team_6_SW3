@@ -8,6 +8,7 @@ class Settings:
         self.WIDTH = 1000
         self.HEIGHT = 900
         self.screen = pygame.display.set_mode([self.WIDTH, self.HEIGHT])
+        # self.board_size = pygame.draw.rect(600)
         self.game_over = False
         self.timer = pygame.time.Clock()
         self.fps = 60
