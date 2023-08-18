@@ -4,18 +4,17 @@ from models.board import Board, BoardSettings
 from models.images import Images
 
 pygame.init()
+# surface = pygame.display.set_mode((900, 900), pygame.RESIZABLE)
 pygame.font.init()
-pygame.display.set_caption('🐍🐍 Welcome to the Pythonic Chess 🐍🐍')
+# pygame.display.set_caption('🐍🐍 Welcome to the Pythonic Chess 🐍🐍')
 pygame.display.set_icon(pygame.image.load('assets/images/chess_icon.ico'))
-# pygame.image.load("assets/images/test_background_image.png")
+
 
 # can pass in any colours, to set theme up easier
-
 board_settings = BoardSettings('#0000D2', '#7BFCFC', 'white', '#0000D2', 'assets/fonts/JetBrainsMono-Regular.ttf')
 settings = Settings()
 images = Images()
 board = Board(board_settings, settings, images)
-
 
 
 # function to check all pieces valid options on board
@@ -219,11 +218,11 @@ def draw_captured():
     for i in range(len(settings.captured_pieces_white)):
         captured_piece = settings.captured_pieces_white[i]
         index = settings.piece_list.index(captured_piece)
-        settings.screen.blit(images.small_black_images[index], (825, 5 + 50*i))
+        settings.screen.blit(images.small_black_images[index], (825, 5 + 50 * i))
     for i in range(len(settings.captured_pieces_black)):
         captured_piece = settings.captured_pieces_black[i]
         index = settings.piece_list.index(captured_piece)
-        settings.screen.blit(images.small_white_images[index], (925, 5 + 50*i))
+        settings.screen.blit(images.small_white_images[index], (925, 5 + 50 * i))
 
 
 def check_valid_moves():
