@@ -113,7 +113,7 @@ def check_rook(position, color):
         friends_list = settings.black_locations
         enemies_list = settings.white_locations
 
-    valid_moves = rook.get_valid_moves(friends_list, enemies_list)
+    valid_moves = rook.calculate_valid_moves(friends_list, enemies_list)
     return valid_moves
 
 # check valid pawn moves
