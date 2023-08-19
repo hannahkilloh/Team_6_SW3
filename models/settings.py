@@ -1,10 +1,11 @@
-import pygame
-pygame.init()
 from Team_6_SW3.pieces.pawn import Pawn
+import pygame
+
+pygame.init()
 
 
 class Settings:
-    def __init__(self, images):
+    def __init__(self, image):
         # game variables
         self.WIDTH = 1000
         self.HEIGHT = 900
@@ -28,7 +29,13 @@ class Settings:
         self.black_piece_objects = [Pawn('black', (0, 6)), Pawn('black', (1, 6)),
                                     Pawn('black', (2, 6)), Pawn('black', (3, 6)),
                                     Pawn('black', (4, 6)), Pawn('black', (5, 6)),
-                                    Pawn('black', (6, 6)), Pawn('black', (7, 6))]
+                                    Pawn('black', (6, 6)), Pawn('black', (7, 6)),
+
+                                    # King('black', (0, 6)), King('black', (1, 6)),
+                                    # King('black', (2, 6)), King('black', (3, 6)),
+                                    # King('black', (4, 6)), King('black', (5, 6)),
+                                    # King('black', (6, 6)), King('black', (7, 6))
+                                    ]
 
         self.white_piece_objects = [Pawn('white', (0, 1)), Pawn('white', (1, 1)),
                                     Pawn('white', (2, 1)), Pawn('white', (3, 1)),
@@ -38,7 +45,6 @@ class Settings:
         # Lists to keep track of captured pieces per team
         self.captured_pieces_white = []
         self.captured_pieces_black = []
-
 
         self.captured_piece_objects_white = []
         self.captured_piece_objects_black = []
