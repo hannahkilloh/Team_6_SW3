@@ -3,10 +3,18 @@ from Team_6_SW3.models.pieces.piece import Piece
 
 class Rook(Piece):
     def __init__(self, colour, current_position):
-        super().__init__(colour, current_position, 'rook')
+        super().__init__(colour, current_position, 'rook', (45, 45), (80, 80))
 
-    def calculate_valid_moves(self, friends_list, enemies_list):
+    def calculate_valid_moves(self, white_locations, black_locations):
         moves_list = []
+
+        if self._colour == 'white':
+            enemies_list = black_locations
+            friends_list = white_locations
+        else:
+            friends_list = black_locations
+            enemies_list = white_locations
+
         for x, y in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
             chain = 1
             while True:
