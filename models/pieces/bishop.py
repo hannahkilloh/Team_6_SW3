@@ -1,4 +1,4 @@
-from piece import Piece
+from models.pieces.piece import Piece
 
 
 class Bishop(Piece):
@@ -8,29 +8,44 @@ class Bishop(Piece):
     def get_valid_moves(self, own_locations, opponent_locations):
         moves_list = []
 
-        for i in range(4):  # up-right, up-left, down-right, down-left
-            path = True
+        # Define directions for bishop movement: up-right, up-left, down-right, down-left
+        directions = [(1, -1), (-1, -1), (1, 1), (-1, 1)]
+
+        for x, y in directions:
+            # Initialize the chain to 1, representing the number of steps in the current direction.
             chain = 1
-            if i == 0:
-                x = 1
-                y = -1
-            elif i == 1:
-                x = -1
-                y = -1
-            elif i == 2:
-                x = 1
-                y = 1
-            else:
-                x = -1
-                y = 1
+            path = True
+
+            # Continue looping until explicitly broken.
             while path:
-                if (self._Piece__current_position[0] + (chain * x), self._Piece__current_position[1] + (chain * y)) not in own_locations and \
-                        0 <= self._Piece__current_position[0] + (chain * x) <= 7 and 0 <= self._Piece__current_position[1] + (chain * y) <= 7:
-                    moves_list.append(
-                        (self._Piece__current_position[0] + (chain * x), self._Piece__current_position[1] + (chain * y)))
-                    if (self._Piece__current_position[0] + (chain * x), self._Piece__current_position[1] + (chain * y)) in opponent_locations:
+                # Calculate the new position by adding chain * x and chain * y to the current position.
+                new_x = self._Piece__current_position[0] + (chain * x)
+                new_y = self._Piece__current_position[1] + (chain * y)
+
+                # Check if the new position is within the board boundaries.
+                within_boundaries = 0 <= new_x <= 7 and 0 <= new_y <= 7
+
+                if within_boundaries:
+                    # Create a new position tuple.
+                    new_position = (new_x, new_y)
+
+                    # Check if the new position is not occupied by the player's own piece.
+                    not_occupied_by_own_piece = new_position not in own_locations
+
+                    if not_occupied_by_own_piece:
+                        moves_list.append(new_position)
+                        # Check if the new position is occupied by an opponent's piece, and stop the path if so.
+                        if new_position in opponent_locations:
+                            path = False
+
+                        chain += 1
+                    else:
+                        # If the new position is occupied by the player's own piece, stop the path.
                         path = False
-                    chain += 1
                 else:
+                    # If the new position is outside the board boundaries, stop the path.
                     path = False
+
+        # Set the valid moves for this rook object and return the list of valid moves.
+        self._Piece__valid_moves = moves_list
         return moves_list
