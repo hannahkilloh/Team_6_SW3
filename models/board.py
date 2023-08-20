@@ -1,3 +1,5 @@
+from Team_6_SW3.models.pieces.pawn import Pawn
+
 import pygame
 
 class BoardSettings:
@@ -71,6 +73,18 @@ class Board:
             pygame.draw.circle(self.settings.screen, colour,
                                (potential_moves[i][0] * 100 + 50, potential_moves[i][1] * 100 + 50), 5)
 
+    def draw_piece(self, piece):
+        x_coord = 10
+        y_coord = 10
+
+        if isinstance(piece, Pawn):
+            x_coord = 22
+            y_coord = 30
+
+        self.settings.screen.blit(
+            piece.get_image(),
+            (piece.get_current_position()[0] * 100 + x_coord, piece.get_current_position()[1] * 100 + y_coord))
+
     def draw_pieces(self):  # draw pieces into the board
         for i in range(len(self.settings.white_pieces)):
             index = self.settings.piece_list.index(self.settings.white_pieces[i])
@@ -83,7 +97,7 @@ class Board:
                     self.settings.white_locations[i][0] * 100 + 10, self.settings.white_locations[i][1] * 100 + 10))
             if self.settings.turn_step < 2:
                 if self.settings.selection == i:
-                    pygame.draw.rect(self.settings.screen, 'blue', [self.settings.white_locations[i][0] * 100 + 1,
+                    pygame.draw.rect(self.settings.screen, 'black', [self.settings.white_locations[i][0] * 100 + 1,
                                                                     self.settings.white_locations[i][1] * 100 + 1,
                                                                     100, 100], 2)
 
@@ -91,14 +105,10 @@ class Board:
 # ============================= new code
         # drawing new object pieces. calling all these functions on each piece object
         for piece in self.settings.white_piece_objects:
-            self.settings.screen.blit(
-                piece.get_image(),
-                (piece.get_current_position()[0] * 100 + 22, piece.get_current_position()[1] * 100 + 30))
+            self.draw_piece(piece)
 
         for piece in self.settings.black_piece_objects:
-            self.settings.screen.blit(
-                piece.get_image(), (piece.get_current_position()[0] * 100 + 22, piece.get_current_position()[1] * 100 + 30))
-
+            self.draw_piece(piece)
 
         if self.settings.selected_piece is not None:
             selected_piece_is_white = self.settings.selected_piece.get_colour() == 'white'
