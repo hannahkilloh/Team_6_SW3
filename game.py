@@ -20,6 +20,14 @@ images = Images()
 board = Board(board_settings, settings, images)
 
 
+# Define a function to determine friends and enemies based on color
+def get_friends_and_enemies(color):
+    if color == 'white':
+        return settings.white_locations, settings.black_locations
+    else:
+        return settings.black_locations, settings.white_locations
+
+
 # function to check all pieces valid options on board
 def check_options(pieces, locations, turn):
     moves_list = []
@@ -74,12 +82,8 @@ def check_queen(position, color):
 
 def check_bishop(position, color):
     bishop = Bishop(colour=color, current_position=position)
-    if color == 'white':
-        enemies_list = settings.black_locations
-        friends_list = settings.white_locations
-    else:
-        friends_list = settings.black_locations
-        enemies_list = settings.white_locations
+    # Use the get_friends_and_enemies function to set friends_list and enemies_list
+    friends_list, enemies_list = get_friends_and_enemies(color)
 
     valid_moves = bishop.get_valid_moves(friends_list, enemies_list)
     return valid_moves
@@ -89,12 +93,8 @@ def check_bishop(position, color):
 def check_rook(position, color):
     rook = Rook(colour=color, current_position=position)
 
-    if color == 'white':
-        enemies_list = settings.black_locations
-        friends_list = settings.white_locations
-    else:
-        friends_list = settings.black_locations
-        enemies_list = settings.white_locations
+    # Use the get_friends_and_enemies function to set friends_list and enemies_list
+    friends_list, enemies_list = get_friends_and_enemies(color)
 
     valid_moves = rook.get_valid_moves(friends_list, enemies_list)
     return valid_moves
