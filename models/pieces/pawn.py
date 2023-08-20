@@ -3,7 +3,7 @@ from Team_6_SW3.models.pieces.piece import Piece
 
 class Pawn(Piece):
     def __init__(self, colour, current_position):
-        super().__init__(colour, current_position, 'pawn')
+        super().__init__(colour, current_position, 'pawn', (45, 45), (65, 65))
 
     def calculate_valid_moves(self, white_locations, black_locations):
         moves_list = []  # moves list calculates the possible moves of each piece
