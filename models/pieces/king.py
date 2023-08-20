@@ -4,6 +4,24 @@ from Team_6_SW3.models.pieces.piece import Piece
 class King(Piece):
     def __init__(self, colour, current_position):
         super().__init__(colour, current_position, 'king', (45, 45), (80, 80))
+        self.__is_in_check = False
+
+    # calculates whether king is in check and returns true if so and sets is_in_check property
+    def calculate_king_in_check(self, enemy_pieces, white_locations, black_locations):
+        possible_enemy_moves = []
+        for piece in enemy_pieces:
+            current_piece_possible_moves = piece.calculate_valid_moves(white_locations, black_locations)
+            possible_enemy_moves.extend(current_piece_possible_moves)
+
+        if self._current_position in possible_enemy_moves:
+            self.__is_in_check = True
+        else:
+            self.__is_in_check = False
+
+        return self.__is_in_check
+
+    def get_is_in_check(self):
+        return self.__is_in_check
 
     def calculate_valid_moves(self, white_locations, black_locations):
         moves_list = []

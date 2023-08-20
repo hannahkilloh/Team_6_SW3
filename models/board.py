@@ -1,4 +1,6 @@
 from Team_6_SW3.models.pieces.pawn import Pawn
+from Team_6_SW3.models.pieces.king import King
+
 
 import pygame
 
@@ -73,6 +75,20 @@ class Board:
             pygame.draw.circle(self.settings.screen, colour,
                                (potential_moves[i][0] * 100 + 50, potential_moves[i][1] * 100 + 50), 5)
 
+    # todo: add flashing box using counter
+    # counter = 0
+    # if counter < 30:
+    #     counter += 1
+    # else:
+    #     counter = 0
+    #
+
+    def draw_flashing_check(self, king_piece):
+        if king_piece.get_is_in_check():
+            pygame.draw.rect(self.settings.screen, 'dark red', [king_piece.get_current_position()[0] * 100 + 1,
+                                                                king_piece.get_current_position()[1] * 100 + 1,
+                                                                100, 100], 5)
+       
     def draw_piece(self, piece):
         x_coord = 10
         y_coord = 10
@@ -84,6 +100,9 @@ class Board:
         self.settings.screen.blit(
             piece.get_image(),
             (piece.get_current_position()[0] * 100 + x_coord, piece.get_current_position()[1] * 100 + y_coord))
+
+        if isinstance(piece, King):
+            self.draw_flashing_check(piece)
 
     def draw_pieces(self):  # draw pieces into the board
         for i in range(len(self.settings.white_pieces)):
