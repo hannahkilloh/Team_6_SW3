@@ -14,7 +14,6 @@ board_settings = BoardSettings(
     '#0000D2', '#7BFCFC', 'white', '#0000D2', 'assets/fonts/JetBrainsMono-Regular.ttf')
 settings = Settings()
 images = Images()
-settings = Settings(images)
 board = Board(board_settings, settings, images)
 
 
@@ -82,7 +81,7 @@ def check_bishop(position, color):
     # Use the get_friends_and_enemies function to set friends_list and enemies_list
     friends_list, enemies_list = get_friends_and_enemies(color)
 
-    valid_moves = bishop.get_valid_moves(friends_list, enemies_list)
+    valid_moves = bishop.get_valid_moves()
     return valid_moves
 
 

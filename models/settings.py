@@ -23,14 +23,15 @@ class Settings:
 
         # Pieces in the board
         self.piece_list = ['pawn', 'queen', 'king', 'knight', 'rook', 'bishop']
-        self.white_pieces = ['bishop', 'queen', 'bishop']
+
+        self.white_pieces = []
 
         # Coordinates for pieces
-        self.white_locations = [(2, 0), (3, 0), (5, 0)]
+        self.white_locations = []
 
-        self.black_pieces = ['bishop', 'queen', 'bishop']
+        self.black_pieces = []
 
-        self.black_locations = [(2, 7), (3, 7), (5, 7)]
+        self.black_locations = []
 
         self.black_piece_objects = [Pawn('black', (0, 6)), Pawn('black', (1, 6)),
                                     Pawn('black', (2, 6)), Pawn('black', (3, 6)),
