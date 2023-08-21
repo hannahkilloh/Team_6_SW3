@@ -1,5 +1,5 @@
 import unittest
-from rook import Rook
+from Team_6_SW3.models.pieces.rook import Rook
 
 
 class TestRook(unittest.TestCase):
@@ -13,13 +13,13 @@ class TestRook(unittest.TestCase):
 
     def test_color(self):
         # Check if the rook's color is set correctly.
-        self.assertEqual(self.rook._Piece__colour, 'white')
+        self.assertEqual(self.rook._colour, 'white')
 
     def test_get_valid_moves_unblocked(self):
         # Test valid moves when the rook is not blocked by any pieces.
         own_locations = []
         opponent_locations = []
-        valid_moves = self.rook.get_valid_moves(
+        valid_moves = self.rook.calculate_valid_moves(
             own_locations, opponent_locations)
         expected_moves = [(0, 1), (0, 2), (0, 3), (0, 4), (0, 5), (0, 6), (0, 7),
                           (1, 0), (2, 0), (3, 0), (4, 0), (5, 0), (6, 0), (7, 0)]
@@ -30,7 +30,7 @@ class TestRook(unittest.TestCase):
         # Example: Rook is blocked by own pieces at (0, 1) and (0, 2).
         own_locations = [(0, 1), (0, 2)]
         opponent_locations = []
-        valid_moves = self.rook.get_valid_moves(
+        valid_moves = self.rook.calculate_valid_moves(
             own_locations, opponent_locations)
 
         # Assert that the blocked positions are not in the valid_moves list.
@@ -43,7 +43,7 @@ class TestRook(unittest.TestCase):
         own_locations = []
         opponent_locations = []
         # Test scenarios where the rook can move 1, 2, or 3 steps in each direction.
-        valid_moves = self.rook.get_valid_moves(
+        valid_moves = self.rook.calculate_valid_moves(
             own_locations, opponent_locations)
         expected_moves = [(0, 1), (0, 2), (0, 3), (0, 4), (0, 5), (0, 6), (0, 7),
                           (1, 0), (2, 0), (3, 0), (4, 0), (5, 0), (6, 0), (7, 0)]
@@ -53,7 +53,7 @@ class TestRook(unittest.TestCase):
         # Test that the rook can capture an opponent's piece.
         own_locations = []
         opponent_locations = [(0, 1)]  # Example: Opponent's piece at (0, 1).
-        valid_moves = self.rook.get_valid_moves(
+        valid_moves = self.rook.calculate_valid_moves(
             own_locations, opponent_locations)
         # Assert that the valid_moves list contains the position (0, 1).
         self.assertIn((0, 1), valid_moves)
