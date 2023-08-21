@@ -2,15 +2,16 @@ from Team_6_SW3.models.pieces.pawn import Pawn
 from Team_6_SW3.models.pieces.king import King
 from Team_6_SW3.models.pieces.knight import Knight
 from Team_6_SW3.models.pieces.rook import Rook
+from Team_6_SW3.models.pieces.bishop import Bishop
+from Team_6_SW3.models.pieces.queen import Queen
 
 
 import pygame
-
 pygame.init()
 
 
 class Settings:
-    def __init__(self, image):
+    def __init__(self):
         # game variables
         self.WIDTH = 1000
         self.HEIGHT = 900
@@ -39,6 +40,8 @@ class Settings:
                                     King('black', (4, 7)),
                                     Knight('black', (1, 7)), Knight('black', (6, 7)),
                                     Rook('black', (7, 7)), Rook('black', (0, 7)),
+                                    Bishop('black', (2, 7)), Bishop('black', (5, 7)),
+                                    Queen('black', (3, 7))
 
                                     ]
 
@@ -50,6 +53,8 @@ class Settings:
                                     King('white', (4, 0)),
                                     Knight('white', (1, 0)), Knight('white', (6, 0)),
                                     Rook('white', (0, 0)), Rook('white', (7, 0)),
+                                    Bishop('white', (2, 0)), Bishop('white', (5, 0)),
+                                    Queen('white', (3, 0))
 
                                     ]
 
