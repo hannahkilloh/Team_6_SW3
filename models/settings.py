@@ -16,22 +16,12 @@ class Settings:
         self.WIDTH = 1000
         self.HEIGHT = 900
         self.screen = pygame.display.set_mode([self.WIDTH, self.HEIGHT])
-        # self.board_size = pygame.draw.rect(600)
         self.game_over = False
         self.timer = pygame.time.Clock()
         self.fps = 60
 
         # Pieces in the board
         self.piece_list = ['pawn', 'queen', 'king', 'knight', 'rook', 'bishop']
-
-        self.white_pieces = []
-
-        # Coordinates for pieces
-        self.white_locations = []
-
-        self.black_pieces = []
-
-        self.black_locations = []
 
         self.black_piece_objects = [Pawn('black', (0, 6)), Pawn('black', (1, 6)),
                                     Pawn('black', (2, 6)), Pawn('black', (3, 6)),
@@ -42,9 +32,7 @@ class Settings:
                                     Knight('black', (1, 7)), Knight('black', (6, 7)),
                                     Rook('black', (7, 7)), Rook('black', (0, 7)),
                                     Bishop('black', (2, 7)), Bishop('black', (5, 7)),
-                                    Queen('black', (3, 7))
-
-                                    ]
+                                    Queen('black', (3, 7))]
 
         self.white_piece_objects = [Pawn('white', (0, 1)), Pawn('white', (1, 1)),
                                     Pawn('white', (2, 1)), Pawn('white', (3, 1)),
@@ -55,21 +43,15 @@ class Settings:
                                     Knight('white', (1, 0)), Knight('white', (6, 0)),
                                     Rook('white', (0, 0)), Rook('white', (7, 0)),
                                     Bishop('white', (2, 0)), Bishop('white', (5, 0)),
-                                    Queen('white', (3, 0))
+                                    Queen('white', (3, 0))]
 
-                                    ]
-
-        # Lists to keep track of captured pieces per team
-        self.captured_pieces_white = []
-        self.captured_pieces_black = []
-
+        # Lists to keep track of captured pieces per player
         self.captured_piece_objects_white = []
         self.captured_piece_objects_black = []
 
         # Which phase we are, valid moves
         self.turn_step = 0
         # Current piece selection, default to a value not in the board
-        self.selection = 100  # once done game.py delete me
         self.selected_piece = None
         self.valid_moves = []
         self.winner = ""

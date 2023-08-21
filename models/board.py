@@ -16,10 +16,9 @@ class BoardSettings:
 
 
 class Board:
-    def __init__(self, board_settings, settings, images):
+    def __init__(self, board_settings, settings):
         self.board_settings = board_settings
         self.settings = settings
-        self.images = images
 
     def initialise(self):
         self.settings.timer.tick(self.settings.fps)
@@ -87,23 +86,6 @@ class Board:
             (piece.get_current_position()[0] * 100 + x_coord, piece.get_current_position()[1] * 100 + y_coord))
 
     def draw_pieces(self):  # draw pieces into the board
-        for i in range(len(self.settings.white_pieces)):
-            index = self.settings.piece_list.index(self.settings.white_pieces[i])
-            if self.settings.white_pieces[i] == 'pawn':
-                self.settings.screen.blit(
-                    self.images.white_pawn, (self.settings.white_locations[i][0] * 100 + 22,
-                                             self.settings.white_locations[i][1] * 100 + 30))
-            else:
-                self.settings.screen.blit(self.images.white_images[index], (
-                    self.settings.white_locations[i][0] * 100 + 10, self.settings.white_locations[i][1] * 100 + 10))
-            if self.settings.turn_step < 2:
-                if self.settings.selection == i:
-                    pygame.draw.rect(self.settings.screen, 'black', [self.settings.white_locations[i][0] * 100 + 1,
-                                                                     self.settings.white_locations[i][1] * 100 + 1,
-                                                                     100, 100], 2)
-
-
-# ============================= new code
         # drawing new object pieces. calling all these functions on each piece object
         for piece in self.settings.white_piece_objects:
             self.draw_piece(piece)
@@ -120,19 +102,3 @@ class Board:
                                                             * 100 + 1,
                                                             100, 100], 2)
             self.draw_move_suggestions(colour, self.settings.selected_piece.get_valid_moves())
-# ============================= end of new code
-
-        for i in range(len(self.settings.black_pieces)):
-            index = self.settings.piece_list.index(self.settings.black_pieces[i])
-            if self.settings.black_pieces[i] == 'pawn':
-                self.settings.screen.blit(
-                    self.images.black_pawn, (self.settings.black_locations[i][0] * 100 + 22,
-                                             self.settings.black_locations[i][1] * 100 + 30))
-            else:
-                self.settings.screen.blit(self.images.black_images[index], (
-                    self.settings.black_locations[i][0] * 100 + 1, self.settings.black_locations[i][1] * 100 + 10))
-            if self.settings.turn_step >= 2:
-                if self.settings.selection == i:
-                    pygame.draw.rect(self.settings.screen, 'red', [self.settings.black_locations[i][0] * 100 + 1,
-                                                                   self.settings.black_locations[i][1] * 100 + 1,
-                                                                   100, 100], 2)
