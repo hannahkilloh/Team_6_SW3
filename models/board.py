@@ -4,6 +4,7 @@ from Team_6_SW3.models.pieces.king import King
 
 import pygame
 
+
 class BoardSettings:
     def __init__(self, tile_colour_1, tile_colour_2, status_text_background, tile_border_colour,
                  font):
@@ -75,20 +76,12 @@ class Board:
             pygame.draw.circle(self.settings.screen, colour,
                                (potential_moves[i][0] * 100 + 50, potential_moves[i][1] * 100 + 50), 5)
 
-    # todo: add flashing box using counter
-    # counter = 0
-    # if counter < 30:
-    #     counter += 1
-    # else:
-    #     counter = 0
-    #
-
     def draw_flashing_check(self, king_piece):
         if king_piece.get_is_in_check():
-            pygame.draw.rect(self.settings.screen, 'dark red', [king_piece.get_current_position()[0] * 100 + 1,
-                                                                king_piece.get_current_position()[1] * 100 + 1,
-                                                                100, 100], 5)
-       
+            pygame.draw.rect(self.settings.screen, 'red', [king_piece.get_current_position()[0] * 100 + 1,
+                                                            king_piece.get_current_position()[1] * 100 + 1,
+                                                            100, 100], 5)
+
     def draw_piece(self, piece):
         x_coord = 10
         y_coord = 10

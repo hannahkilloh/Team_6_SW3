@@ -1,7 +1,8 @@
 import pygame
 from models.settings import Settings
 from models.board import Board, BoardSettings
-from models.pieces.rook import Rook
+from Team_6_SW3.models.pieces.rook import Rook
+from Team_6_SW3.models.pieces.king import King
 from models.images import Images
 
 pygame.init()
@@ -280,13 +281,30 @@ def get_black_object_coords():
     return list(map(get_object_coords, settings.black_piece_objects))
 
 
-# Main game loop
+# loops through all piece objects passed to it and returns the king
+def get_king(pieces):
+    for piece in pieces:
+        if isinstance(piece, King):
+            return piece
+
+
 def play_game():
     global black_options
     global white_options
 
     run = True
     while run:
+        # todo: could possibly refactor w/b_object_coords as its duplicated
+        # maps through white_piece_objects array of objects and passes each object into the
+        # get_object_co-ords function and returns the co-ords as an array
+        white_object_coords = list(map(get_object_coords, settings.white_piece_objects))
+        black_object_coords = list(map(get_object_coords, settings.black_piece_objects))
+
+        white_king = get_king(settings.white_piece_objects)
+        black_king = get_king(settings.black_piece_objects)
+        white_king.calculate_king_in_check(settings.black_piece_objects, white_object_coords, black_object_coords)
+        black_king.calculate_king_in_check(settings.white_piece_objects, white_object_coords, black_object_coords)
+
         board.initialise()
         draw_captured()
         draw_captured_objects()
