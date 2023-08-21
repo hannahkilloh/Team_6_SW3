@@ -11,3 +11,4 @@ class Piece:
 
     def get_valid_moves(self, white_locations, black_locations):
         pass  # This method will be overridden by subclasses
+
