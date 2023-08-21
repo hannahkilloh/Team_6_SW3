@@ -1,3 +1,5 @@
+import sys
+
 import pygame
 from models.settings import Settings
 from models.board import Board, BoardSettings
@@ -195,13 +197,13 @@ def draw_captured():
     for i in range(len(settings.captured_pieces_white)):
         captured_piece = settings.captured_pieces_white[i]
         index = settings.piece_list.index(captured_piece)
-        settings.screen.blit(
-            images.small_black_images[index], (825, 5 + 50 * i))
+        settings.win.blit(
+            images.small_black_images[index], (825, 155 + 50 * i))
     for i in range(len(settings.captured_pieces_black)):
         captured_piece = settings.captured_pieces_black[i]
         index = settings.piece_list.index(captured_piece)
-        settings.screen.blit(
-            images.small_white_images[index], (925, 5 + 50 * i))
+        settings.win.blit(
+            images.small_white_images[index], (925, 155 + 50 * i))
 
 
 def check_valid_moves():
@@ -219,7 +221,7 @@ def draw_valid(moves):
     else:
         color = 'blue'
     for i in range(len(moves)):
-        pygame.draw.circle(settings.screen, color,
+        pygame.draw.circle(settings.win, color,
                            (moves[i][0] * 100 + 50, moves[i][1] * 100 + 50), 5)
 
 
@@ -249,8 +251,8 @@ def play_game():
                 run = False
 
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and not settings.game_over:
-                x_coord = event.pos[0] // 100  # x coord
-                y_coord = event.pos[1] // 100  # y coord
+                x_coord = (event.pos[0] / settings.get_scale_factor_x()) // 100  # x coord
+                y_coord = (event.pos[1] / settings.get_scale_factor_y()) // 100  # y coord
                 click_coords = (x_coord, y_coord)
                 if settings.turn_step <= 1:
                     if click_coords == (8, 8) or click_coords == (9, 8):
@@ -265,6 +267,10 @@ def play_game():
                     if click_coords in settings.valid_moves and settings.selection != 100:
                         # the piece is allowed to go to where is selected
                         settings.white_locations[settings.selection] = click_coords
+
+                        # add move to history
+                        board.moves[1].append(settings.compute_notation("white", click_coords))
+
                         # checking it takes us to where a black piece is sitting
                         if click_coords in settings.black_locations:
                             black_piece = settings.black_locations.index(
@@ -295,6 +301,10 @@ def play_game():
                     if click_coords in settings.valid_moves and settings.selection != 100:
                         # the piece is allowed to go to where is selected
                         settings.black_locations[settings.selection] = click_coords
+
+                        # add move to history
+                        board.moves[0].append(settings.compute_notation("black", click_coords))
+
                         # checking it takes us to where a black piece is sitting
                         if click_coords in settings.white_locations:
                             white_piece = settings.white_locations.index(
@@ -312,6 +322,13 @@ def play_game():
                         settings.turn_step = 0
                         settings.selection = 100
                         settings.valid_moves = []
+                # checking if resign button has been clicked
+                if board.resign_button.check_for_input(pygame.mouse.get_pos()):
+                    settings.write_json("moves", board.moves)
+                    pygame.quit()
+                    sys.exit()
 
+        scaled_win = pygame.transform.smoothscale(settings.win, settings.screen_.get_size())
+        settings.screen_.blit(scaled_win, (0, 0))
         pygame.display.flip()
     pygame.quit()
