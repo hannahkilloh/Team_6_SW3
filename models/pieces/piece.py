@@ -1,6 +1,7 @@
 import pygame
 import os
 
+
 class Piece:
     def __init__(self, colour, current_position, piece_type, small_size, normal_size):
         self._colour = colour

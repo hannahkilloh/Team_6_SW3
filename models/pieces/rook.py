@@ -15,7 +15,6 @@ class Rook(Piece):
             friends_list = black_locations
             enemies_list = white_locations
 
-
         # Iterate through the four possible directions for a rook: up, down, left, and right.
         for x, y in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
             # Initialize the chain to 1, representing the number of steps in the current direction.
