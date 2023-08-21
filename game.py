@@ -2,6 +2,7 @@ import pygame
 from models.settings import Settings
 from models.board import Board, BoardSettings
 from models.pieces.rook import Rook
+from models.pieces.bishop import Bishop
 from models.images import Images
 
 pygame.init()
@@ -9,10 +10,20 @@ pygame.font.init()
 pygame.display.set_icon(pygame.image.load('assets/images/chess_icon.ico'))
 
 # can pass in any colours, to set theme up easier
-board_settings = BoardSettings('#0000D2', '#7BFCFC', 'white', '#0000D2', 'assets/fonts/JetBrainsMono-Regular.ttf')
+board_settings = BoardSettings(
+    '#0000D2', '#7BFCFC', 'white', '#0000D2', 'assets/fonts/JetBrainsMono-Regular.ttf')
+settings = Settings()
 images = Images()
 settings = Settings(images)
 board = Board(board_settings, settings, images)
+
+
+# Define a function to determine friends and enemies based on color
+def get_friends_and_enemies(color):
+    if color == 'white':
+        return settings.white_locations, settings.black_locations
+    else:
+        return settings.black_locations, settings.white_locations
 
 
 # function to check all pieces valid options on board
@@ -67,51 +78,20 @@ def check_queen(position, color):
 
 # check bishop moves
 def check_bishop(position, color):
-    moves_list = []
-    if color == 'white':
-        enemies_list = settings.black_locations
-        friends_list = settings.white_locations
-    else:
-        friends_list = settings.black_locations
-        enemies_list = settings.white_locations
-    for i in range(4):  # up-right, up-left, down-right, down-left
-        path = True
-        chain = 1
-        if i == 0:
-            x = 1
-            y = -1
-        elif i == 1:
-            x = -1
-            y = -1
-        elif i == 2:
-            x = 1
-            y = 1
-        else:
-            x = -1
-            y = 1
-        while path:
-            if (position[0] + (chain * x), position[1] + (chain * y)) not in friends_list and \
-                    0 <= position[0] + (chain * x) <= 7 and 0 <= position[1] + (chain * y) <= 7:
-                moves_list.append(
-                    (position[0] + (chain * x), position[1] + (chain * y)))
-                if (position[0] + (chain * x), position[1] + (chain * y)) in enemies_list:
-                    path = False
-                chain += 1
-            else:
-                path = False
-    return moves_list
+    bishop = Bishop(colour=color, current_position=position)
+    # Use the get_friends_and_enemies function to set friends_list and enemies_list
+    friends_list, enemies_list = get_friends_and_enemies(color)
+
+    valid_moves = bishop.get_valid_moves(friends_list, enemies_list)
+    return valid_moves
 
 
 # check rook
 def check_rook(position, color):
     rook = Rook(colour=color, current_position=position)
 
-    if color == 'white':
-        enemies_list = settings.black_locations
-        friends_list = settings.white_locations
-    else:
-        friends_list = settings.black_locations
-        enemies_list = settings.white_locations
+    # Use the get_friends_and_enemies function to set friends_list and enemies_list
+    friends_list, enemies_list = get_friends_and_enemies(color)
 
     valid_moves = rook.calculate_valid_moves(friends_list, enemies_list)
     return valid_moves
@@ -212,11 +192,13 @@ def draw_captured():
     for i in range(len(settings.captured_pieces_white)):
         captured_piece = settings.captured_pieces_white[i]
         index = settings.piece_list.index(captured_piece)
-        settings.screen.blit(images.small_black_images[index], (825, 5 + 50 * i))
+        settings.screen.blit(
+            images.small_black_images[index], (825, 5 + 50 * i))
     for i in range(len(settings.captured_pieces_black)):
         captured_piece = settings.captured_pieces_black[i]
         index = settings.piece_list.index(captured_piece)
-        settings.screen.blit(images.small_white_images[index], (925, 5 + 50 * i))
+        settings.screen.blit(
+            images.small_white_images[index], (925, 5 + 50 * i))
 
 
 def draw_captured_objects():
