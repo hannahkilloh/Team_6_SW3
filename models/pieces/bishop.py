@@ -1,4 +1,5 @@
 from Team_6_SW3.models.pieces.piece import Piece
+from Team_6_SW3.models.helpers import get_friends_and_enemies
 
 
 class Bishop(Piece):
@@ -7,12 +8,9 @@ class Bishop(Piece):
 
     def calculate_valid_moves(self, white_locations, black_locations):
         moves_list = []
-        if self._colour == 'white':
-            enemies_list = black_locations
-            friends_list = white_locations
-        else:
-            friends_list = black_locations
-            enemies_list = white_locations
+
+        # Use the get_friends_and_enemies function to set friends_list and enemies_list
+        friends_list, enemies_list = get_friends_and_enemies(self._colour, white_locations, black_locations)
 
         # Define directions for bishop movement: up-right, up-left, down-right, down-left
         directions = [(1, -1), (-1, -1), (1, 1), (-1, 1)]

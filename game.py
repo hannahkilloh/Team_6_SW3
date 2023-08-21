@@ -13,14 +13,6 @@ settings = Settings()
 board = Board(board_settings, settings)
 
 
-# Todo: use this in rook and bishop
-# Define a function to determine friends and enemies based on color
-# def get_friends_and_enemies(color):
-#     if color == 'white':
-#         return settings.white_locations, settings.black_locations
-#     else:
-#         return settings.black_locations, settings.white_locations
-
 def draw_captured_objects():
     for index in range(len(settings.captured_piece_objects_white)):
         settings.screen.blit(settings.captured_piece_objects_white[index].get_small_image(), (825, 5 + 50 * index))
