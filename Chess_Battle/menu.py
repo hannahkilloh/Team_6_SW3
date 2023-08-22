@@ -1,7 +1,6 @@
 import pygame
 import sys
-
-from Chess_Battle.models.settings import Settings
+from Team_6_SW3.Chess_Battle.models.settings import Settings
 from models.buttons import Button, ImageOnScreen
 import game
 
@@ -10,9 +9,7 @@ if __name__ == '__main__':
     pygame.init()
 
     settings = Settings()
-
     pygame.display.set_caption("Chess Battle")
-
     BG = pygame.image.load("assets/images/menu_background.png").convert()
     BG.set_alpha(400)
     settings.win.blit(BG, (0, 0))
@@ -28,8 +25,8 @@ if __name__ == '__main__':
             history_rect = history_text.get_rect(center=(500, 350))
             settings.win.blit(history_text, history_rect)
 
-            history_back = Button(image=None, pos=(500, 450),
-                                  text_input="BACK", font=settings.get_font(), base_color="blue", hovering_color="#7BFCFC", settings=settings)
+            history_back = Button(image=None, pos=(500, 450), text_input="BACK", font=settings.get_font(),
+                                  base_color="blue", hovering_color="#7BFCFC", settings=settings)
 
             history_back.change_color(history_mouse_pos)
             history_back.update(settings.win)
@@ -50,24 +47,20 @@ if __name__ == '__main__':
 
     def main_menu():
         while True:
-            # settings.screen.copy()
-
             menu_mouse_pos = pygame.mouse.get_pos()
 
-            # menu_text = get_font(60).render("", True, "blue")
-            # menu_rect = menu_text.get_rect(center=(500, 450))
+            game_logo = ImageOnScreen(image=pygame.image.load("assets/images/game_logo_very_small.png").convert_alpha(),
+                                      pos=(500, 100))
 
-            game_logo = ImageOnScreen(image=pygame.image.load("assets/images/game_logo_very_small.png").convert_alpha(), pos=(500, 100))
-
-            play_button = Button(image=pygame.image.load("assets/images/blank_button_long.png").convert_alpha(), pos=(500, 350),
-                                 text_input="Play Chess", font=settings.get_font(), base_color="blue", hovering_color='#7BFCFC', settings=settings)
-            history_button = Button(image=pygame.image.load("assets/images/blank_button_long.png").convert_alpha(), pos=(500, 500),
-                                    text_input="Games History", font=settings.get_font(), base_color="blue", hovering_color='#7BFCFC', settings=settings)
-            quit_button = Button(image=pygame.image.load("assets/images/blank_button_long.png").convert_alpha(), pos=(500, 650),
-                                 text_input="Quit", font=settings.get_font(), base_color="blue", hovering_color='#7BFCFC', settings=settings)
-
-            # win.blit(menu_text, menu_rect)
-
+            play_button = Button(image=pygame.image.load("assets/images/blank_button_long.png").convert_alpha(),
+                                 pos=(500, 350), text_input="Play Chess", font=settings.get_font(), base_color="blue",
+                                 hovering_color='#7BFCFC', settings=settings)
+            history_button = Button(image=pygame.image.load("assets/images/blank_button_long.png").convert_alpha(),
+                                    pos=(500, 500), text_input="Games History", font=settings.get_font(),
+                                    base_color="blue", hovering_color='#7BFCFC', settings=settings)
+            quit_button = Button(image=pygame.image.load("assets/images/blank_button_long.png").convert_alpha(),
+                                 pos=(500, 650), text_input="Quit", font=settings.get_font(), base_color="blue",
+                                 hovering_color='#7BFCFC', settings=settings)
             game_logo.update(settings.win)
 
             for button in [play_button, history_button, quit_button]:

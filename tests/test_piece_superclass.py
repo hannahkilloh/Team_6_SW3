@@ -1,17 +1,17 @@
 import unittest
-from piece import Piece
+from Team_6_SW3.Chess_Battle.models.pieces.piece import Piece
 
 
 class TestPiece(unittest.TestCase):
     def setUp(self):
         # Initialize a Piece instance for testing.
-        self.piece = Piece('white', (0, 0))
+        self.piece = Piece('white', (0, 0), (80, 80))
 
     def test_init(self):
         # Check if the __init__ method sets the attributes correctly.
-        self.assertEqual(self.piece._Piece__colour, 'white')
-        self.assertEqual(self.piece._Piece__current_position, (0, 0))
-        self.assertEqual(self.piece._Piece__valid_moves, [])
+        self.assertEqual(self.piece._colour, 'white')
+        self.assertEqual(self.piece._current_position, (0, 0))
+        self.assertEqual(self.piece._valid_moves, [])
 
     def test_move_to_selected_position_valid(self):
         # Test moving to a valid position.
