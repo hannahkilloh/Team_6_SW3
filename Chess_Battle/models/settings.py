@@ -1,12 +1,14 @@
-from Team_6_SW3.models.pieces.pawn import Pawn
-from Team_6_SW3.models.pieces.king import King
-from Team_6_SW3.models.pieces.knight import Knight
-from Team_6_SW3.models.pieces.rook import Rook
-from Team_6_SW3.models.pieces.bishop import Bishop
-from Team_6_SW3.models.pieces.queen import Queen
+from Team_6_SW3.Chess_Battle.models.pieces.pawn import Pawn
+from Team_6_SW3.Chess_Battle.models.pieces.king import King
+from Team_6_SW3.Chess_Battle.models.pieces.knight import Knight
+from Team_6_SW3.Chess_Battle.models.pieces.rook import Rook
+from Team_6_SW3.Chess_Battle.models.pieces.bishop import Bishop
+from Team_6_SW3.Chess_Battle.models.pieces.queen import Queen
 
 
 import pygame
+import json
+
 pygame.init()
 
 
@@ -15,7 +17,8 @@ class Settings:
         # game variables
         self.WIDTH = 1000
         self.HEIGHT = 900
-        self.screen = pygame.display.set_mode([self.WIDTH, self.HEIGHT])
+        self.screen_ = pygame.display.set_mode((self.WIDTH, self.HEIGHT), pygame.RESIZABLE)
+        self.win = pygame.Surface((self.WIDTH, self.HEIGHT))
         self.game_over = False
         self.timer = pygame.time.Clock()
         self.fps = 60
@@ -49,9 +52,34 @@ class Settings:
         self.captured_piece_objects_white = []
         self.captured_piece_objects_black = []
 
+        # Lists for notation conversion
+        self.white_pieces_short = ['R', 'N', 'B', 'K', 'Q', 'B', 'N', 'R', '', '', '', '', '', '', '', '']
+        self.black_pieces_short = ['r', 'n', 'b', 'k', 'q', 'b', 'n', 'r', '', '', '', '', '', '', '', '']
+        self.x_names = ['h', 'g', 'f', 'e', 'd', 'c', 'b', 'a']
+
         # Which phase we are, valid moves
         self.turn_step = 0
         # Current piece selection, default to a value not in the board
         self.selected_piece = None
         self.valid_moves = []
         self.winner = ""
+
+    # todo: self.selection doesn't exist anymore we need to use self.selected_piece
+    def compute_notation(self, type, coords):
+        if type == "black":
+            return self.black_pieces_short[self.selection] + self.x_names[int(coords[0])] + str(int(coords[1]) + 1)
+        else:
+            return self.white_pieces_short[self.selection] + self.x_names[int(coords[0])] + str(int(coords[1]) + 1)
+
+    def get_font(self, size=35):  # Returns Press-Start-2P in the desired size
+        return pygame.font.Font('assets/fonts/JetBrainsMono-Bold.ttf', size)  # add size variable to settings file
+
+    def get_scale_factor_x(self):
+        return self.screen_.get_size()[0] / self.WIDTH
+
+    def get_scale_factor_y(self):
+        return self.screen_.get_size()[1] / self.HEIGHT
+
+    def write_json(self, file, contents):
+        with open(f"{file}.json", "w") as output:
+            json.dump(contents, output, indent=2)

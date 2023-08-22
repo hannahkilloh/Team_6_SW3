@@ -1,3 +1,5 @@
+import sys
+
 import pygame
 from models.settings import Settings
 from models.board import Board, BoardSettings
@@ -15,9 +17,9 @@ board = Board(board_settings, settings)
 
 def draw_captured_objects():
     for index in range(len(settings.captured_piece_objects_white)):
-        settings.screen.blit(settings.captured_piece_objects_white[index].get_small_image(), (825, 5 + 50 * index))
+        settings.win.blit(settings.captured_piece_objects_white[index].get_small_image(), (825, 5 + 50 * index))
     for index in range(len(settings.captured_piece_objects_black)):
-        settings.screen.blit(settings.captured_piece_objects_black[index].get_small_image(), (925, 5 + 50 * index))
+        settings.win.blit(settings.captured_piece_objects_black[index].get_small_image(), (925, 5 + 50 * index))
 
 
 def get_object_coords(piece):
@@ -41,6 +43,20 @@ def get_white_object_coords():
     # get_object_co-ords function and returns the co-ords as an array
     return list(map(get_object_coords, settings.white_piece_objects))
 
+# Todo: when drwing small images here some numbers have changed
+# def draw_captured():
+#     for i in range(len(settings.captured_pieces_white)):
+#         captured_piece = settings.captured_pieces_white[i]
+#         index = settings.piece_list.index(captured_piece)
+#         settings.win.blit(
+#             images.small_black_images[index], (825, 155 + 50 * i))
+#     for i in range(len(settings.captured_pieces_black)):
+#         captured_piece = settings.captured_pieces_black[i]
+#         index = settings.piece_list.index(captured_piece)
+#         settings.win.blit(
+#             images.small_white_images[index], (925, 155 + 50 * i))
+
+
 
 def get_black_object_coords():
     # maps through black_piece_objects array of objects and passes each object into the
@@ -61,8 +77,8 @@ def play_game():
                 run = False
 
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and not settings.game_over:
-                x_coord = event.pos[0] // 100  # x coord
-                y_coord = event.pos[1] // 100  # y coord
+                x_coord = (event.pos[0] / settings.get_scale_factor_x()) // 100  # x coord
+                y_coord = (event.pos[1] / settings.get_scale_factor_y()) // 100  # y coord
                 click_coords = (x_coord, y_coord)
 
                 # if the step is 0 or 1 then it is the whites turn
@@ -88,9 +104,17 @@ def play_game():
                         # moves selected piece to position only if it is a valid move
                         settings.selected_piece.move_to_selected_position(click_coords)
 
+                        # add move to history
+                        board.moves[1].append(settings.compute_notation("white", click_coords))
+
                         if click_coords in black_object_coords:
                             black_piece = get_clicked_black(click_coords)
                             settings.captured_piece_objects_white.append(black_piece)
+
+                            # TODO: ADD END GAME LOGIC
+                            # if settings.black_pieces[black_piece] == 'king':
+                            #     settings.winner = 'white'
+
                             # sets black piece array to new array excluding the one that has been clicked
                             settings.black_piece_objects = [
                                 x for x in settings.black_piece_objects if x.get_current_position() != click_coords
@@ -122,6 +146,10 @@ def play_game():
                     elif settings.selected_piece is not None and click_coords in \
                             settings.selected_piece.get_valid_moves():
                         settings.selected_piece.move_to_selected_position(click_coords)
+
+                        # add move to history
+                        board.moves[0].append(settings.compute_notation("black", click_coords))
+
                         if click_coords in white_object_coords:
                             white_piece = get_clicked_white(click_coords)
                             settings.captured_piece_objects_black.append(white_piece)
@@ -134,5 +162,14 @@ def play_game():
                         # so resets the variable used for tracking the currently selected piece
                         settings.selected_piece = None
 
+                # TODO: makes sure this works
+                # checking if resign button has been clicked
+                # if board.resign_button.check_for_input(pygame.mouse.get_pos()):
+                #     settings.write_json("moves", board.moves)
+                #     pygame.quit()
+                #     sys.exit()
+
+        scaled_win = pygame.transform.smoothscale(settings.win, settings.screen_.get_size())
+        settings.screen_.blit(scaled_win, (0, 0))
         pygame.display.flip()
     pygame.quit()
