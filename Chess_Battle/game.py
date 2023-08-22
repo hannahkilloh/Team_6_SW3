@@ -2,6 +2,8 @@ import sys
 import pygame
 from models.settings import Settings
 from models.board import Board, BoardSettings
+from Team_6_SW3.Chess_Battle.models.pieces.king import King
+
 
 pygame.init()
 pygame.font.init()
@@ -49,12 +51,6 @@ def get_black_object_coords():
     return list(map(get_object_coords, settings.black_piece_objects))
 
 
-def draw_game_over():
-    pygame.draw.rect(settings.win, 'black', [200, 200, 400, 70])
-    settings.screen_.blit(settings.get_font(f'{settings.winner} won the game!'), (210, 210))
-    settings.screen_.blit(settings.get_font(f'Press enter to restart'), (210, 240))
-
-
 # Main game loop
 def play_game():
     run = True
@@ -76,7 +72,7 @@ def play_game():
                 if settings.turn_step <= 1:
                     # this is when they click 'Resign'
                     if click_coords == (8, 8) or click_coords == (9, 8):
-                        settings.winner = 'black'
+                        settings.winner = 'Black'
 
                     # maps through white_piece_objects array of objects and passes each object into the
                     # get_object_co-ords function and returns the co-ords as an array
@@ -102,9 +98,8 @@ def play_game():
                             black_piece = get_clicked_black(click_coords)
                             settings.captured_piece_objects_white.append(black_piece)
 
-                            # TODO: ADD END GAME LOGIC
-                            # if settings.black_pieces[black_piece] == 'king':
-                            #     settings.winner = 'white'
+                            if isinstance(black_piece, King):
+                                settings.winner = 'White'
 
                             # sets black piece array to new array excluding the one that has been clicked
                             settings.black_piece_objects = [
@@ -120,7 +115,7 @@ def play_game():
                 if settings.turn_step > 1:
                     # this is when they click 'Resign'
                     if click_coords == (8, 8) or click_coords == (9, 8):
-                        settings.winner = 'white'
+                        settings.winner = 'White'
 
                     # maps through white_piece_objects array of objects and passes each object into the
                     # get_object_co-ords function and returns the co-ords as an array
@@ -144,6 +139,10 @@ def play_game():
                         if click_coords in white_object_coords:
                             white_piece = get_clicked_white(click_coords)
                             settings.captured_piece_objects_black.append(white_piece)
+
+                            if isinstance(white_piece, King):
+                                settings.winner = 'Black'
+
                             # sets white piece array to new array excluding the one that has been clicked
                             settings.white_piece_objects = [
                                 x for x in settings.white_piece_objects if x.get_current_position() != click_coords
@@ -153,7 +152,6 @@ def play_game():
                         # so resets the variable used for tracking the currently selected piece
                         settings.selected_piece = None
 
-                # todo: makes sure this works
                 # checking if resign button has been clicked
                 if board.resign_button.check_for_input(pygame.mouse.get_pos()):
                     settings.write_json("moves", board.moves)
@@ -166,5 +164,4 @@ def play_game():
 
         if settings.winner != '':
             settings.game_over = True
-            draw_game_over()
     pygame.quit()

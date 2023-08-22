@@ -47,8 +47,13 @@ class Board:
                     700 - (column * 200), row * 100, 100, 100])
         status_text = ['White: Select a Piece to Move!', 'White: Select a Destination!',
                        'Black: Select a Piece to Move!', 'Black: Select a Destination!']
-        self.settings.win.blit(self.board_settings.medium_font.render(
-            status_text[self.settings.turn_step], True, 'blue'), (120, 820))
+
+        if self.settings.game_over:
+            self.settings.win.blit(self.board_settings.medium_font.render(
+                f'{self.settings.winner} won the game!', True, 'blue'), (120, 820))
+        else:
+            self.settings.win.blit(self.board_settings.medium_font.render(
+                status_text[self.settings.turn_step], True, 'blue'), (120, 820))
 
         for button in [self.resign_button]:
             if pygame.mouse.get_pos()[0] in range(int(self.resign_button.rect.left *
