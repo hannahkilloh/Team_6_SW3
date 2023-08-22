@@ -100,7 +100,7 @@ class Board:
 
         if self.settings.selected_piece is not None:
             selected_piece_is_white = self.settings.selected_piece.get_colour() == 'white'
-            colour = 'red' if selected_piece_is_white else 'blue'
+            colour = 'red' if selected_piece_is_white else 'black'
             pygame.draw.rect(self.settings.win, colour, [self.settings.selected_piece.get_current_position()[0]
                                                          * 100 + 1,
                                                          self.settings.selected_piece.get_current_position()[1]
