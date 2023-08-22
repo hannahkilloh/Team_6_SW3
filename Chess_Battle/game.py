@@ -16,9 +16,9 @@ board = Board(board_settings, settings)
 
 def draw_captured_objects():
     for index in range(len(settings.captured_piece_objects_white)):
-        settings.win.blit(settings.captured_piece_objects_white[index].get_small_image(), (825, 5 + 50 * index))
+        settings.win.blit(settings.captured_piece_objects_white[index].get_small_image(), (825, 155 + 50 * index))
     for index in range(len(settings.captured_piece_objects_black)):
-        settings.win.blit(settings.captured_piece_objects_black[index].get_small_image(), (925, 5 + 50 * index))
+        settings.win.blit(settings.captured_piece_objects_black[index].get_small_image(), (925, 155 + 50 * index))
 
 
 def get_object_coords(piece):
@@ -41,19 +41,6 @@ def get_white_object_coords():
     # maps through white_piece_objects array of objects and passes each object into the
     # get_object_co-ords function and returns the co-ords as an array
     return list(map(get_object_coords, settings.white_piece_objects))
-
-# Todo: when drwing small images here some numbers have changed
-# def draw_captured():
-#     for i in range(len(settings.captured_pieces_white)):
-#         captured_piece = settings.captured_pieces_white[i]
-#         index = settings.piece_list.index(captured_piece)
-#         settings.win.blit(
-#             images.small_black_images[index], (825, 155 + 50 * i))
-#     for i in range(len(settings.captured_pieces_black)):
-#         captured_piece = settings.captured_pieces_black[i]
-#         index = settings.piece_list.index(captured_piece)
-#         settings.win.blit(
-#             images.small_white_images[index], (925, 155 + 50 * i))
 
 
 def get_black_object_coords():
