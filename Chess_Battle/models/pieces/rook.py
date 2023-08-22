@@ -1,10 +1,16 @@
-from Team_6_SW3.models.pieces.piece import Piece
-from Team_6_SW3.models.helpers import get_friends_and_enemies
+from Team_6_SW3.Chess_Battle.models.pieces.piece import Piece
+from Team_6_SW3.Chess_Battle.models.helpers import get_friends_and_enemies
 
 
 class Rook(Piece):
     def __init__(self, colour, current_position):
         super().__init__(colour, current_position, 'rook', (45, 45), (80, 80))
+
+    def get_short_notation(self):
+        if self._colour == 'white':
+            return "R"
+        else:
+            return "r"
 
     def calculate_valid_moves(self, white_locations, black_locations):
         moves_list = []

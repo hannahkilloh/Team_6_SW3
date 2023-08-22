@@ -1,5 +1,4 @@
-import sys
-
+# import sys
 import pygame
 from models.settings import Settings
 from models.board import Board, BoardSettings
@@ -57,7 +56,6 @@ def get_white_object_coords():
 #             images.small_white_images[index], (925, 155 + 50 * i))
 
 
-
 def get_black_object_coords():
     # maps through black_piece_objects array of objects and passes each object into the
     # get_object_co-ords function and returns the co-ords as an array
@@ -105,7 +103,7 @@ def play_game():
                         settings.selected_piece.move_to_selected_position(click_coords)
 
                         # add move to history
-                        board.moves[1].append(settings.compute_notation("white", click_coords))
+                        board.moves[1].append(settings.compute_notation(click_coords))
 
                         if click_coords in black_object_coords:
                             black_piece = get_clicked_black(click_coords)
@@ -148,7 +146,7 @@ def play_game():
                         settings.selected_piece.move_to_selected_position(click_coords)
 
                         # add move to history
-                        board.moves[0].append(settings.compute_notation("black", click_coords))
+                        board.moves[0].append(settings.compute_notation(click_coords))
 
                         if click_coords in white_object_coords:
                             white_piece = get_clicked_white(click_coords)

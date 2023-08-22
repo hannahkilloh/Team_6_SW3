@@ -5,7 +5,6 @@ from Team_6_SW3.Chess_Battle.models.pieces.rook import Rook
 from Team_6_SW3.Chess_Battle.models.pieces.bishop import Bishop
 from Team_6_SW3.Chess_Battle.models.pieces.queen import Queen
 
-
 import pygame
 import json
 
@@ -53,8 +52,6 @@ class Settings:
         self.captured_piece_objects_black = []
 
         # Lists for notation conversion
-        self.white_pieces_short = ['R', 'N', 'B', 'K', 'Q', 'B', 'N', 'R', '', '', '', '', '', '', '', '']
-        self.black_pieces_short = ['r', 'n', 'b', 'k', 'q', 'b', 'n', 'r', '', '', '', '', '', '', '', '']
         self.x_names = ['h', 'g', 'f', 'e', 'd', 'c', 'b', 'a']
 
         # Which phase we are, valid moves
@@ -64,12 +61,8 @@ class Settings:
         self.valid_moves = []
         self.winner = ""
 
-    # todo: self.selection doesn't exist anymore we need to use self.selected_piece
-    def compute_notation(self, type, coords):
-        if type == "black":
-            return self.black_pieces_short[self.selection] + self.x_names[int(coords[0])] + str(int(coords[1]) + 1)
-        else:
-            return self.white_pieces_short[self.selection] + self.x_names[int(coords[0])] + str(int(coords[1]) + 1)
+    def compute_notation(self, coords):
+        return self.selected_piece.get_short_notation() + self.x_names[int(coords[0])] + str(int(coords[1]) + 1)
 
     def get_font(self, size=35):  # Returns Press-Start-2P in the desired size
         return pygame.font.Font('assets/fonts/JetBrainsMono-Bold.ttf', size)  # add size variable to settings file

@@ -17,10 +17,12 @@ class Piece:
         if new_position in self._valid_moves:
             self._current_position = new_position
             self._valid_moves = []
-
         return self._current_position
 
     def calculate_valid_moves(self, white_locations, black_locations):
+        pass  # This method will be overridden by subclasses
+
+    def get_short_notation(self):
         pass  # This method will be overridden by subclasses
 
     def load_and_scale(self, image_path, size):

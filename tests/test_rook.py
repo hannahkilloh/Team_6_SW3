@@ -1,5 +1,5 @@
 import unittest
-from Team_6_SW3.models.pieces.rook import Rook
+from Team_6_SW3.Chess_Battle.models.pieces.rook import Rook
 
 
 class TestRook(unittest.TestCase):

@@ -1,5 +1,5 @@
 import unittest
-from Team_6_SW3.models.pieces.piece import Piece
+from Team_6_SW3.Chess_Battle.models.pieces.piece import Piece
 
 
 class TestPiece(unittest.TestCase):
