@@ -153,7 +153,7 @@ def play_game():
                         # so resets the variable used for tracking the currently selected piece
                         settings.selected_piece = None
 
-                # TODO: makes sure this works
+                # todo: makes sure this works
                 # checking if resign button has been clicked
                 if board.resign_button.check_for_input(pygame.mouse.get_pos()):
                     settings.write_json("moves", board.moves)

@@ -23,8 +23,10 @@ class Pawn(Piece):
                 moves_list.append((self._current_position[0], self._current_position[1] + 1))
 
             is_first_move = self._current_position[1] == 1
-            no_blocking_white_piece_for_two = (self._current_position[0], self._current_position[1] + 2) not in white_locations
-            no_blocking_black_piece_for_two = (self._current_position[0], self._current_position[1] + 2) not in black_locations
+            no_blocking_white_piece_for_two = (self._current_position[0], self._current_position[1] + 2) \
+                                              not in white_locations and no_blocking_white_piece
+            no_blocking_black_piece_for_two = (self._current_position[0], self._current_position[1] + 2) \
+                                              not in black_locations and no_blocking_black_piece
 
             # calculates two steps forward first move
             if no_blocking_white_piece_for_two and no_blocking_black_piece_for_two and is_first_move:
@@ -50,8 +52,10 @@ class Pawn(Piece):
                 moves_list.append((self._current_position[0], self._current_position[1] - 1))
 
             is_first_move = self._current_position[1] == 6
-            no_blocking_white_piece_for_two = (self._current_position[0], self._current_position[1] - 2) not in white_locations
-            no_blocking_black_piece_for_two = (self._current_position[0], self._current_position[1] - 2) not in black_locations
+            no_blocking_white_piece_for_two = (self._current_position[0], self._current_position[1] - 2) \
+                                              not in white_locations and no_blocking_white_piece
+            no_blocking_black_piece_for_two = (self._current_position[0], self._current_position[1] - 2) \
+                                              not in black_locations and no_blocking_black_piece
 
             # calculates two steps forward first move
             if no_blocking_white_piece_for_two and no_blocking_black_piece_for_two and is_first_move:
