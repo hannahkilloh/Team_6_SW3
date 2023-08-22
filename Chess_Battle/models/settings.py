@@ -18,13 +18,32 @@ class Settings:
         self.HEIGHT = 900
         self.screen_ = pygame.display.set_mode((self.WIDTH, self.HEIGHT), pygame.RESIZABLE)
         self.win = pygame.Surface((self.WIDTH, self.HEIGHT))
-        self.game_over = False
         self.timer = pygame.time.Clock()
         self.fps = 60
 
-        # Pieces in the board
-        self.piece_list = ['pawn', 'queen', 'king', 'knight', 'rook', 'bishop']
+        # Lists for notation conversion
+        self.x_names = ['h', 'g', 'f', 'e', 'd', 'c', 'b', 'a']
 
+        # Declare game reset related object properties here because they have to be done in the class init
+        # We then call the 'reset_game' function which populated all the correct values
+        self.game_over = False
+        self.white_piece_objects = []
+        self.black_piece_objects = []
+        # Lists to keep track of captured pieces per player
+        self.captured_piece_objects_white = []
+        self.captured_piece_objects_black = []
+        self.turn_step = 0
+        # Current piece selection, default to a value not in the board
+        self.selected_piece = None
+        self.winner = ""
+        self.reset_game()
+
+    def reset_game(self):
+        self.game_over = False
+        self.turn_step = 0
+        # Current piece selection, default to a value not in the board
+        self.selected_piece = None
+        self.winner = ""
         self.black_piece_objects = [Pawn('black', (0, 6)), Pawn('black', (1, 6)),
                                     Pawn('black', (2, 6)), Pawn('black', (3, 6)),
                                     Pawn('black', (4, 6)), Pawn('black', (5, 6)),
@@ -47,19 +66,8 @@ class Settings:
                                     Bishop('white', (2, 0)), Bishop('white', (5, 0)),
                                     Queen('white', (3, 0))]
 
-        # Lists to keep track of captured pieces per player
         self.captured_piece_objects_white = []
         self.captured_piece_objects_black = []
-
-        # Lists for notation conversion
-        self.x_names = ['h', 'g', 'f', 'e', 'd', 'c', 'b', 'a']
-
-        # Which phase we are, valid moves
-        self.turn_step = 0
-        # Current piece selection, default to a value not in the board
-        self.selected_piece = None
-        self.valid_moves = []
-        self.winner = ""
 
     def compute_notation(self, coords):
         return self.selected_piece.get_short_notation() + self.x_names[int(coords[0])] + str(int(coords[1]) + 1)
