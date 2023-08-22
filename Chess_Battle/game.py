@@ -1,4 +1,3 @@
-# import sys
 import pygame
 from models.settings import Settings
 from models.board import Board, BoardSettings
