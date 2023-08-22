@@ -219,7 +219,7 @@ def draw_valid(moves):
     if settings.turn_step < 2:
         color = 'red'
     else:
-        color = 'blue'
+        color = 'black'
     for i in range(len(moves)):
         pygame.draw.circle(settings.win, color,
                            (moves[i][0] * 100 + 50, moves[i][1] * 100 + 50), 5)
