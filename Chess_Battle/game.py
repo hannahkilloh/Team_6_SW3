@@ -1,4 +1,4 @@
-# import sys
+import sys
 import pygame
 from models.settings import Settings
 from models.board import Board, BoardSettings
@@ -47,6 +47,12 @@ def get_black_object_coords():
     # maps through black_piece_objects array of objects and passes each object into the
     # get_object_co-ords function and returns the co-ords as an array
     return list(map(get_object_coords, settings.black_piece_objects))
+
+
+def draw_game_over():
+    pygame.draw.rect(settings.win, 'black', [200, 200, 400, 70])
+    settings.screen_.blit(settings.get_font(f'{settings.winner} won the game!'), (210, 210))
+    settings.screen_.blit(settings.get_font(f'Press enter to restart'), (210, 240))
 
 
 # Main game loop
@@ -149,12 +155,16 @@ def play_game():
 
                 # TODO: makes sure this works
                 # checking if resign button has been clicked
-                # if board.resign_button.check_for_input(pygame.mouse.get_pos()):
-                #     settings.write_json("moves", board.moves)
-                #     pygame.quit()
-                #     sys.exit()
+                if board.resign_button.check_for_input(pygame.mouse.get_pos()):
+                    settings.write_json("moves", board.moves)
+                    pygame.quit()
+                    sys.exit()
 
-        scaled_win = pygame.transform.smoothscale(settings.win, settings.screen_.get_size())
-        settings.screen_.blit(scaled_win, (0, 0))
+            scaled_win = pygame.transform.smoothscale(settings.win, settings.screen_.get_size())
+            settings.screen_.blit(scaled_win, (0, 0))
         pygame.display.flip()
+
+        if settings.winner != '':
+            settings.game_over = True
+            draw_game_over()
     pygame.quit()
