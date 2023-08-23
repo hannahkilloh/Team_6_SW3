@@ -1,4 +1,4 @@
-from Team_6_SW3.Chess_Battle.models.pieces.piece import Piece
+from Chess_Battle.models.pieces.piece import Piece
 
 
 class Pawn(Piece):

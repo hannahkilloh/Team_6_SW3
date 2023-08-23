@@ -1,6 +1,6 @@
 import pygame
 import sys
-from Team_6_SW3.Chess_Battle.models.settings import Settings
+from Chess_Battle.models.settings import Settings
 from models.buttons import Button, ImageOnScreen
 import game
 

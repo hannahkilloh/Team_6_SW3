@@ -1,6 +1,6 @@
-from Team_6_SW3.Chess_Battle.models.pieces.rook import Rook
-from Team_6_SW3.Chess_Battle.models.pieces.piece import Piece
-from Team_6_SW3.Chess_Battle.models.pieces.bishop import Bishop
+from Chess_Battle.models.pieces.rook import Rook
+from Chess_Battle.models.pieces.piece import Piece
+from Chess_Battle.models.pieces.bishop import Bishop
 
 
 class Queen(Piece):

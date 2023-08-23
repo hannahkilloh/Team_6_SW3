@@ -1,9 +1,9 @@
-from Team_6_SW3.Chess_Battle.models.pieces.pawn import Pawn
-from Team_6_SW3.Chess_Battle.models.pieces.king import King
-from Team_6_SW3.Chess_Battle.models.pieces.knight import Knight
-from Team_6_SW3.Chess_Battle.models.pieces.rook import Rook
-from Team_6_SW3.Chess_Battle.models.pieces.bishop import Bishop
-from Team_6_SW3.Chess_Battle.models.pieces.queen import Queen
+from Chess_Battle.models.pieces.pawn import Pawn
+from Chess_Battle.models.pieces.king import King
+from Chess_Battle.models.pieces.knight import Knight
+from Chess_Battle.models.pieces.rook import Rook
+from Chess_Battle.models.pieces.bishop import Bishop
+from Chess_Battle.models.pieces.queen import Queen
 
 import pygame
 import json
