@@ -4,15 +4,17 @@ from Chess_Battle.models.settings import Settings
 from models.buttons import Button, ImageOnScreen
 import game
 
+def set_background():
+    BG = pygame.image.load("assets/images/menu_background.png").convert()
+    BG.set_alpha(400)
+    settings.win.blit(BG, (0, 0))
 
 if __name__ == '__main__':
     pygame.init()
 
     settings = Settings()
     pygame.display.set_caption("Chess Battle")
-    BG = pygame.image.load("assets/images/menu_background.png").convert()
-    BG.set_alpha(400)
-    settings.win.blit(BG, (0, 0))
+    set_background()
 
     def history():
         while True:
@@ -47,6 +49,8 @@ if __name__ == '__main__':
 
     def main_menu():
         while True:
+            set_background()
+
             menu_mouse_pos = pygame.mouse.get_pos()
 
             game_logo = ImageOnScreen(image=pygame.image.load("assets/images/game_logo_very_small.png").convert_alpha(),

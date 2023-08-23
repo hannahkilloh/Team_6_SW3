@@ -12,7 +12,7 @@ class Bishop(Piece):
         else:
             return "b"
 
-    def calculate_valid_moves(self, white_locations, black_locations):
+    def calculate_valid_moves(self, move_history, white_locations, black_locations):
         moves_list = []
 
         # Use the get_friends_and_enemies function to set friends_list and enemies_list
