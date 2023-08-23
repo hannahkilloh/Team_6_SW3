@@ -1,0 +1,24 @@
+Index: chess_game_drafts/main.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import pygame\nimport chess\nimport chess.engine\n\nfrom chess_game_drafts.data.classes.board import Board\n\npygame.init()\n\nWINDOW_SIZE = (600, 600)\nscreen = pygame.display.set_mode(WINDOW_SIZE)\n\nboard = Board(WINDOW_SIZE[0], WINDOW_SIZE[1])\n\npygame.display.set_caption(\"Chess Pals\")\n\n\ndef draw(display):\n    display.fill('white')\n    board.draw(display)\n    pygame.display.update()\n\n\ndef evaluate_board(board):\n    # Simple evaluation function that counts the material difference between white and black\n    score = 0\n    for square in board.squares:\n        if square.occupying_piece:\n            if square.occupying_piece.color == 'white':\n                score += square.occupying_piece.value\n            else:\n                score -= square.occupying_piece.value\n    return score\n\n\ndef minimax(board, depth, alpha, beta, maximizing_player):\n    if depth == 0 or board.is_game_over():\n        return evaluate_board(board)\n\n    if maximizing_player:\n        max_eval = float(\"-inf\")\n        for move in board.legal_moves:\n            board.push(move)\n            eval = minimax(board, depth - 1, alpha, beta, False)\n            board.pop()\n            max_eval = max(max_eval, eval)\n            alpha = max(alpha, eval)\n            if beta <= alpha:\n                break\n        return max_eval\n    else:\n        min_eval = float(\"inf\")\n        for move in board.legal_moves:\n            board.push(move)\n            eval = minimax(board, depth - 1, alpha, beta, True)\n            board.pop()\n            min_eval = min(min_eval, eval)\n            beta = min(beta, eval)\n            if beta <= alpha:\n                break\n        return min_eval\n\n\ndef computer_move(board):\n    best_move = None\n    max_eval = float(\"-inf\")\n    for move in board.legal_moves:\n        board.push(move)\n        eval = minimax(board, depth=3, alpha=float(\"-inf\"), beta=float(\"inf\"), maximizing_player=False)\n        board.pop()\n        if eval > max_eval:\n            max_eval = eval\n            best_move = move\n    return best_move\n\n\nif __name__ == '__main__':\n    running = True\n    while running:\n        mx, my = pygame.mouse.get_pos()\n        for event in pygame.event.get():\n            # Quit the game if the user presses the close button\n            if event.type == pygame.QUIT:\n                running = False\n            elif event.type == pygame.MOUSEBUTTONDOWN:\n                # If the mouse is clicked\n                if event.button == 1:\n                    board.handle_click(mx, my)\n\n        if board.is_in_checkmate('black'):  # If black is in checkmate\n            print('White wins!')\n            running = False\n        elif board.is_in_checkmate('white'):  # If white is in checkmate\n            print('Black wins!')\n            running = False\n        # else:\n        #     if board.turn == 'white':\n        #         # Player's turn\n        #         # Your existing player input handling\n        #     else:\n        #         # Computer's turn\n        #         move = computer_move(board)\n        #         board.push(move)\n\n        # Draw the board\n        draw(screen)\n\ndef stockfish_move(board):\n    with chess.engine.SimpleEngine.popen_uci(\"path/to/stockfish\") as engine:\n        result = engine.play(board, chess.engine.Limit(time=2.0))\n        return result.move
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/chess_game_drafts/main.py b/chess_game_drafts/main.py
+--- a/chess_game_drafts/main.py	
++++ b/chess_game_drafts/main.py	
+@@ -104,7 +104,7 @@
+         # Draw the board
+         draw(screen)
+ 
+-def stockfish_move(board):
+-    with chess.engine.SimpleEngine.popen_uci("path/to/stockfish") as engine:
+-        result = engine.play(board, chess.engine.Limit(time=2.0))
+-        return result.move
+\ No newline at end of file
++# def stockfish_move(board):
++#     with chess.engine.SimpleEngine.popen_uci("path/to/stockfish") as engine:
++#         result = engine.play(board, chess.engine.Limit(time=2.0))
++#         return result.move
+\ No newline at end of file

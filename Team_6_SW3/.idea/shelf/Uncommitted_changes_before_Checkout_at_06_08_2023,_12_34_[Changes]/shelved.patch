@@ -1,0 +1,936 @@
+Index: chess_game_drafts/data/classes/pieces/Rook.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import pygame\n\nfrom chess_game_drafts.data.classes.Piece import Piece\n\n\nclass Rook(Piece):\n    def __init__(self, pos, color, board):\n        super().__init__(pos, color, board)\n\n        img_path = 'data/imgs/' + color[0] + '_rook.png'\n        self.img = pygame.image.load(img_path)\n        self.img = pygame.transform.scale(self.img, (board.tile_width - 20, board.tile_height - 20))\n\n        self.notation = 'R'\n\n    def get_possible_moves(self, board):\n        output = []\n\n        moves_north = []\n        for y in range(self.y)[::-1]:\n            moves_north.append(board.get_square_from_pos(\n                (self.x, y)\n            ))\n        output.append(moves_north)\n\n        moves_east = []\n        for x in range(self.x + 1, 8):\n            moves_east.append(board.get_square_from_pos(\n                (x, self.y)\n            ))\n        output.append(moves_east)\n\n        moves_south = []\n        for y in range(self.y + 1, 8):\n            moves_south.append(board.get_square_from_pos(\n                (self.x, y)\n            ))\n        output.append(moves_south)\n\n        moves_west = []\n        for x in range(self.x)[::-1]:\n            moves_west.append(board.get_square_from_pos(\n                (x, self.y)\n            ))\n        output.append(moves_west)\n\n        return output\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/chess_game_drafts/data/classes/pieces/Rook.py b/chess_game_drafts/data/classes/pieces/Rook.py
+--- a/chess_game_drafts/data/classes/pieces/Rook.py	(revision 6e0cbf88ab7004cc5e82d13845ff867340b0a971)
++++ b/chess_game_drafts/data/classes/pieces/Rook.py	(date 1691321604947)
+@@ -1,47 +1,0 @@
+-import pygame
+-
+-from chess_game_drafts.data.classes.Piece import Piece
+-
+-
+-class Rook(Piece):
+-    def __init__(self, pos, color, board):
+-        super().__init__(pos, color, board)
+-
+-        img_path = 'data/imgs/' + color[0] + '_rook.png'
+-        self.img = pygame.image.load(img_path)
+-        self.img = pygame.transform.scale(self.img, (board.tile_width - 20, board.tile_height - 20))
+-
+-        self.notation = 'R'
+-
+-    def get_possible_moves(self, board):
+-        output = []
+-
+-        moves_north = []
+-        for y in range(self.y)[::-1]:
+-            moves_north.append(board.get_square_from_pos(
+-                (self.x, y)
+-            ))
+-        output.append(moves_north)
+-
+-        moves_east = []
+-        for x in range(self.x + 1, 8):
+-            moves_east.append(board.get_square_from_pos(
+-                (x, self.y)
+-            ))
+-        output.append(moves_east)
+-
+-        moves_south = []
+-        for y in range(self.y + 1, 8):
+-            moves_south.append(board.get_square_from_pos(
+-                (self.x, y)
+-            ))
+-        output.append(moves_south)
+-
+-        moves_west = []
+-        for x in range(self.x)[::-1]:
+-            moves_west.append(board.get_square_from_pos(
+-                (x, self.y)
+-            ))
+-        output.append(moves_west)
+-
+-        return output
+Index: chess_game_drafts/data/classes/pieces/Queen.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import pygame\n\nfrom chess_game_drafts.data.classes.Piece import Piece\n\n\nclass Queen(Piece):\n    def __init__(self, pos, color, board):\n        super().__init__(pos, color, board)\n\n        img_path = 'data/imgs/' + color[0] + '_queen.png'\n        self.img = pygame.image.load(img_path)\n        self.img = pygame.transform.scale(self.img, (board.tile_width - 20, board.tile_height - 20))\n\n        self.notation = 'Q'\n\n    def get_possible_moves(self, board):\n        output = []\n\n        moves_north = []\n        for y in range(self.y)[::-1]:\n            moves_north.append(board.get_square_from_pos(\n                (self.x, y)\n            ))\n        output.append(moves_north)\n\n        moves_ne = []\n        for i in range(1, 8):\n            if self.x + i > 7 or self.y - i < 0:\n                break\n            moves_ne.append(board.get_square_from_pos(\n                (self.x + i, self.y - i)\n            ))\n        output.append(moves_ne)\n\n        moves_east = []\n        for x in range(self.x + 1, 8):\n            moves_east.append(board.get_square_from_pos(\n                (x, self.y)\n            ))\n        output.append(moves_east)\n\n        moves_se = []\n        for i in range(1, 8):\n            if self.x + i > 7 or self.y + i > 7:\n                break\n            moves_se.append(board.get_square_from_pos(\n                (self.x + i, self.y + i)\n            ))\n        output.append(moves_se)\n\n        moves_south = []\n        for y in range(self.y + 1, 8):\n            moves_south.append(board.get_square_from_pos(\n                (self.x, y)\n            ))\n        output.append(moves_south)\n\n        moves_sw = []\n        for i in range(1, 8):\n            if self.x - i < 0 or self.y + i > 7:\n                break\n            moves_sw.append(board.get_square_from_pos(\n                (self.x - i, self.y + i)\n            ))\n        output.append(moves_sw)\n\n        moves_west = []\n        for x in range(self.x)[::-1]:\n            moves_west.append(board.get_square_from_pos(\n                (x, self.y)\n            ))\n        output.append(moves_west)\n\n        moves_nw = []\n        for i in range(1, 8):\n            if self.x - i < 0 or self.y - i < 0:\n                break\n            moves_nw.append(board.get_square_from_pos(\n                (self.x - i, self.y - i)\n            ))\n        output.append(moves_nw)\n\n        return output\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/chess_game_drafts/data/classes/pieces/Queen.py b/chess_game_drafts/data/classes/pieces/Queen.py
+--- a/chess_game_drafts/data/classes/pieces/Queen.py	(revision 6e0cbf88ab7004cc5e82d13845ff867340b0a971)
++++ b/chess_game_drafts/data/classes/pieces/Queen.py	(date 1691321604948)
+@@ -1,83 +1,0 @@
+-import pygame
+-
+-from chess_game_drafts.data.classes.Piece import Piece
+-
+-
+-class Queen(Piece):
+-    def __init__(self, pos, color, board):
+-        super().__init__(pos, color, board)
+-
+-        img_path = 'data/imgs/' + color[0] + '_queen.png'
+-        self.img = pygame.image.load(img_path)
+-        self.img = pygame.transform.scale(self.img, (board.tile_width - 20, board.tile_height - 20))
+-
+-        self.notation = 'Q'
+-
+-    def get_possible_moves(self, board):
+-        output = []
+-
+-        moves_north = []
+-        for y in range(self.y)[::-1]:
+-            moves_north.append(board.get_square_from_pos(
+-                (self.x, y)
+-            ))
+-        output.append(moves_north)
+-
+-        moves_ne = []
+-        for i in range(1, 8):
+-            if self.x + i > 7 or self.y - i < 0:
+-                break
+-            moves_ne.append(board.get_square_from_pos(
+-                (self.x + i, self.y - i)
+-            ))
+-        output.append(moves_ne)
+-
+-        moves_east = []
+-        for x in range(self.x + 1, 8):
+-            moves_east.append(board.get_square_from_pos(
+-                (x, self.y)
+-            ))
+-        output.append(moves_east)
+-
+-        moves_se = []
+-        for i in range(1, 8):
+-            if self.x + i > 7 or self.y + i > 7:
+-                break
+-            moves_se.append(board.get_square_from_pos(
+-                (self.x + i, self.y + i)
+-            ))
+-        output.append(moves_se)
+-
+-        moves_south = []
+-        for y in range(self.y + 1, 8):
+-            moves_south.append(board.get_square_from_pos(
+-                (self.x, y)
+-            ))
+-        output.append(moves_south)
+-
+-        moves_sw = []
+-        for i in range(1, 8):
+-            if self.x - i < 0 or self.y + i > 7:
+-                break
+-            moves_sw.append(board.get_square_from_pos(
+-                (self.x - i, self.y + i)
+-            ))
+-        output.append(moves_sw)
+-
+-        moves_west = []
+-        for x in range(self.x)[::-1]:
+-            moves_west.append(board.get_square_from_pos(
+-                (x, self.y)
+-            ))
+-        output.append(moves_west)
+-
+-        moves_nw = []
+-        for i in range(1, 8):
+-            if self.x - i < 0 or self.y - i < 0:
+-                break
+-            moves_nw.append(board.get_square_from_pos(
+-                (self.x - i, self.y - i)
+-            ))
+-        output.append(moves_nw)
+-
+-        return output
+Index: chess_game_drafts/main.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import pygame\nimport chess\nimport chess.engine\n\nfrom chess_game_drafts.data.classes.board import Board\n\npygame.init()\n\nWINDOW_SIZE = (600, 600)\nscreen = pygame.display.set_mode(WINDOW_SIZE)\n\nboard = Board(WINDOW_SIZE[0], WINDOW_SIZE[1])\n\npygame.display.set_caption(\"Chess Pals\")\n\n\ndef draw(display):\n    display.fill('white')\n    board.draw(display)\n    pygame.display.update()\n\n\ndef evaluate_board(board):\n    # Simple evaluation function that counts the material difference between white and black\n    score = 0\n    for square in board.squares:\n        if square.occupying_piece:\n            if square.occupying_piece.color == 'white':\n                score += square.occupying_piece.value\n            else:\n                score -= square.occupying_piece.value\n    return score\n\n\ndef minimax(board, depth, alpha, beta, maximizing_player):\n    if depth == 0 or board.is_game_over():\n        return evaluate_board(board)\n\n    if maximizing_player:\n        max_eval = float(\"-inf\")\n        for move in board.legal_moves:\n            board.push(move)\n            eval = minimax(board, depth - 1, alpha, beta, False)\n            board.pop()\n            max_eval = max(max_eval, eval)\n            alpha = max(alpha, eval)\n            if beta <= alpha:\n                break\n        return max_eval\n    else:\n        min_eval = float(\"inf\")\n        for move in board.legal_moves:\n            board.push(move)\n            eval = minimax(board, depth - 1, alpha, beta, True)\n            board.pop()\n            min_eval = min(min_eval, eval)\n            beta = min(beta, eval)\n            if beta <= alpha:\n                break\n        return min_eval\n\n\ndef computer_move(board):\n    best_move = None\n    max_eval = float(\"-inf\")\n    for move in board.legal_moves:\n        board.push(move)\n        eval = minimax(board, depth=3, alpha=float(\"-inf\"), beta=float(\"inf\"), maximizing_player=False)\n        board.pop()\n        if eval > max_eval:\n            max_eval = eval\n            best_move = move\n    return best_move\n\n\nif __name__ == '__main__':\n    running = True\n    while running:\n        mx, my = pygame.mouse.get_pos()\n        for event in pygame.event.get():\n            # Quit the game if the user presses the close button\n            if event.type == pygame.QUIT:\n                running = False\n            elif event.type == pygame.MOUSEBUTTONDOWN:\n                # If the mouse is clicked\n                if event.button == 1:\n                    board.handle_click(mx, my)\n\n        if board.is_in_checkmate('black'):  # If black is in checkmate\n            print('White wins!')\n            running = False\n        elif board.is_in_checkmate('white'):  # If white is in checkmate\n            print('Black wins!')\n            running = False\n        # else:\n        #     if board.turn == 'white':\n        #         # Player's turn\n        #         # Your existing player input handling\n        #     else:\n        #         # Computer's turn\n        #         move = computer_move(board)\n        #         board.push(move)\n\n        # Draw the board\n        draw(screen)\n\ndef stockfish_move(board):\n    with chess.engine.SimpleEngine.popen_uci(\"path/to/stockfish\") as engine:\n        result = engine.play(board, chess.engine.Limit(time=2.0))\n        return result.move
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/chess_game_drafts/main.py b/chess_game_drafts/main.py
+--- a/chess_game_drafts/main.py	(revision 6e0cbf88ab7004cc5e82d13845ff867340b0a971)
++++ b/chess_game_drafts/main.py	(date 1691321604934)
+@@ -1,110 +1,0 @@
+-import pygame
+-import chess
+-import chess.engine
+-
+-from chess_game_drafts.data.classes.board import Board
+-
+-pygame.init()
+-
+-WINDOW_SIZE = (600, 600)
+-screen = pygame.display.set_mode(WINDOW_SIZE)
+-
+-board = Board(WINDOW_SIZE[0], WINDOW_SIZE[1])
+-
+-pygame.display.set_caption("Chess Pals")
+-
+-
+-def draw(display):
+-    display.fill('white')
+-    board.draw(display)
+-    pygame.display.update()
+-
+-
+-def evaluate_board(board):
+-    # Simple evaluation function that counts the material difference between white and black
+-    score = 0
+-    for square in board.squares:
+-        if square.occupying_piece:
+-            if square.occupying_piece.color == 'white':
+-                score += square.occupying_piece.value
+-            else:
+-                score -= square.occupying_piece.value
+-    return score
+-
+-
+-def minimax(board, depth, alpha, beta, maximizing_player):
+-    if depth == 0 or board.is_game_over():
+-        return evaluate_board(board)
+-
+-    if maximizing_player:
+-        max_eval = float("-inf")
+-        for move in board.legal_moves:
+-            board.push(move)
+-            eval = minimax(board, depth - 1, alpha, beta, False)
+-            board.pop()
+-            max_eval = max(max_eval, eval)
+-            alpha = max(alpha, eval)
+-            if beta <= alpha:
+-                break
+-        return max_eval
+-    else:
+-        min_eval = float("inf")
+-        for move in board.legal_moves:
+-            board.push(move)
+-            eval = minimax(board, depth - 1, alpha, beta, True)
+-            board.pop()
+-            min_eval = min(min_eval, eval)
+-            beta = min(beta, eval)
+-            if beta <= alpha:
+-                break
+-        return min_eval
+-
+-
+-def computer_move(board):
+-    best_move = None
+-    max_eval = float("-inf")
+-    for move in board.legal_moves:
+-        board.push(move)
+-        eval = minimax(board, depth=3, alpha=float("-inf"), beta=float("inf"), maximizing_player=False)
+-        board.pop()
+-        if eval > max_eval:
+-            max_eval = eval
+-            best_move = move
+-    return best_move
+-
+-
+-if __name__ == '__main__':
+-    running = True
+-    while running:
+-        mx, my = pygame.mouse.get_pos()
+-        for event in pygame.event.get():
+-            # Quit the game if the user presses the close button
+-            if event.type == pygame.QUIT:
+-                running = False
+-            elif event.type == pygame.MOUSEBUTTONDOWN:
+-                # If the mouse is clicked
+-                if event.button == 1:
+-                    board.handle_click(mx, my)
+-
+-        if board.is_in_checkmate('black'):  # If black is in checkmate
+-            print('White wins!')
+-            running = False
+-        elif board.is_in_checkmate('white'):  # If white is in checkmate
+-            print('Black wins!')
+-            running = False
+-        # else:
+-        #     if board.turn == 'white':
+-        #         # Player's turn
+-        #         # Your existing player input handling
+-        #     else:
+-        #         # Computer's turn
+-        #         move = computer_move(board)
+-        #         board.push(move)
+-
+-        # Draw the board
+-        draw(screen)
+-
+-def stockfish_move(board):
+-    with chess.engine.SimpleEngine.popen_uci("path/to/stockfish") as engine:
+-        result = engine.play(board, chess.engine.Limit(time=2.0))
+-        return result.move
+\ No newline at end of file
+Index: chess_game_drafts/data/classes/pieces/Bishop.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import pygame\n\nfrom chess_game_drafts.data.classes.Piece import Piece\n\n\nclass Bishop(Piece):\n    def __init__(self, pos, color, board):\n        super().__init__(pos, color, board)\n\n        img_path = 'data/imgs/' + color[0] + '_bishop.png'\n        self.img = pygame.image.load(img_path)\n        self.img = pygame.transform.scale(self.img, (board.tile_width - 20, board.tile_height - 20))\n\n        self.notation = 'B'\n\n    def get_possible_moves(self, board):\n        output = []\n\n        moves_ne = []\n        for i in range(1, 8):\n            if self.x + i > 7 or self.y - i < 0:\n                break\n            moves_ne.append(board.get_square_from_pos(\n                (self.x + i, self.y - i)\n            ))\n        output.append(moves_ne)\n\n        moves_se = []\n        for i in range(1, 8):\n            if self.x + i > 7 or self.y + i > 7:\n                break\n            moves_se.append(board.get_square_from_pos(\n                (self.x + i, self.y + i)\n            ))\n        output.append(moves_se)\n\n        moves_sw = []\n        for i in range(1, 8):\n            if self.x - i < 0 or self.y + i > 7:\n                break\n            moves_sw.append(board.get_square_from_pos(\n                (self.x - i, self.y + i)\n            ))\n        output.append(moves_sw)\n\n        moves_nw = []\n        for i in range(1, 8):\n            if self.x - i < 0 or self.y - i < 0:\n                break\n            moves_nw.append(board.get_square_from_pos(\n                (self.x - i, self.y - i)\n            ))\n        output.append(moves_nw)\n\n        return output\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/chess_game_drafts/data/classes/pieces/Bishop.py b/chess_game_drafts/data/classes/pieces/Bishop.py
+--- a/chess_game_drafts/data/classes/pieces/Bishop.py	(revision 6e0cbf88ab7004cc5e82d13845ff867340b0a971)
++++ b/chess_game_drafts/data/classes/pieces/Bishop.py	(date 1691321604937)
+@@ -1,55 +1,0 @@
+-import pygame
+-
+-from chess_game_drafts.data.classes.Piece import Piece
+-
+-
+-class Bishop(Piece):
+-    def __init__(self, pos, color, board):
+-        super().__init__(pos, color, board)
+-
+-        img_path = 'data/imgs/' + color[0] + '_bishop.png'
+-        self.img = pygame.image.load(img_path)
+-        self.img = pygame.transform.scale(self.img, (board.tile_width - 20, board.tile_height - 20))
+-
+-        self.notation = 'B'
+-
+-    def get_possible_moves(self, board):
+-        output = []
+-
+-        moves_ne = []
+-        for i in range(1, 8):
+-            if self.x + i > 7 or self.y - i < 0:
+-                break
+-            moves_ne.append(board.get_square_from_pos(
+-                (self.x + i, self.y - i)
+-            ))
+-        output.append(moves_ne)
+-
+-        moves_se = []
+-        for i in range(1, 8):
+-            if self.x + i > 7 or self.y + i > 7:
+-                break
+-            moves_se.append(board.get_square_from_pos(
+-                (self.x + i, self.y + i)
+-            ))
+-        output.append(moves_se)
+-
+-        moves_sw = []
+-        for i in range(1, 8):
+-            if self.x - i < 0 or self.y + i > 7:
+-                break
+-            moves_sw.append(board.get_square_from_pos(
+-                (self.x - i, self.y + i)
+-            ))
+-        output.append(moves_sw)
+-
+-        moves_nw = []
+-        for i in range(1, 8):
+-            if self.x - i < 0 or self.y - i < 0:
+-                break
+-            moves_nw.append(board.get_square_from_pos(
+-                (self.x - i, self.y - i)
+-            ))
+-        output.append(moves_nw)
+-
+-        return output
+Index: chess_game_drafts/data/classes/board.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># /* board.py\n\nimport pygame\nfrom chess_game_drafts.data.classes.Square import Square\nfrom chess_game_drafts.data.classes.pieces.Rook import Rook\nfrom chess_game_drafts.data.classes.pieces.Bishop import Bishop\nfrom chess_game_drafts.data.classes.pieces.Knight import Knight\nfrom chess_game_drafts.data.classes.pieces.Queen import Queen\nfrom chess_game_drafts.data.classes.pieces.King import King\nfrom chess_game_drafts.data.classes.pieces.Pawn import Pawn\n\n\n# Game state checker\nclass Board:\n    def __init__(self, width, height):\n        self.width = width\n        self.height = height\n        self.tile_width = width // 8\n        self.tile_height = height // 8\n        self.selected_piece = None\n        self.turn = 'white'\n\n        # try making it chess.board.fen()\n        self.config = [\n            ['bR', 'bN', 'bB', 'bQ', 'bK', 'bB', 'bN', 'bR'],\n            ['bP', 'bP', 'bP', 'bP', 'bP', 'bP', 'bP', 'bP'],\n            ['', '', '', '', '', '', '', ''],\n            ['', '', '', '', '', '', '', ''],\n            ['', '', '', '', '', '', '', ''],\n            ['', '', '', '', '', '', '', ''],\n            ['wP', 'wP', 'wP', 'wP', 'wP', 'wP', 'wP', 'wP'],\n            ['wR', 'wN', 'wB', 'wQ', 'wK', 'wB', 'wN', 'wR'],\n        ]\n\n        self.squares = self.generate_squares()\n\n        self.setup_board()\n\n    def generate_squares(self):\n        output = []\n        for y in range(8):\n            for x in range(8):\n                output.append(\n                    Square(x, y, self.tile_width, self.tile_height)\n                )\n        return output\n\n    def get_square_from_pos(self, pos):\n        for square in self.squares:\n            if (square.x, square.y) == (pos[0], pos[1]):\n                return square\n\n    def get_piece_from_pos(self, pos):\n        return self.get_square_from_pos(pos).occupying_piece\n\n    def setup_board(self):\n        # iterating 2d list\n        for y, row in enumerate(self.config):\n            for x, piece in enumerate(row):\n                if piece != '':\n                    square = self.get_square_from_pos((x, y))\n\n                    # looking inside contents, what piece does it have\n                    if piece[1] == 'R':\n                        square.occupying_piece = Rook(\n                            (x, y), 'white' if piece[0] == 'w' else 'black', self\n                        )\n                    # as you notice above, we put `self` as argument, or means our class Board\n\n                    elif piece[1] == 'N':\n                        square.occupying_piece = Knight(\n                            (x, y), 'white' if piece[0] == 'w' else 'black', self\n                        )\n\n                    elif piece[1] == 'B':\n                        square.occupying_piece = Bishop(\n                            (x, y), 'white' if piece[0] == 'w' else 'black', self\n                        )\n\n                    elif piece[1] == 'Q':\n                        square.occupying_piece = Queen(\n                            (x, y), 'white' if piece[0] == 'w' else 'black', self\n                        )\n\n                    elif piece[1] == 'K':\n                        square.occupying_piece = King(\n                            (x, y), 'white' if piece[0] == 'w' else 'black', self\n                        )\n\n                    elif piece[1] == 'P':\n                        square.occupying_piece = Pawn(\n                            (x, y), 'white' if piece[0] == 'w' else 'black', self\n                        )\n\n    def handle_click(self, mx, my):\n        x = mx // self.tile_width\n        y = my // self.tile_height\n        clicked_square = self.get_square_from_pos((x, y))\n\n        if self.selected_piece is None:\n            if clicked_square.occupying_piece is not None:\n                if clicked_square.occupying_piece.color == self.turn:\n                    self.selected_piece = clicked_square.occupying_piece\n\n        elif self.selected_piece.move(self, clicked_square):\n            self.turn = 'white' if self.turn == 'black' else 'black'\n\n        elif clicked_square.occupying_piece is not None:\n            if clicked_square.occupying_piece.color == self.turn:\n                self.selected_piece = clicked_square.occupying_piece\n\n    def is_in_check(self, color, board_change=None):  # board_change = [(x1, y1), (x2, y2)]\n        output = False\n        king_pos = None\n\n        changing_piece = None\n        old_square = None\n        new_square = None\n        new_square_old_piece = None\n\n        if board_change is not None:\n            for square in self.squares:\n                if square.pos == board_change[0]:\n                    changing_piece = square.occupying_piece\n                    old_square = square\n                    old_square.occupying_piece = None\n            for square in self.squares:\n                if square.pos == board_change[1]:\n                    new_square = square\n                    new_square_old_piece = new_square.occupying_piece\n                    new_square.occupying_piece = changing_piece\n\n        pieces = [\n            i.occupying_piece for i in self.squares if i.occupying_piece is not None\n        ]\n\n        if changing_piece is not None:\n            if changing_piece.notation == 'K':\n                king_pos = new_square.pos\n        if king_pos == None:\n            for piece in pieces:\n                if piece.notation == 'K' and piece.color == color:\n                    king_pos = piece.pos\n        for piece in pieces:\n            if piece.color != color:\n                for square in piece.attacking_squares(self):\n                    if square.pos == king_pos:\n                        output = True\n\n        if board_change is not None:\n            old_square.occupying_piece = changing_piece\n            new_square.occupying_piece = new_square_old_piece\n\n        return output\n\n    def is_in_checkmate(self, color):\n        output = False\n\n        for piece in [i.occupying_piece for i in self.squares]:\n            if piece != None:\n                if piece.notation == 'K' and piece.color == color:\n                    king = piece\n\n        if king.get_valid_moves(self) == []:\n            if self.is_in_check(color):\n                output = True\n\n        return output\n\n    def draw(self, display):\n        if self.selected_piece is not None:\n            self.get_square_from_pos(self.selected_piece.pos).highlight = True\n            for square in self.selected_piece.get_valid_moves(self):\n                square.highlight = True\n\n        for square in self.squares:\n            square.draw(display)
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/chess_game_drafts/data/classes/board.py b/chess_game_drafts/data/classes/board.py
+--- a/chess_game_drafts/data/classes/board.py	(revision 6e0cbf88ab7004cc5e82d13845ff867340b0a971)
++++ b/chess_game_drafts/data/classes/board.py	(date 1691321604938)
+@@ -1,177 +1,0 @@
+-# /* board.py
+-
+-import pygame
+-from chess_game_drafts.data.classes.Square import Square
+-from chess_game_drafts.data.classes.pieces.Rook import Rook
+-from chess_game_drafts.data.classes.pieces.Bishop import Bishop
+-from chess_game_drafts.data.classes.pieces.Knight import Knight
+-from chess_game_drafts.data.classes.pieces.Queen import Queen
+-from chess_game_drafts.data.classes.pieces.King import King
+-from chess_game_drafts.data.classes.pieces.Pawn import Pawn
+-
+-
+-# Game state checker
+-class Board:
+-    def __init__(self, width, height):
+-        self.width = width
+-        self.height = height
+-        self.tile_width = width // 8
+-        self.tile_height = height // 8
+-        self.selected_piece = None
+-        self.turn = 'white'
+-
+-        # try making it chess.board.fen()
+-        self.config = [
+-            ['bR', 'bN', 'bB', 'bQ', 'bK', 'bB', 'bN', 'bR'],
+-            ['bP', 'bP', 'bP', 'bP', 'bP', 'bP', 'bP', 'bP'],
+-            ['', '', '', '', '', '', '', ''],
+-            ['', '', '', '', '', '', '', ''],
+-            ['', '', '', '', '', '', '', ''],
+-            ['', '', '', '', '', '', '', ''],
+-            ['wP', 'wP', 'wP', 'wP', 'wP', 'wP', 'wP', 'wP'],
+-            ['wR', 'wN', 'wB', 'wQ', 'wK', 'wB', 'wN', 'wR'],
+-        ]
+-
+-        self.squares = self.generate_squares()
+-
+-        self.setup_board()
+-
+-    def generate_squares(self):
+-        output = []
+-        for y in range(8):
+-            for x in range(8):
+-                output.append(
+-                    Square(x, y, self.tile_width, self.tile_height)
+-                )
+-        return output
+-
+-    def get_square_from_pos(self, pos):
+-        for square in self.squares:
+-            if (square.x, square.y) == (pos[0], pos[1]):
+-                return square
+-
+-    def get_piece_from_pos(self, pos):
+-        return self.get_square_from_pos(pos).occupying_piece
+-
+-    def setup_board(self):
+-        # iterating 2d list
+-        for y, row in enumerate(self.config):
+-            for x, piece in enumerate(row):
+-                if piece != '':
+-                    square = self.get_square_from_pos((x, y))
+-
+-                    # looking inside contents, what piece does it have
+-                    if piece[1] == 'R':
+-                        square.occupying_piece = Rook(
+-                            (x, y), 'white' if piece[0] == 'w' else 'black', self
+-                        )
+-                    # as you notice above, we put `self` as argument, or means our class Board
+-
+-                    elif piece[1] == 'N':
+-                        square.occupying_piece = Knight(
+-                            (x, y), 'white' if piece[0] == 'w' else 'black', self
+-                        )
+-
+-                    elif piece[1] == 'B':
+-                        square.occupying_piece = Bishop(
+-                            (x, y), 'white' if piece[0] == 'w' else 'black', self
+-                        )
+-
+-                    elif piece[1] == 'Q':
+-                        square.occupying_piece = Queen(
+-                            (x, y), 'white' if piece[0] == 'w' else 'black', self
+-                        )
+-
+-                    elif piece[1] == 'K':
+-                        square.occupying_piece = King(
+-                            (x, y), 'white' if piece[0] == 'w' else 'black', self
+-                        )
+-
+-                    elif piece[1] == 'P':
+-                        square.occupying_piece = Pawn(
+-                            (x, y), 'white' if piece[0] == 'w' else 'black', self
+-                        )
+-
+-    def handle_click(self, mx, my):
+-        x = mx // self.tile_width
+-        y = my // self.tile_height
+-        clicked_square = self.get_square_from_pos((x, y))
+-
+-        if self.selected_piece is None:
+-            if clicked_square.occupying_piece is not None:
+-                if clicked_square.occupying_piece.color == self.turn:
+-                    self.selected_piece = clicked_square.occupying_piece
+-
+-        elif self.selected_piece.move(self, clicked_square):
+-            self.turn = 'white' if self.turn == 'black' else 'black'
+-
+-        elif clicked_square.occupying_piece is not None:
+-            if clicked_square.occupying_piece.color == self.turn:
+-                self.selected_piece = clicked_square.occupying_piece
+-
+-    def is_in_check(self, color, board_change=None):  # board_change = [(x1, y1), (x2, y2)]
+-        output = False
+-        king_pos = None
+-
+-        changing_piece = None
+-        old_square = None
+-        new_square = None
+-        new_square_old_piece = None
+-
+-        if board_change is not None:
+-            for square in self.squares:
+-                if square.pos == board_change[0]:
+-                    changing_piece = square.occupying_piece
+-                    old_square = square
+-                    old_square.occupying_piece = None
+-            for square in self.squares:
+-                if square.pos == board_change[1]:
+-                    new_square = square
+-                    new_square_old_piece = new_square.occupying_piece
+-                    new_square.occupying_piece = changing_piece
+-
+-        pieces = [
+-            i.occupying_piece for i in self.squares if i.occupying_piece is not None
+-        ]
+-
+-        if changing_piece is not None:
+-            if changing_piece.notation == 'K':
+-                king_pos = new_square.pos
+-        if king_pos == None:
+-            for piece in pieces:
+-                if piece.notation == 'K' and piece.color == color:
+-                    king_pos = piece.pos
+-        for piece in pieces:
+-            if piece.color != color:
+-                for square in piece.attacking_squares(self):
+-                    if square.pos == king_pos:
+-                        output = True
+-
+-        if board_change is not None:
+-            old_square.occupying_piece = changing_piece
+-            new_square.occupying_piece = new_square_old_piece
+-
+-        return output
+-
+-    def is_in_checkmate(self, color):
+-        output = False
+-
+-        for piece in [i.occupying_piece for i in self.squares]:
+-            if piece != None:
+-                if piece.notation == 'K' and piece.color == color:
+-                    king = piece
+-
+-        if king.get_valid_moves(self) == []:
+-            if self.is_in_check(color):
+-                output = True
+-
+-        return output
+-
+-    def draw(self, display):
+-        if self.selected_piece is not None:
+-            self.get_square_from_pos(self.selected_piece.pos).highlight = True
+-            for square in self.selected_piece.get_valid_moves(self):
+-                square.highlight = True
+-
+-        for square in self.squares:
+-            square.draw(display)
+\ No newline at end of file
+Index: chess_game_drafts/data/classes/Square.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import pygame\n\n\nclass Square:\n    def __init__(self, x, y, width, height):\n        self.x = x\n        self.y = y\n        self.width = width\n        self.height = height\n\n        self.abs_x = x * width\n        self.abs_y = y * height\n        self.abs_pos = (self.abs_x, self.abs_y)\n        self.pos = (x, y)\n        self.color = 'light' if (x + y) % 2 == 0 else 'dark'\n        self.draw_color = (220, 189, 194) if self.color == 'light' else (53, 53, 53)\n        self.highlight_color = (100, 249, 83) if self.color == 'light' else (0, 228, 10)\n        self.occupying_piece = None\n        self.coord = self.get_coord()\n        self.highlight = False\n\n        self.rect = pygame.Rect(\n            self.abs_x,\n            self.abs_y,\n            self.width,\n            self.height\n        )\n\n    def get_coord(self):\n        columns = 'abcdefgh'\n        return columns[self.x] + str(self.y + 1)\n\n    def draw(self, display):\n        if self.highlight:\n            pygame.draw.rect(display, self.highlight_color, self.rect)\n        else:\n            pygame.draw.rect(display, self.draw_color, self.rect)\n\n        if self.occupying_piece != None:\n            centering_rect = self.occupying_piece.img.get_rect()\n            centering_rect.center = self.rect.center\n            display.blit(self.occupying_piece.img, centering_rect.topleft)\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/chess_game_drafts/data/classes/Square.py b/chess_game_drafts/data/classes/Square.py
+--- a/chess_game_drafts/data/classes/Square.py	(revision 6e0cbf88ab7004cc5e82d13845ff867340b0a971)
++++ b/chess_game_drafts/data/classes/Square.py	(date 1691321604940)
+@@ -1,42 +1,0 @@
+-import pygame
+-
+-
+-class Square:
+-    def __init__(self, x, y, width, height):
+-        self.x = x
+-        self.y = y
+-        self.width = width
+-        self.height = height
+-
+-        self.abs_x = x * width
+-        self.abs_y = y * height
+-        self.abs_pos = (self.abs_x, self.abs_y)
+-        self.pos = (x, y)
+-        self.color = 'light' if (x + y) % 2 == 0 else 'dark'
+-        self.draw_color = (220, 189, 194) if self.color == 'light' else (53, 53, 53)
+-        self.highlight_color = (100, 249, 83) if self.color == 'light' else (0, 228, 10)
+-        self.occupying_piece = None
+-        self.coord = self.get_coord()
+-        self.highlight = False
+-
+-        self.rect = pygame.Rect(
+-            self.abs_x,
+-            self.abs_y,
+-            self.width,
+-            self.height
+-        )
+-
+-    def get_coord(self):
+-        columns = 'abcdefgh'
+-        return columns[self.x] + str(self.y + 1)
+-
+-    def draw(self, display):
+-        if self.highlight:
+-            pygame.draw.rect(display, self.highlight_color, self.rect)
+-        else:
+-            pygame.draw.rect(display, self.draw_color, self.rect)
+-
+-        if self.occupying_piece != None:
+-            centering_rect = self.occupying_piece.img.get_rect()
+-            centering_rect.center = self.rect.center
+-            display.blit(self.occupying_piece.img, centering_rect.topleft)
+Index: chess_game_drafts/data/classes/pieces/Knight.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import pygame\n\nfrom chess_game_drafts.data.classes.Piece import Piece\n\n\nclass Knight(Piece):\n    def __init__(self, pos, color, board):\n        super().__init__(pos, color, board)\n\n        img_path = 'data/imgs/' + color[0] + '_knight.png'\n        self.img = pygame.image.load(img_path)\n        self.img = pygame.transform.scale(self.img, (board.tile_width - 20, board.tile_height - 20))\n\n        self.notation = 'N'\n\n    def get_possible_moves(self, board):\n        output = []\n        moves = [\n            (1, -2),\n            (2, -1),\n            (2, 1),\n            (1, 2),\n            (-1, 2),\n            (-2, 1),\n            (-2, -1),\n            (-1, -2)\n        ]\n\n        for move in moves:\n            new_pos = (self.x + move[0], self.y + move[1])\n            if (\n                    new_pos[0] < 8 and\n                    new_pos[0] >= 0 and\n                    new_pos[1] < 8 and\n                    new_pos[1] >= 0\n            ):\n                output.append([\n                    board.get_square_from_pos(\n                        new_pos\n                    )\n                ])\n\n        return output\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/chess_game_drafts/data/classes/pieces/Knight.py b/chess_game_drafts/data/classes/pieces/Knight.py
+--- a/chess_game_drafts/data/classes/pieces/Knight.py	(revision 6e0cbf88ab7004cc5e82d13845ff867340b0a971)
++++ b/chess_game_drafts/data/classes/pieces/Knight.py	(date 1691321604941)
+@@ -1,43 +1,0 @@
+-import pygame
+-
+-from chess_game_drafts.data.classes.Piece import Piece
+-
+-
+-class Knight(Piece):
+-    def __init__(self, pos, color, board):
+-        super().__init__(pos, color, board)
+-
+-        img_path = 'data/imgs/' + color[0] + '_knight.png'
+-        self.img = pygame.image.load(img_path)
+-        self.img = pygame.transform.scale(self.img, (board.tile_width - 20, board.tile_height - 20))
+-
+-        self.notation = 'N'
+-
+-    def get_possible_moves(self, board):
+-        output = []
+-        moves = [
+-            (1, -2),
+-            (2, -1),
+-            (2, 1),
+-            (1, 2),
+-            (-1, 2),
+-            (-2, 1),
+-            (-2, -1),
+-            (-1, -2)
+-        ]
+-
+-        for move in moves:
+-            new_pos = (self.x + move[0], self.y + move[1])
+-            if (
+-                    new_pos[0] < 8 and
+-                    new_pos[0] >= 0 and
+-                    new_pos[1] < 8 and
+-                    new_pos[1] >= 0
+-            ):
+-                output.append([
+-                    board.get_square_from_pos(
+-                        new_pos
+-                    )
+-                ])
+-
+-        return output
+Index: chess_game_drafts/data/classes/Piece.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import pygame\n\n\nclass Piece:\n    def __init__(self, pos, color, board):\n        self.pos = pos\n        self.x = pos[0]\n        self.y = pos[1]\n        self.color = color\n        self.has_moved = False\n\n    def move(self, board, square, force=False):\n        for i in board.squares:\n            i.highlight = False\n\n        if square in self.get_valid_moves(board) or force:\n            prev_square = board.get_square_from_pos(self.pos)\n            self.pos, self.x, self.y = square.pos, square.x, square.y\n\n            prev_square.occupying_piece = None\n            square.occupying_piece = self\n            board.selected_piece = None\n            self.has_moved = True\n\n            # Pawn promotion\n            if self.notation == ' ':\n                if self.y == 0 or self.y == 7:\n                    from chess_game_drafts.data.classes.pieces.Queen import Queen\n                    square.occupying_piece = Queen(\n                        (self.x, self.y),\n                        self.color,\n                        board\n                    )\n\n            # Move rook if king castles\n            if self.notation == 'K':\n                if prev_square.x - self.x == 2:\n                    rook = board.get_piece_from_pos((0, self.y))\n                    rook.move(board, board.get_square_from_pos((3, self.y)), force=True)\n                elif prev_square.x - self.x == -2:\n                    rook = board.get_piece_from_pos((7, self.y))\n                    rook.move(board, board.get_square_from_pos((5, self.y)), force=True)\n\n            return True\n        else:\n            board.selected_piece = None\n            return False\n\n    def get_moves(self, board):\n        output = []\n        for direction in self.get_possible_moves(board):\n            for square in direction:\n                if square.occupying_piece is not None:\n                    if square.occupying_piece.color == self.color:\n                        break\n                    else:\n                        output.append(square)\n                        break\n                else:\n                    output.append(square)\n        return output\n\n    def get_valid_moves(self, board):\n        output = []\n        for square in self.get_moves(board):\n            if not board.is_in_check(self.color, board_change=[self.pos, square.pos]):\n                output.append(square)\n\n        return output\n\n    # True for all pieces except pawn\n    def attacking_squares(self, board):\n        return self.get_moves(board)\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/chess_game_drafts/data/classes/Piece.py b/chess_game_drafts/data/classes/Piece.py
+--- a/chess_game_drafts/data/classes/Piece.py	(revision 6e0cbf88ab7004cc5e82d13845ff867340b0a971)
++++ b/chess_game_drafts/data/classes/Piece.py	(date 1691321604942)
+@@ -1,73 +1,0 @@
+-import pygame
+-
+-
+-class Piece:
+-    def __init__(self, pos, color, board):
+-        self.pos = pos
+-        self.x = pos[0]
+-        self.y = pos[1]
+-        self.color = color
+-        self.has_moved = False
+-
+-    def move(self, board, square, force=False):
+-        for i in board.squares:
+-            i.highlight = False
+-
+-        if square in self.get_valid_moves(board) or force:
+-            prev_square = board.get_square_from_pos(self.pos)
+-            self.pos, self.x, self.y = square.pos, square.x, square.y
+-
+-            prev_square.occupying_piece = None
+-            square.occupying_piece = self
+-            board.selected_piece = None
+-            self.has_moved = True
+-
+-            # Pawn promotion
+-            if self.notation == ' ':
+-                if self.y == 0 or self.y == 7:
+-                    from chess_game_drafts.data.classes.pieces.Queen import Queen
+-                    square.occupying_piece = Queen(
+-                        (self.x, self.y),
+-                        self.color,
+-                        board
+-                    )
+-
+-            # Move rook if king castles
+-            if self.notation == 'K':
+-                if prev_square.x - self.x == 2:
+-                    rook = board.get_piece_from_pos((0, self.y))
+-                    rook.move(board, board.get_square_from_pos((3, self.y)), force=True)
+-                elif prev_square.x - self.x == -2:
+-                    rook = board.get_piece_from_pos((7, self.y))
+-                    rook.move(board, board.get_square_from_pos((5, self.y)), force=True)
+-
+-            return True
+-        else:
+-            board.selected_piece = None
+-            return False
+-
+-    def get_moves(self, board):
+-        output = []
+-        for direction in self.get_possible_moves(board):
+-            for square in direction:
+-                if square.occupying_piece is not None:
+-                    if square.occupying_piece.color == self.color:
+-                        break
+-                    else:
+-                        output.append(square)
+-                        break
+-                else:
+-                    output.append(square)
+-        return output
+-
+-    def get_valid_moves(self, board):
+-        output = []
+-        for square in self.get_moves(board):
+-            if not board.is_in_check(self.color, board_change=[self.pos, square.pos]):
+-                output.append(square)
+-
+-        return output
+-
+-    # True for all pieces except pawn
+-    def attacking_squares(self, board):
+-        return self.get_moves(board)
+Index: chess_game_drafts/requirements.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>chess~=1.10.0\npygame~=2.5.0
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/chess_game_drafts/requirements.txt b/chess_game_drafts/requirements.txt
+--- a/chess_game_drafts/requirements.txt	(revision 6e0cbf88ab7004cc5e82d13845ff867340b0a971)
++++ b/chess_game_drafts/requirements.txt	(date 1691321604943)
+@@ -1,2 +1,0 @@
+-chess~=1.10.0
+-pygame~=2.5.0
+\ No newline at end of file
+Index: chess_game_drafts/data/classes/pieces/King.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import pygame\n\nfrom chess_game_drafts.data.classes.Piece import Piece\n\n\nclass King(Piece):\n    def __init__(self, pos, color, board):\n        super().__init__(pos, color, board)\n\n        img_path = 'data/imgs/' + color[0] + '_king.png'\n        self.img = pygame.image.load(img_path)\n        self.img = pygame.transform.scale(self.img, (board.tile_width - 20, board.tile_height - 20))\n\n        self.notation = 'K'\n\n    def get_possible_moves(self, board):\n        output = []\n        moves = [\n            (0, -1),  # north\n            (1, -1),  # ne\n            (1, 0),  # east\n            (1, 1),  # se\n            (0, 1),  # south\n            (-1, 1),  # sw\n            (-1, 0),  # west\n            (-1, -1),  # nw\n        ]\n\n        for move in moves:\n            new_pos = (self.x + move[0], self.y + move[1])\n            if (\n                new_pos[0] < 8 and\n                new_pos[0] >= 0 and\n                new_pos[1] < 8 and\n                new_pos[1] >= 0\n            ):\n                output.append([\n                    board.get_square_from_pos(\n                        new_pos\n                    )\n                ])\n\n        return output\n\n    def can_castle(self, board):\n        if not self.has_moved:\n\n            if self.color == 'white':\n                queenside_rook = board.get_piece_from_pos((0, 7))\n                kingside_rook = board.get_piece_from_pos((7, 7))\n                if queenside_rook != None:\n                    if not queenside_rook.has_moved:\n                        if [\n                            board.get_piece_from_pos((i, 7)) for i in range(1, 4)\n                        ] == [None, None, None]:\n                            return 'queenside'\n                if kingside_rook != None:\n                    if not kingside_rook.has_moved:\n                        if [\n                            board.get_piece_from_pos((i, 7)) for i in range(5, 7)\n                        ] == [None, None]:\n                            return 'kingside'\n\n            elif self.color == 'black':\n                queenside_rook = board.get_piece_from_pos((0, 0))\n                kingside_rook = board.get_piece_from_pos((7, 0))\n                if queenside_rook != None:\n                    if not queenside_rook.has_moved:\n                        if [\n                            board.get_piece_from_pos((i, 0)) for i in range(1, 4)\n                        ] == [None, None, None]:\n                            return 'queenside'\n                if kingside_rook != None:\n                    if not kingside_rook.has_moved:\n                        if [\n                            board.get_piece_from_pos((i, 0)) for i in range(5, 7)\n                        ] == [None, None]:\n                            return 'kingside'\n\n    def get_valid_moves(self, board):\n        output = []\n        for square in self.get_moves(board):\n            if not board.is_in_check(self.color, board_change=[self.pos, square.pos]):\n                output.append(square)\n\n        if self.can_castle(board) == 'queenside':\n            output.append(\n                board.get_square_from_pos((self.x - 2, self.y))\n            )\n        if self.can_castle(board) == 'kingside':\n            output.append(\n                board.get_square_from_pos((self.x + 2, self.y))\n            )\n\n        return output\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/chess_game_drafts/data/classes/pieces/King.py b/chess_game_drafts/data/classes/pieces/King.py
+--- a/chess_game_drafts/data/classes/pieces/King.py	(revision 6e0cbf88ab7004cc5e82d13845ff867340b0a971)
++++ b/chess_game_drafts/data/classes/pieces/King.py	(date 1691321604944)
+@@ -1,95 +1,0 @@
+-import pygame
+-
+-from chess_game_drafts.data.classes.Piece import Piece
+-
+-
+-class King(Piece):
+-    def __init__(self, pos, color, board):
+-        super().__init__(pos, color, board)
+-
+-        img_path = 'data/imgs/' + color[0] + '_king.png'
+-        self.img = pygame.image.load(img_path)
+-        self.img = pygame.transform.scale(self.img, (board.tile_width - 20, board.tile_height - 20))
+-
+-        self.notation = 'K'
+-
+-    def get_possible_moves(self, board):
+-        output = []
+-        moves = [
+-            (0, -1),  # north
+-            (1, -1),  # ne
+-            (1, 0),  # east
+-            (1, 1),  # se
+-            (0, 1),  # south
+-            (-1, 1),  # sw
+-            (-1, 0),  # west
+-            (-1, -1),  # nw
+-        ]
+-
+-        for move in moves:
+-            new_pos = (self.x + move[0], self.y + move[1])
+-            if (
+-                new_pos[0] < 8 and
+-                new_pos[0] >= 0 and
+-                new_pos[1] < 8 and
+-                new_pos[1] >= 0
+-            ):
+-                output.append([
+-                    board.get_square_from_pos(
+-                        new_pos
+-                    )
+-                ])
+-
+-        return output
+-
+-    def can_castle(self, board):
+-        if not self.has_moved:
+-
+-            if self.color == 'white':
+-                queenside_rook = board.get_piece_from_pos((0, 7))
+-                kingside_rook = board.get_piece_from_pos((7, 7))
+-                if queenside_rook != None:
+-                    if not queenside_rook.has_moved:
+-                        if [
+-                            board.get_piece_from_pos((i, 7)) for i in range(1, 4)
+-                        ] == [None, None, None]:
+-                            return 'queenside'
+-                if kingside_rook != None:
+-                    if not kingside_rook.has_moved:
+-                        if [
+-                            board.get_piece_from_pos((i, 7)) for i in range(5, 7)
+-                        ] == [None, None]:
+-                            return 'kingside'
+-
+-            elif self.color == 'black':
+-                queenside_rook = board.get_piece_from_pos((0, 0))
+-                kingside_rook = board.get_piece_from_pos((7, 0))
+-                if queenside_rook != None:
+-                    if not queenside_rook.has_moved:
+-                        if [
+-                            board.get_piece_from_pos((i, 0)) for i in range(1, 4)
+-                        ] == [None, None, None]:
+-                            return 'queenside'
+-                if kingside_rook != None:
+-                    if not kingside_rook.has_moved:
+-                        if [
+-                            board.get_piece_from_pos((i, 0)) for i in range(5, 7)
+-                        ] == [None, None]:
+-                            return 'kingside'
+-
+-    def get_valid_moves(self, board):
+-        output = []
+-        for square in self.get_moves(board):
+-            if not board.is_in_check(self.color, board_change=[self.pos, square.pos]):
+-                output.append(square)
+-
+-        if self.can_castle(board) == 'queenside':
+-            output.append(
+-                board.get_square_from_pos((self.x - 2, self.y))
+-            )
+-        if self.can_castle(board) == 'kingside':
+-            output.append(
+-                board.get_square_from_pos((self.x + 2, self.y))
+-            )
+-
+-        return output
+Index: chess_game_drafts/data/classes/pieces/Pawn.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import pygame\n\nfrom chess_game_drafts.data.classes.Piece import Piece\n\n\nclass Pawn(Piece):\n    def __init__(self, pos, color, board):\n        super().__init__(pos, color, board)\n\n        img_path = 'data/imgs/' + color[0] + '_pawn.png'\n        self.img = pygame.image.load(img_path)\n        self.img = pygame.transform.scale(self.img, (board.tile_width - 35, board.tile_height - 35))\n\n        self.notation = ' '\n\n    def get_possible_moves(self, board):\n        output = []\n        moves = []\n\n        # move forward\n        if self.color == 'white':\n            moves.append((0, -1))\n            if not self.has_moved:\n                moves.append((0, -2))\n\n        elif self.color == 'black':\n            moves.append((0, 1))\n            if not self.has_moved:\n                moves.append((0, 2))\n\n        for move in moves:\n            new_pos = (self.x, self.y + move[1])\n            if new_pos[1] < 8 and new_pos[1] >= 0:\n                output.append(\n                    board.get_square_from_pos(new_pos)\n                )\n\n        return output\n\n    def get_moves(self, board):\n        output = []\n        for square in self.get_possible_moves(board):\n            if square.occupying_piece != None:\n                break\n            else:\n                output.append(square)\n\n        if self.color == 'white':\n            if self.x + 1 < 8 and self.y - 1 >= 0:\n                square = board.get_square_from_pos(\n                    (self.x + 1, self.y - 1)\n                )\n                if square.occupying_piece != None:\n                    if square.occupying_piece.color != self.color:\n                        output.append(square)\n            if self.x - 1 >= 0 and self.y - 1 >= 0:\n                square = board.get_square_from_pos(\n                    (self.x - 1, self.y - 1)\n                )\n                if square.occupying_piece != None:\n                    if square.occupying_piece.color != self.color:\n                        output.append(square)\n\n        elif self.color == 'black':\n            if self.x + 1 < 8 and self.y + 1 < 8:\n                square = board.get_square_from_pos(\n                    (self.x + 1, self.y + 1)\n                )\n                if square.occupying_piece != None:\n                    if square.occupying_piece.color != self.color:\n                        output.append(square)\n            if self.x - 1 >= 0 and self.y + 1 < 8:\n                square = board.get_square_from_pos(\n                    (self.x - 1, self.y + 1)\n                )\n                if square.occupying_piece != None:\n                    if square.occupying_piece.color != self.color:\n                        output.append(square)\n\n        return output\n\n    def attacking_squares(self, board):\n        moves = self.get_moves(board)\n        # return the diagonal moves\n        return [i for i in moves if i.x != self.x]\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/chess_game_drafts/data/classes/pieces/Pawn.py b/chess_game_drafts/data/classes/pieces/Pawn.py
+--- a/chess_game_drafts/data/classes/pieces/Pawn.py	(revision 6e0cbf88ab7004cc5e82d13845ff867340b0a971)
++++ b/chess_game_drafts/data/classes/pieces/Pawn.py	(date 1691321604946)
+@@ -1,85 +1,0 @@
+-import pygame
+-
+-from chess_game_drafts.data.classes.Piece import Piece
+-
+-
+-class Pawn(Piece):
+-    def __init__(self, pos, color, board):
+-        super().__init__(pos, color, board)
+-
+-        img_path = 'data/imgs/' + color[0] + '_pawn.png'
+-        self.img = pygame.image.load(img_path)
+-        self.img = pygame.transform.scale(self.img, (board.tile_width - 35, board.tile_height - 35))
+-
+-        self.notation = ' '
+-
+-    def get_possible_moves(self, board):
+-        output = []
+-        moves = []
+-
+-        # move forward
+-        if self.color == 'white':
+-            moves.append((0, -1))
+-            if not self.has_moved:
+-                moves.append((0, -2))
+-
+-        elif self.color == 'black':
+-            moves.append((0, 1))
+-            if not self.has_moved:
+-                moves.append((0, 2))
+-
+-        for move in moves:
+-            new_pos = (self.x, self.y + move[1])
+-            if new_pos[1] < 8 and new_pos[1] >= 0:
+-                output.append(
+-                    board.get_square_from_pos(new_pos)
+-                )
+-
+-        return output
+-
+-    def get_moves(self, board):
+-        output = []
+-        for square in self.get_possible_moves(board):
+-            if square.occupying_piece != None:
+-                break
+-            else:
+-                output.append(square)
+-
+-        if self.color == 'white':
+-            if self.x + 1 < 8 and self.y - 1 >= 0:
+-                square = board.get_square_from_pos(
+-                    (self.x + 1, self.y - 1)
+-                )
+-                if square.occupying_piece != None:
+-                    if square.occupying_piece.color != self.color:
+-                        output.append(square)
+-            if self.x - 1 >= 0 and self.y - 1 >= 0:
+-                square = board.get_square_from_pos(
+-                    (self.x - 1, self.y - 1)
+-                )
+-                if square.occupying_piece != None:
+-                    if square.occupying_piece.color != self.color:
+-                        output.append(square)
+-
+-        elif self.color == 'black':
+-            if self.x + 1 < 8 and self.y + 1 < 8:
+-                square = board.get_square_from_pos(
+-                    (self.x + 1, self.y + 1)
+-                )
+-                if square.occupying_piece != None:
+-                    if square.occupying_piece.color != self.color:
+-                        output.append(square)
+-            if self.x - 1 >= 0 and self.y + 1 < 8:
+-                square = board.get_square_from_pos(
+-                    (self.x - 1, self.y + 1)
+-                )
+-                if square.occupying_piece != None:
+-                    if square.occupying_piece.color != self.color:
+-                        output.append(square)
+-
+-        return output
+-
+-    def attacking_squares(self, board):
+-        moves = self.get_moves(board)
+-        # return the diagonal moves
+-        return [i for i in moves if i.x != self.x]

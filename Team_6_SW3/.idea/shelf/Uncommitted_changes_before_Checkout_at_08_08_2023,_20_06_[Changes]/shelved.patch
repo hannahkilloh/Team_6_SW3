@@ -1,0 +1,48 @@
+Index: models/helpers.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import pygame\nfrom models.settings import Settings\n\n# Create an instance of the Settings class\nsettings = Settings()\npygame.font.init()\nfont = pygame.font.Font('freesansbold.ttf', 20)\nmedium_font = pygame.font.Font('freesansbold.ttf', 40)\nbig_font = pygame.font.Font('freesansbold.ttf', 50)\n\n#  Function that will create the titles of the board (8x8) there are 64 squares, we can draw the half\n\n\ndef draw_board():\n    for i in range(32):\n        column = i % 4\n        row = i // 4\n        if row % 2 == 0:\n            pygame.draw.rect(settings.screen, 'light pink', [\n                             600 - (column * 200), row * 100, 100, 100])\n        else:\n            pygame.draw.rect(settings.screen, 'light pink', [\n                             700 - (column * 200), row * 100, 100, 100])\n        pygame.draw.rect(settings.screen, 'violet', [\n                         0, 800, settings.WIDTH, 100])\n        pygame.draw.rect(settings.screen, 'white', [\n                         0, 800, settings.WIDTH, 100], 5)\n        pygame.draw.rect(settings.screen, 'white', [\n                         800, 0, 200, settings.HEIGHT], 5)\n        status_text = ['White: Select a Piece to Move!', 'White: Select a Destination!',\n                       'Black: Select a Piece to Move!', 'Black: Select a Destination!']\n        settings.screen.blit(medium_font.render(\n            status_text[settings.turn_step], True, 'black'), (20, 820))\n\n        # Adds horizontal and vertical lines to the board\n        for i in range(9):\n            pygame.draw.line(settings.screen, 'white',\n                             (0, 100 * i), (800, 100 * i), 2)\n            pygame.draw.line(settings.screen, 'white',\n                             (100 * i, 0), (100 * i, 800), 2)\n        settings.screen.blit(medium_font.render(\n            'Forfeit', True, 'white'), (810, 830))\n\n#  draw pieces into the board\n\n\ndef draw_pieces():\n    for i in range(len(settings.white_pieces)):\n        index = settings.piece_list.index(settings.white_pieces[i])\n
+===================================================================
+diff --git a/models/helpers.py b/models/helpers.py
+--- a/models/helpers.py	
++++ b/models/helpers.py	
+@@ -1,5 +1,8 @@
+ import pygame
++
++from models.images import small_white_images, white_images, small_black_images, black_images
+ from models.settings import Settings
++from assets import images
+ 
+ # Create an instance of the Settings class
+ settings = Settings()
+@@ -44,6 +47,29 @@
+ #  draw pieces into the board
+ 
+ 
++# def draw_pieces():
++#     for i in range(len(settings.white_pieces)):
++#         index = settings.piece_list.index(settings.white_pieces[i])
++
+ def draw_pieces():
+     for i in range(len(settings.white_pieces)):
+-        index = settings.piece_list.index(settings.white_pieces[i])
++        piece = settings.white_pieces[i]
++        x, y = settings.white_locations[i]  # Get the piece's coordinates
++        square_size = 100  # Size of each square on the board
++
++        # Calculate the position to draw the piece based on the coordinates
++        piece_x = x * square_size
++        piece_y = y * square_size
++
++        # Get the image of the piece based on its type
++        if piece == 'pawn':
++            image = small_white_images[0]  # Adjust index as needed for your image list
++        # elif piece == 'queen':
++        #     image = small_white_images[1]
++        # elif piece == 'king':
++        #     image = small_white_images[2]
++        # Add cases for the remaining piece types
++
++        # Draw the piece on the board
++        settings.screen.blit(image, (piece_x, piece_y))
++
