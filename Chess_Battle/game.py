@@ -1,4 +1,7 @@
 import pygame
+
+from Team_6_SW3.Chess_Battle.models.pieces.pawn import Pawn
+from Team_6_SW3.Chess_Battle.models.pieces.queen import Queen
 from models.settings import Settings
 from models.board import Board, BoardSettings
 from Team_6_SW3.Chess_Battle.models.pieces.king import King
@@ -86,6 +89,15 @@ def play_game():
                         # moves selected piece to position only if it is a valid move
                         settings.selected_piece.move_to_selected_position(click_coords)
 
+                        # Pawn Promotion for bottom of board
+                        if isinstance(settings.selected_piece, Pawn) and click_coords[1] == 7:
+                            for index in range(len(settings.white_piece_objects)):
+                                if settings.white_piece_objects[index].get_current_position() == click_coords:
+                                    settings.white_piece_objects.pop(index)
+                                    break
+                            queen = Queen('white', (click_coords[0], click_coords[1]))
+                            settings.white_piece_objects.append(queen)
+
                         # add move to history
                         board.moves[1].append(settings.compute_notation(click_coords))
 
@@ -123,6 +135,15 @@ def play_game():
                     elif settings.selected_piece is not None and click_coords in \
                             settings.selected_piece.get_valid_moves():
                         settings.selected_piece.move_to_selected_position(click_coords)
+
+                        # Pawn Promotion for top
+                        if isinstance(settings.selected_piece, Pawn) and click_coords[1] == 0:
+                            for index in range(len(settings.black_piece_objects)):
+                                if settings.black_piece_objects[index].get_current_position() == click_coords:
+                                    settings.black_piece_objects.pop(index)
+                                    break
+                            queen = Queen('black', (click_coords[0], click_coords[1]))
+                            settings.black_piece_objects.append(queen)
 
                         # add move to history
                         board.moves[0].append(settings.compute_notation(click_coords))
