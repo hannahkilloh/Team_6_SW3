@@ -1,6 +1,6 @@
-from Team_6_SW3.models.pieces.rook import Rook
-from Team_6_SW3.models.pieces.piece import Piece
-from Team_6_SW3.models.pieces.bishop import Bishop
+from models.pieces.rook import Rook
+from models.pieces.piece import Piece
+from models.pieces.bishop import Bishop
 
 
 class Queen(Piece):

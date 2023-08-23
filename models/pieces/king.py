@@ -1,4 +1,4 @@
-from Team_6_SW3.models.pieces.piece import Piece
+from models.pieces.piece import Piece
 
 
 class King(Piece):

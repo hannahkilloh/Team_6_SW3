@@ -1,5 +1,5 @@
 import unittest
-from Team_6_SW3.models.pieces.king import King
+from models.pieces.king import King
 
 
 class KingTests(unittest.TestCase):

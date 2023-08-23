@@ -1,7 +1,7 @@
 import pygame
 import sys
-from Team_6_SW3.models.settings import Settings
-from Team_6_SW3.models.buttons import Button, ImageOnScreen
+from models.settings import Settings
+from models.buttons import Button, ImageOnScreen
 import game
 
 

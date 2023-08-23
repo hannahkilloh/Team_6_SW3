@@ -1,5 +1,5 @@
 import unittest
-from Team_6_SW3.models.pieces.bishop import Bishop
+from models.pieces.bishop import Bishop
 
 
 class TestBishop(unittest.TestCase):

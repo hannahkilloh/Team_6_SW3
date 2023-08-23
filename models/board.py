@@ -1,6 +1,6 @@
 import pygame
-from Team_6_SW3.models.pieces.pawn import Pawn
-from Team_6_SW3.models.buttons import Button
+from models.pieces.pawn import Pawn
+from models.buttons import Button
 
 
 class BoardSettings:

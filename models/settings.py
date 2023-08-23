@@ -1,9 +1,9 @@
-from Team_6_SW3.models.pieces.pawn import Pawn
-from Team_6_SW3.models.pieces.king import King
-from Team_6_SW3.models.pieces.knight import Knight
-from Team_6_SW3.models.pieces.rook import Rook
-from Team_6_SW3.models.pieces.bishop import Bishop
-from Team_6_SW3.models.pieces.queen import Queen
+from models.pieces.pawn import Pawn
+from models.pieces.king import King
+from models.pieces.knight import Knight
+from models.pieces.rook import Rook
+from models.pieces.bishop import Bishop
+from models.pieces.queen import Queen
 
 import os
 import pygame
