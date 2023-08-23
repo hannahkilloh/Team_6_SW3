@@ -1,4 +1,4 @@
-from Team_6_SW3.Chess_Battle.models.pieces.piece import Piece
+from Team_6_SW3.models.pieces.piece import Piece
 
 
 class Pawn(Piece):
@@ -11,7 +11,7 @@ class Pawn(Piece):
         else:
             return ""
 
-    def calculate_valid_moves(self, white_locations, black_locations):
+    def calculate_valid_moves(self, move_history, white_locations, black_locations):
         moves_list = []  # moves list calculates the possible moves of each piece
         if self._colour == 'white':
             no_blocking_white_piece = (self._current_position[0], self._current_position[1] + 1) not in white_locations

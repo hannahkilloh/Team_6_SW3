@@ -1,6 +1,6 @@
 import pygame
-from Team_6_SW3.Chess_Battle.models.pieces.pawn import Pawn
-from Team_6_SW3.Chess_Battle.models.buttons import Button
+from Team_6_SW3.models.pieces.pawn import Pawn
+from Team_6_SW3.models.buttons import Button
 
 
 class BoardSettings:
@@ -22,7 +22,6 @@ class Board:
         self.resign_button = Button(image=pygame.image.load("assets/images/resign_button.png"), pos=(900, 850),
                                     text_input="", font=self.settings.get_font(), base_color="blue",
                                     hovering_color='#7BFCFC', settings=self.settings)
-        self.moves = [[], []]
 
     def initialise(self):
         self.settings.timer.tick(self.settings.fps)
@@ -100,7 +99,7 @@ class Board:
 
         if self.settings.selected_piece is not None:
             selected_piece_is_white = self.settings.selected_piece.get_colour() == 'white'
-            colour = 'red' if selected_piece_is_white else 'black'
+            colour = 'red' if selected_piece_is_white else 'yellow'
             pygame.draw.rect(self.settings.win, colour, [self.settings.selected_piece.get_current_position()[0]
                                                          * 100 + 1,
                                                          self.settings.selected_piece.get_current_position()[1]

@@ -7,7 +7,7 @@ class Piece:
         self._colour = colour
         self._current_position = current_position
         self._valid_moves = []
-        # this gets the absolute path of the root 'Team_6_SW3' folder
+        # this gets the absolute path of the root 'Team_6_SW3_PROJECT' folder
         root_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
         image_url = f'{root_folder}/assets/images/{colour[0]}_{piece_type}.png'
         self._image = self.load_and_scale(image_url, normal_size)
@@ -19,7 +19,13 @@ class Piece:
             self._valid_moves = []
         return self._current_position
 
-    def calculate_valid_moves(self, white_locations, black_locations):
+    def force_move_to_selected_position(self, new_position):
+        # move to position even if not in valid moves
+        self._current_position = new_position
+        self._valid_moves = []
+        return self._current_position
+
+    def calculate_valid_moves(self, move_history, white_locations, black_locations):
         pass  # This method will be overridden by subclasses
 
     def get_short_notation(self):

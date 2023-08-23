@@ -1,4 +1,4 @@
-from Team_6_SW3.Chess_Battle.models.pieces.piece import Piece
+from Team_6_SW3.models.pieces.piece import Piece
 
 
 class Knight(Piece):
@@ -11,7 +11,7 @@ class Knight(Piece):
         else:
             return "n"
 
-    def calculate_valid_moves(self, white_locations, black_locations):
+    def calculate_valid_moves(self, move_history, white_locations, black_locations):
         moves_list = []
         if self._colour == 'white':
             friends_list = white_locations

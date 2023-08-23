@@ -1,5 +1,5 @@
-from Team_6_SW3.Chess_Battle.models.pieces.piece import Piece
-from Team_6_SW3.Chess_Battle.models.helpers import get_friends_and_enemies
+from Team_6_SW3.models.pieces.piece import Piece
+from Team_6_SW3.models.helpers import get_friends_and_enemies
 
 
 class Rook(Piece):
@@ -12,7 +12,7 @@ class Rook(Piece):
         else:
             return "r"
 
-    def calculate_valid_moves(self, white_locations, black_locations):
+    def calculate_valid_moves(self, move_history, white_locations, black_locations):
         moves_list = []
 
         # Use the get_friends_and_enemies function to set friends_list and enemies_list
