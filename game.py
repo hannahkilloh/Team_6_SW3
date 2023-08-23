@@ -56,10 +56,31 @@ def get_black_object_coords():
     return list(map(get_object_coords, settings.black_piece_objects))
 
 
-# Main game loop
+# loops through all piece objects passed to it and returns the king
+def get_king(pieces):
+    for piece in pieces:
+        if isinstance(piece, King):
+            return piece
+
+
 def play_game():
     run = True
     while run:
+        # todo: could possibly refactor w/b_object_coords as its duplicated
+        # maps through white_piece_objects array of objects and passes each object into the
+        # get_object_co-ords function and returns the co-ords as an array
+        white_object_coords = list(map(get_object_coords, settings.white_piece_objects))
+        black_object_coords = list(map(get_object_coords, settings.black_piece_objects))
+
+        white_king = get_king(settings.white_piece_objects)
+        black_king = get_king(settings.black_piece_objects)
+
+        if white_king is not None:
+            white_king.calculate_king_in_check(settings.black_piece_objects, white_object_coords, black_object_coords)
+
+        if black_king is not None:
+            black_king.calculate_king_in_check(settings.white_piece_objects, white_object_coords, black_object_coords)
+
         board.initialise()
         draw_captured_objects()
 
@@ -138,7 +159,6 @@ def play_game():
                             settings.black_piece_objects = [
                                 x for x in settings.black_piece_objects if x.get_current_position() != click_coords
                             ]
-                            print(settings.black_piece_objects)
 
                         settings.turn_step = 2  # turns to other player now
                         # so resets the variable used for tracking the currently selected piece
