@@ -1,4 +1,3 @@
-import sys
 import pygame
 from models.settings import Settings
 from models.board import Board, BoardSettings
@@ -70,10 +69,6 @@ def play_game():
 
                 # if the step is 0 or 1 then it is the whites turn
                 if settings.turn_step <= 1:
-                    # this is when they click 'Resign'
-                    if click_coords == (8, 8) or click_coords == (9, 8):
-                        settings.winner = 'Black'
-
                     # maps through white_piece_objects array of objects and passes each object into the
                     # get_object_co-ords function and returns the co-ords as an array
                     white_object_coords = list(map(get_object_coords, settings.white_piece_objects))
@@ -113,10 +108,6 @@ def play_game():
 
                 # if the step is 2 or 3 then it is the blacks turn
                 if settings.turn_step > 1:
-                    # this is when they click 'Resign'
-                    if click_coords == (8, 8) or click_coords == (9, 8):
-                        settings.winner = 'White'
-
                     # maps through white_piece_objects array of objects and passes each object into the
                     # get_object_co-ords function and returns the co-ords as an array
                     white_object_coords = list(map(get_object_coords, settings.white_piece_objects))
@@ -155,8 +146,7 @@ def play_game():
                 # checking if resign button has been clicked
                 if board.resign_button.check_for_input(pygame.mouse.get_pos()):
                     settings.write_json("moves", board.moves)
-                    pygame.quit()
-                    sys.exit()
+                    settings.reset_game()
 
             scaled_win = pygame.transform.smoothscale(settings.win, settings.screen_.get_size())
             settings.screen_.blit(scaled_win, (0, 0))
