@@ -1,5 +1,5 @@
 import unittest
-from Team_6_SW3.models.pieces.queen import Queen
+from models.pieces.queen import Queen
 
 # todo: dont think these colours need swapped
 

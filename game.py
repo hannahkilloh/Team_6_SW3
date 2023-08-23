@@ -1,12 +1,12 @@
 import pygame
 
-from Team_6_SW3.models.history import History
-from Team_6_SW3.models.settings import Settings
-from Team_6_SW3.models.board import Board, BoardSettings
-from Team_6_SW3.models.pieces.pawn import Pawn
-from Team_6_SW3.models.pieces.queen import Queen
-from Team_6_SW3.models.pieces.king import King
-from Team_6_SW3.models.pieces.rook import Rook
+from models.history import History
+from models.settings import Settings
+from models.board import Board, BoardSettings
+from models.pieces.pawn import Pawn
+from models.pieces.queen import Queen
+from models.pieces.king import King
+from models.pieces.rook import Rook
 
 pygame.init()
 pygame.font.init()
