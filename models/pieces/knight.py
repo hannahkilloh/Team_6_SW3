@@ -1,11 +1,17 @@
-from Team_6_SW3.models.pieces.piece import Piece
+from models.pieces.piece import Piece
 
 
 class Knight(Piece):
     def __init__(self, colour, current_position):
         super().__init__(colour, current_position, 'knight', (45, 45), (80, 80))
 
-    def calculate_valid_moves(self, white_locations, black_locations):
+    def get_short_notation(self):
+        if self._colour == 'white':
+            return "N"
+        else:
+            return "n"
+
+    def calculate_valid_moves(self, move_history, white_locations, black_locations):
         moves_list = []
         if self._colour == 'white':
             friends_list = white_locations

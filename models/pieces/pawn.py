@@ -1,11 +1,17 @@
-from Team_6_SW3.models.pieces.piece import Piece
+from models.pieces.piece import Piece
 
 
 class Pawn(Piece):
     def __init__(self, colour, current_position):
         super().__init__(colour, current_position, 'pawn', (45, 45), (65, 65))
 
-    def calculate_valid_moves(self, white_locations, black_locations):
+    def get_short_notation(self):
+        if self._colour == 'white':
+            return ""
+        else:
+            return ""
+
+    def calculate_valid_moves(self, move_history, white_locations, black_locations):
         moves_list = []  # moves list calculates the possible moves of each piece
         if self._colour == 'white':
             no_blocking_white_piece = (self._current_position[0], self._current_position[1] + 1) not in white_locations
@@ -14,11 +20,13 @@ class Pawn(Piece):
 
             # calculates one step forward move
             if no_blocking_white_piece and no_blocking_black_piece and is_not_bottom_of_board:
-                moves_list.append((self._current_position[0], self._current_position[1] + 1))  # adds available tile to moves list []
+                moves_list.append((self._current_position[0], self._current_position[1] + 1))
 
             is_first_move = self._current_position[1] == 1
-            no_blocking_white_piece_for_two = (self._current_position[0], self._current_position[1] + 2) not in white_locations
-            no_blocking_black_piece_for_two = (self._current_position[0], self._current_position[1] + 2) not in black_locations
+            no_blocking_white_piece_for_two = (self._current_position[0], self._current_position[1] + 2) \
+                                              not in white_locations and no_blocking_white_piece
+            no_blocking_black_piece_for_two = (self._current_position[0], self._current_position[1] + 2) \
+                                              not in black_locations and no_blocking_black_piece
 
             # calculates two steps forward first move
             if no_blocking_white_piece_for_two and no_blocking_black_piece_for_two and is_first_move:
@@ -44,8 +52,10 @@ class Pawn(Piece):
                 moves_list.append((self._current_position[0], self._current_position[1] - 1))
 
             is_first_move = self._current_position[1] == 6
-            no_blocking_white_piece_for_two = (self._current_position[0], self._current_position[1] - 2) not in white_locations
-            no_blocking_black_piece_for_two = (self._current_position[0], self._current_position[1] - 2) not in black_locations
+            no_blocking_white_piece_for_two = (self._current_position[0], self._current_position[1] - 2) \
+                                              not in white_locations and no_blocking_white_piece
+            no_blocking_black_piece_for_two = (self._current_position[0], self._current_position[1] - 2) \
+                                              not in black_locations and no_blocking_black_piece
 
             # calculates two steps forward first move
             if no_blocking_white_piece_for_two and no_blocking_black_piece_for_two and is_first_move:
