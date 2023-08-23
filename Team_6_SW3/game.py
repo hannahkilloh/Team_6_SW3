@@ -1,13 +1,12 @@
 import pygame
-import datetime
 
-from Chess_Battle.models.history import History
-from models.settings import Settings
-from models.board import Board, BoardSettings
-from Chess_Battle.models.pieces.pawn import Pawn
-from Chess_Battle.models.pieces.queen import Queen
-from Chess_Battle.models.pieces.king import King
-from Chess_Battle.models.pieces.rook import Rook
+from Team_6_SW3.models.history import History
+from Team_6_SW3.models.settings import Settings
+from Team_6_SW3.models.board import Board, BoardSettings
+from Team_6_SW3.models.pieces.pawn import Pawn
+from Team_6_SW3.models.pieces.queen import Queen
+from Team_6_SW3.models.pieces.king import King
+from Team_6_SW3.models.pieces.rook import Rook
 
 pygame.init()
 pygame.font.init()

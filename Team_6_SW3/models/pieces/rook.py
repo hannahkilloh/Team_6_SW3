@@ -1,5 +1,5 @@
-from Chess_Battle.models.pieces.piece import Piece
-from Chess_Battle.models.helpers import get_friends_and_enemies
+from Team_6_SW3.models.pieces.piece import Piece
+from Team_6_SW3.models.helpers import get_friends_and_enemies
 
 
 class Rook(Piece):

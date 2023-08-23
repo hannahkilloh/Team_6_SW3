@@ -1,5 +1,5 @@
 import unittest
-from Team_6_SW3.Chess_Battle.models.pieces.pawn import Pawn
+from Team_6_SW3.models.pieces.pawn import Pawn
 
 
 # todo: ONCE THE BOARD AND COLOURS ARE FLIPPED, ALL 'black' AND 'white' WILL SWAP
