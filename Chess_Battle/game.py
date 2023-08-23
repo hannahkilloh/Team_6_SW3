@@ -95,7 +95,7 @@ def play_game():
                                     if piece.get_current_position() == (7, 0):
                                         piece.force_move_to_selected_position((4, 0))  # move rook to long castle pos
                             # end turn
-                            settings.turn_step = 0  # turns back to other player now
+                            settings.turn_step = 2  # turns back to other player now
                             # so resets the variable used for tracking the currently selected piece
                             settings.selected_piece = None
 
