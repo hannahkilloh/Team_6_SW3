@@ -5,6 +5,7 @@ from Chess_Battle.models.pieces.rook import Rook
 from Chess_Battle.models.pieces.bishop import Bishop
 from Chess_Battle.models.pieces.queen import Queen
 
+import os
 import pygame
 import json
 
@@ -49,22 +50,22 @@ class Settings:
                                     Pawn('black', (4, 6)), Pawn('black', (5, 6)),
                                     Pawn('black', (6, 6)), Pawn('black', (7, 6)),
 
-                                    King('black', (4, 7)),
+                                    King('black', (3, 7)),
                                     Knight('black', (1, 7)), Knight('black', (6, 7)),
                                     Rook('black', (7, 7)), Rook('black', (0, 7)),
                                     Bishop('black', (2, 7)), Bishop('black', (5, 7)),
-                                    Queen('black', (3, 7))]
+                                    Queen('black', (4, 7))]
 
         self.white_piece_objects = [Pawn('white', (0, 1)), Pawn('white', (1, 1)),
                                     Pawn('white', (2, 1)), Pawn('white', (3, 1)),
                                     Pawn('white', (4, 1)), Pawn('white', (5, 1)),
                                     Pawn('white', (6, 1)), Pawn('white', (7, 1)),
 
-                                    King('white', (4, 0)),
+                                    King('white', (3, 0)),
                                     Knight('white', (1, 0)), Knight('white', (6, 0)),
                                     Rook('white', (0, 0)), Rook('white', (7, 0)),
                                     Bishop('white', (2, 0)), Bishop('white', (5, 0)),
-                                    Queen('white', (3, 0))]
+                                    Queen('white', (4, 0))]
 
         self.captured_piece_objects_white = []
         self.captured_piece_objects_black = []
@@ -80,6 +81,12 @@ class Settings:
 
     def get_scale_factor_y(self):
         return self.screen_.get_size()[1] / self.HEIGHT
+
+    def load_json(self, file):
+        if not os.path.exists(f"{file}.json"):
+            self.write_json("moves", {})
+        with open(f"{file}.json") as open_file:
+            return json.load(open_file)
 
     def write_json(self, file, contents):
         with open(f"{file}.json", "w") as output:
