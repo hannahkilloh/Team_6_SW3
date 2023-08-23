@@ -19,7 +19,13 @@ class Piece:
             self._valid_moves = []
         return self._current_position
 
-    def calculate_valid_moves(self, white_locations, black_locations):
+    def force_move_to_selected_position(self, new_position):
+        # move to position even if not in valid moves
+        self._current_position = new_position
+        self._valid_moves = []
+        return self._current_position
+
+    def calculate_valid_moves(self, move_history, white_locations, black_locations):
         pass  # This method will be overridden by subclasses
 
     def get_short_notation(self):
