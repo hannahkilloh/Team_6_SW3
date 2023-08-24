@@ -160,7 +160,7 @@ def play_game():
                             ]
 
                         # check if black's king is in check and out of moves, thus making white the winner
-                        settings.black_king.calculate_valid_moves(get_white_object_coords(), get_black_object_coords(), settings)
+                        settings.black_king.calculate_valid_moves(history, get_white_object_coords(), get_black_object_coords(), settings)
                         if settings.black_king.get_is_in_check() and len(settings.black_king.get_valid_moves) == 0:
                             # white has won the game
                             settings.winner = 'White'
@@ -235,7 +235,7 @@ def play_game():
                             ]
 
                         # check if white's king is in check and out of moves, thus making black the winner
-                        settings.white_king.calculate_valid_moves(get_white_object_coords(), get_black_object_coords(), settings)
+                        settings.white_king.calculate_valid_moves(history, get_white_object_coords(), get_black_object_coords(), settings)
                         if settings.white_king.get_is_in_check() and len(settings.white_king.get_valid_moves) == 0:
                             # black has won the game
                             settings.winner = 'Black'
