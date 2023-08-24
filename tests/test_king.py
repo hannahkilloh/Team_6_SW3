@@ -55,6 +55,35 @@ class KingTests(unittest.TestCase):
         valid_moves = king.calculate_valid_moves(None, [], [])
         self.assertCountEqual([(0, 6), (1, 6), (1, 7)], valid_moves)
 
+    # Castling moves tests
+    def setUp(self):
+        self.white_king = King('white', (4, 0))
+        self.black_king = King('black', (4, 7))
+
+    def test_castling_moves_black(self):
+        move_history = None
+        white_locations = [(2, 7), (3, 7)]
+        black_locations = [(0, 7), (1, 7), (4, 7)]
+        settings = None
+
+        castling_moves = self.black_king.calculate_castling_moves(move_history, white_locations, black_locations,
+                                                                  settings)
+
+        expected_moves = [(0, 7)]  # Black king can castle with left rook
+        self.assertEqual(castling_moves, expected_moves)
+
+    def test_castling_moves_white(self):
+        move_history = None
+        white_locations = [(2, 0), (3, 0)]
+        black_locations = [(0, 0), (1, 0), (4, 0)]
+        settings = None
+
+        castling_moves = self.white_king.calculate_castling_moves(move_history, white_locations, black_locations,
+                                                                  settings)
+
+        expected_moves = [(0, 0)]  # White king can castle with left rook
+        self.assertEqual(castling_moves, expected_moves)
+
 
 if __name__ == '__main__':
     unittest.main()
