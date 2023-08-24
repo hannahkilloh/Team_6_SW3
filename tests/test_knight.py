@@ -6,18 +6,18 @@ class KnightTests(unittest.TestCase):
     # tests the knights first move
     def test_first_valid_moves(self):
         knight = Knight('white', (1, 0))
-        valid_moves = knight.calculate_valid_moves([], [])
+        valid_moves = knight.calculate_valid_moves(None, [], [])
         self.assertEqual([(2, 2), (3, 1), (0, 2)], valid_moves)
 
     def test_move(self):
         knight = Knight('white', (1, 0))
-        knight.calculate_valid_moves([], [])
+        knight.calculate_valid_moves(None, [], [])
         new_position = knight.move_to_selected_position((2, 2))
         self.assertEqual((2, 2), new_position)
 
     def test_invalid_move(self):
         knight = Knight('white', (1, 0))
-        knight.calculate_valid_moves([], [])
+        knight.calculate_valid_moves(None, [], [])
         new_position = knight.move_to_selected_position((0, 3))
         self.assertNotEqual((0, 3), new_position)
 
