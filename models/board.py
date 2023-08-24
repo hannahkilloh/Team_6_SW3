@@ -2,6 +2,7 @@ import pygame
 from models.pieces.pawn import Pawn
 from models.buttons import Button
 from models.pieces.king import King
+# from Chess_Battle.menu import winning_screen
 
 
 class BoardSettings:
@@ -49,6 +50,7 @@ class Board:
                        'Black: Select a Piece to Move!', 'Black: Select a Destination!']
 
         if self.settings.game_over:
+            # winning_screen()
             self.settings.win.blit(self.board_settings.medium_font.render(
                 f'{self.settings.winner} won the game!', True, 'blue'), (120, 820))
         else:
