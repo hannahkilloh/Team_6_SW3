@@ -1,4 +1,3 @@
-moves.json
 .vscode
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -7,6 +6,9 @@ __pycache__/
 
 # C extensions
 *.so
+
+# json file for moves history
+moves.json
 
 # Distribution / packaging
 .Python
