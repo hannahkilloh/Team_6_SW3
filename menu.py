@@ -56,8 +56,8 @@ if __name__ == '__main__':
 
             menu_mouse_pos = pygame.mouse.get_pos()
 
-            game_logo = ImageOnScreen(image=pygame.image.load("assets/images/game_logo_very_small.png").convert_alpha(),
-                                      pos=(500, 100))
+            game_logo = ImageOnScreen(image=pygame.image.load("assets/images/chess_battle_logo_MAIN.png").convert_alpha(),
+                                      pos=(500, 150))
 
             play_button = Button(image=pygame.image.load("assets/images/blank_button_long.png").convert_alpha(),
                                  pos=(500, 350), text_input="Play Chess", font=settings.get_font(), base_color="blue",
