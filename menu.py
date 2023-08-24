@@ -37,7 +37,7 @@ if __name__ == '__main__':
             # history_rect = history_text.get_rect(center=(500, 350))
             # settings.win.blit(history_text, history_rect)
 
-            history_back = Button(image=None, pos=(500, 450), text_input="BACK", font=settings.get_font(),
+            history_back = Button(image=None, pos=(500, 850), text_input="BACK", font=settings.get_font(),
                                   base_color="blue", hovering_color="#7BFCFC", settings=settings)
 
             history_back.change_color(history_mouse_pos)
