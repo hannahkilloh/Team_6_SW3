@@ -7,14 +7,16 @@ from models.pieces.pawn import Pawn
 from models.pieces.queen import Queen
 from models.pieces.king import King
 from models.pieces.rook import Rook
+from models.helpers import get_file_path_from_root
+
 
 pygame.init()
 pygame.font.init()
-pygame.display.set_icon(pygame.image.load('assets/images/chess_icon.ico'))
+pygame.display.set_icon(pygame.image.load(get_file_path_from_root('assets/images/chess_icon.ico')))
 
 # can pass in any colours, to set theme up easier
 board_settings = BoardSettings(
-    '#0000D2', '#7BFCFC', 'white', '#0000D2', 'assets/fonts/JetBrainsMono-Regular.ttf')
+    '#0000D2', '#7BFCFC', 'white', '#0000D2', get_file_path_from_root('assets/fonts/JetBrainsMono-Regular.ttf'))
 settings = Settings()
 board = Board(board_settings, settings)
 

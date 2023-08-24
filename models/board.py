@@ -2,6 +2,7 @@ import pygame
 from models.pieces.pawn import Pawn
 from models.buttons import Button
 from models.pieces.king import King
+from models.helpers import get_file_path_from_root
 
 
 class BoardSettings:
@@ -20,15 +21,16 @@ class Board:
     def __init__(self, board_settings, settings):
         self.board_settings = board_settings
         self.settings = settings
-        self.resign_button = Button(image=pygame.image.load("assets/images/resign_button.png"), pos=(900, 850),
-                                    text_input="", font=self.settings.get_font(), base_color="blue",
+        self.resign_button = Button(image=pygame.image.load(get_file_path_from_root("assets/images/resign_button.png")),
+                                    pos=(900, 850), text_input="", font=self.settings.get_font(), base_color="blue",
                                     hovering_color='#7BFCFC', settings=self.settings)
 
     def initialise(self):
         self.settings.timer.tick(self.settings.fps)
         self.settings.win.fill(self.board_settings.tile_colour_1)
         # Adding the main game background and setting the position
-        main_game_background = pygame.image.load("assets/images/background_image210823.png").convert()
+        main_game_background = pygame.image.load(
+            get_file_path_from_root("assets/images/background_image210823.png")).convert()
         self.settings.win.blit(main_game_background, (0, 0))
 
         self.draw_board()
@@ -64,11 +66,11 @@ class Board:
                                                                self.settings.get_scale_factor_y()),
                                                            int(self.resign_button.rect.bottom *
                                                                self.settings.get_scale_factor_y())):
-                self.resign_button = Button(image=pygame.image.load("assets/images/resign_button_hover.png"),
+                self.resign_button = Button(image=pygame.image.load(get_file_path_from_root("assets/images/resign_button_hover.png")),
                                             pos=(900, 850), text_input="", font=self.settings.get_font(),
                                             base_color="blue", hovering_color='#7BFCFC', settings=self.settings)
             else:
-                self.resign_button = Button(image=pygame.image.load("assets/images/resign_button.png"),
+                self.resign_button = Button(image=pygame.image.load(get_file_path_from_root("assets/images/resign_button.png")),
                                             pos=(900, 850), text_input="", font=self.settings.get_font(),
                                             base_color="blue", hovering_color='#7BFCFC', settings=self.settings)
             button.update(self.settings.win)
