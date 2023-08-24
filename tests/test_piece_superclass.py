@@ -5,7 +5,7 @@ from models.pieces.piece import Piece
 class TestPiece(unittest.TestCase):
     def setUp(self):
         # Initialize a Piece instance for testing.
-        self.piece = Piece('white', (0, 0), (80, 80))
+        self.piece = Piece('white', (0, 0), 'queen', (45, 45), (80, 80))
 
     def test_init(self):
         # Check if the __init__ method sets the attributes correctly.
