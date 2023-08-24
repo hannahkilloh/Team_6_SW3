@@ -23,9 +23,9 @@ history = History(settings)
 
 def draw_captured_objects():
     for index in range(len(settings.captured_piece_objects_white)):
-        settings.win.blit(settings.captured_piece_objects_white[index].get_small_image(), (825, 155 + 50 * index))
+        settings.win.blit(settings.captured_piece_objects_white[index].get_small_image(), (830, 155 + 50 * index))
     for index in range(len(settings.captured_piece_objects_black)):
-        settings.win.blit(settings.captured_piece_objects_black[index].get_small_image(), (925, 155 + 50 * index))
+        settings.win.blit(settings.captured_piece_objects_black[index].get_small_image(), (920, 155 + 50 * index))
 
 
 def get_object_coords(piece):
