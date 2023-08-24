@@ -1,8 +1,10 @@
 import unittest
+import ..game
 
 
-class MyTestCase(unittest.TestCase):
-    def test_something(self):
+class GameTests(unittest.TestCase):
+    def test_get_object_coords(self):
+
         self.assertEqual(True, False)  # add assertion here
 
 
