@@ -8,12 +8,12 @@ from models.helpers import get_file_path_from_root
 class BoardSettings:
     def __init__(self, tile_colour_1, tile_colour_2, status_text_background, tile_border_colour,
                  font):
-        self.tile_colour_1 = tile_colour_1
-        self.tile_colour_2 = tile_colour_2
+        # self.tile_colour_1 = tile_colour_1
+        # self.tile_colour_2 = tile_colour_2
         self.status_text_background = status_text_background
         self.tile_border_colour = tile_border_colour
         self.font = pygame.font.Font(font, 20)
-        self.medium_font = pygame.font.Font(font, 30)
+        self.medium_font = pygame.font.Font(font, 25)
         self.big_font = pygame.font.Font(font, 50)
 
 
@@ -27,26 +27,16 @@ class Board:
 
     def initialise(self):
         self.settings.timer.tick(self.settings.fps)
-        self.settings.win.fill(self.board_settings.tile_colour_1)
+        # self.settings.win.fill(self.board_settings.tile_colour_1)
         # Adding the main game background and setting the position
         main_game_background = pygame.image.load(
-            get_file_path_from_root("assets/images/background_image210823.png")).convert()
+            get_file_path_from_root("assets/images/chess_battle_background_MAIN.png")).convert()
         self.settings.win.blit(main_game_background, (0, 0))
 
         self.draw_board()
         self.draw_pieces()
 
     def draw_board(self):
-
-        for i in range(32):
-            column = i % 4
-            row = i // 4
-            if row % 2 == 0:
-                pygame.draw.rect(self.settings.win, self.board_settings.tile_colour_2, [
-                    600 - (column * 200), row * 100, 100, 100])
-            else:
-                pygame.draw.rect(self.settings.win, self.board_settings.tile_colour_2, [
-                    700 - (column * 200), row * 100, 100, 100])
         status_text = ['White: Select a Piece to Move!', 'White: Select a Destination!',
                        'Black: Select a Piece to Move!', 'Black: Select a Destination!']
 
@@ -55,7 +45,7 @@ class Board:
                 f'{self.settings.winner} won the game!', True, 'blue'), (120, 820))
         else:
             self.settings.win.blit(self.board_settings.medium_font.render(
-                status_text[self.settings.turn_step], True, 'blue'), (120, 820))
+                status_text[self.settings.turn_step], True, 'blue'), (150, 830))
 
         for button in [self.resign_button]:
             if pygame.mouse.get_pos()[0] in range(int(self.resign_button.rect.left *

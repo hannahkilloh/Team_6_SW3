@@ -7,6 +7,9 @@ __pycache__/
 # C extensions
 *.so
 
+# json file for moves history
+moves.json
+
 # Distribution / packaging
 .Python
 build/
@@ -138,11 +141,6 @@ venv.bak/
 
 # mkdocs documentation
 /site
-
-# mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
 
 # Pyre type checker
 .pyre/

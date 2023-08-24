@@ -11,6 +11,10 @@ def set_background():
     settings.win.blit(BG, (0, 0))
 
 
+game_logo = ImageOnScreen(
+    image=pygame.image.load("assets/images/chess_battle_logo_MAIN.png").convert_alpha(),
+    pos=(500, 150))
+
 if __name__ == '__main__':
     pygame.init()
 
@@ -21,20 +25,26 @@ if __name__ == '__main__':
 
     def history():
         while True:
+            set_background()
+
             history_mouse_pos = pygame.mouse.get_pos()
 
-            settings.win.fill("black")
+            game_logo.update(settings.win)
+            # settings.win.fill("black")
 
-            history_text = settings.get_font().render(
-                "This is the history of moves screen.", True, "white")
-            history_rect = history_text.get_rect(center=(500, 350))
-            settings.win.blit(history_text, history_rect)
+            # history_text = settings.get_font().render(
+            #     "This is the history of moves screen.", True, "white")
+            # history_rect = history_text.get_rect(center=(500, 350))
+            # settings.win.blit(history_text, history_rect)
 
-            history_back = Button(image=None, pos=(500, 450), text_input="BACK", font=settings.get_font(),
+            history_back = Button(image=None, pos=(500, 850), text_input="BACK", font=settings.get_font(),
                                   base_color="blue", hovering_color="#7BFCFC", settings=settings)
 
             history_back.change_color(history_mouse_pos)
             history_back.update(settings.win)
+
+            history_box_image = ImageOnScreen(image=pygame.image.load("assets/images/chess_battle_history_grid_MAIN.png").convert_alpha(), pos=(500, 500))
+            history_box_image.update(settings.win)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -55,9 +65,6 @@ if __name__ == '__main__':
             set_background()
 
             menu_mouse_pos = pygame.mouse.get_pos()
-
-            game_logo = ImageOnScreen(image=pygame.image.load("assets/images/game_logo_very_small.png").convert_alpha(),
-                                      pos=(500, 100))
 
             play_button = Button(image=pygame.image.load("assets/images/blank_button_long.png").convert_alpha(),
                                  pos=(500, 350), text_input="Play Chess", font=settings.get_font(), base_color="blue",
