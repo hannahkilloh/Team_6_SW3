@@ -7,10 +7,10 @@ class King(Piece):
         self.__is_in_check = False
 
     # calculates whether king is in check and returns true if so and sets is_in_check property
-    def calculate_king_in_check(self, enemy_pieces, white_locations, black_locations):
+    def calculate_king_in_check(self, enemy_pieces, white_locations, black_locations, settings):
         possible_enemy_moves = []
         for piece in enemy_pieces:
-            current_piece_possible_moves = piece.calculate_valid_moves(None, white_locations, black_locations)
+            current_piece_possible_moves = piece.calculate_valid_moves(None, white_locations, black_locations, settings)
             possible_enemy_moves.extend(current_piece_possible_moves)
 
         if self._current_position in possible_enemy_moves:
@@ -29,7 +29,7 @@ class King(Piece):
         else:
             return "k"
 
-    def calculate_valid_moves(self, move_history, white_locations, black_locations, is_adjacent_=None):
+    def calculate_valid_moves(self, move_history, white_locations, black_locations, settings, is_adjacent_=None):
         moves_list = []
         if self._colour == 'white':
             friends_list = white_locations
@@ -75,5 +75,4 @@ class King(Piece):
                     # can castle with right rook
                     moves_list.append((7, 0))
 
-        self._valid_moves = moves_list
         return moves_list
