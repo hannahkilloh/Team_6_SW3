@@ -1,15 +1,12 @@
 import pygame
-import os
-
+from models.helpers import get_file_path_from_root
 
 class Piece:
     def __init__(self, colour, current_position, piece_type, small_size, normal_size):
         self._colour = colour
         self._current_position = current_position
         self._valid_moves = []
-        # this gets the absolute path of the root 'Team_6_SW3_PROJECT' folder
-        root_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
-        image_url = f'{root_folder}/assets/images/{colour[0]}_{piece_type}.png'
+        image_url = get_file_path_from_root(f'assets/images/{colour[0]}_{piece_type}.png')
         self._image = self.load_and_scale(image_url, normal_size)
         self._small_image = self.load_and_scale(image_url, small_size)
 

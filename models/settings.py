@@ -4,6 +4,8 @@ from models.pieces.knight import Knight
 from models.pieces.rook import Rook
 from models.pieces.bishop import Bishop
 from models.pieces.queen import Queen
+from models.helpers import get_file_path_from_root
+
 
 import os
 import pygame
@@ -74,7 +76,7 @@ class Settings:
         return self.selected_piece.get_short_notation() + self.x_names[int(coords[0])] + str(int(coords[1]) + 1)
 
     def get_font(self, size=35):  # Returns Press-Start-2P in the desired size
-        return pygame.font.Font('assets/fonts/JetBrainsMono-Bold.ttf', size)  # add size variable to settings file
+        return pygame.font.Font(get_file_path_from_root('assets/fonts/JetBrainsMono-Bold.ttf'), size)  # add size variable to settings file
 
     def get_scale_factor_x(self):
         return self.screen_.get_size()[0] / self.WIDTH
