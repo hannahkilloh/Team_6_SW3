@@ -18,8 +18,9 @@ game_logo = ImageOnScreen(
 winning_bubble = ImageOnScreen(
     image=pygame.image.load("assets/images/chess_bot_and_speechbubble.png"), pos=(500, 500))
 
+
 # Winning screen to be displayed at the end of game with options to go to main menu, play a new game/
-    # or go to games history
+# or go to games history
 def winning_screen(winner):
     while True:
         set_background()
@@ -31,8 +32,8 @@ def winning_screen(winner):
                                  base_color="blue",
                                  hovering_color='#7BFCFC', settings=settings)
         main_menu_button = Button(image=pygame.image.load("assets/images/very_short_button.png").convert_alpha(),
-                                pos=(500, 800), text_input="Menu", font=settings.get_font(),
-                                base_color="blue", hovering_color='#7BFCFC', settings=settings)
+                                  pos=(500, 800), text_input="Menu", font=settings.get_font(),
+                                  base_color="blue", hovering_color='#7BFCFC', settings=settings)
         quit_button = Button(image=pygame.image.load("assets/images/very_short_button.png").convert_alpha(),
                              pos=(800, 800), text_input="Quit", font=settings.get_font(), base_color="blue",
                              hovering_color='#7BFCFC', settings=settings)
@@ -111,9 +112,10 @@ def history():
         for key, value in game_history_data.items():
             if i >= start_index:
                 entries.append((key, value))
-                buttons.append(Button(image=pygame.image.load("assets/images/blank_button_very_long.png").convert_alpha(),
-                                  pos=(500, 120 + (button_index * 110)), text_input=key, font=settings.get_font(),
-                                  base_color="blue", hovering_color="#7BFCFC", settings=settings, internal_id=button_index))
+                buttons.append(
+                    Button(image=pygame.image.load("assets/images/blank_button_very_long.png").convert_alpha(),
+                           pos=(500, 120 + (button_index * 110)), text_input=key, font=settings.get_font(),
+                           base_color="blue", hovering_color="#7BFCFC", settings=settings, internal_id=button_index))
                 button_index += 1
             i += 1
 
@@ -197,6 +199,7 @@ def main_menu():
         scaled_win = pygame.transform.smoothscale(settings.win, settings.screen_.get_size())
         settings.screen_.blit(scaled_win, (0, 0))
         pygame.display.flip()
+
 
 pygame.init()
 settings = Settings()

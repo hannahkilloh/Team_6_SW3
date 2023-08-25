@@ -1,5 +1,6 @@
 import pygame
 
+import menu
 from models.history import History
 from models.settings import Settings
 from models.board import Board, BoardSettings
@@ -136,7 +137,7 @@ def play_game():
                             settings.selected_piece.get_valid_moves():
 
                         # add move to history
-                        history.move_history[history.cur_session]["white"].append([
+                        history.move_history[history.cur_session].append([
                             settings.compute_notation(settings.selected_piece.get_current_position()),  # old position
                             settings.compute_notation(click_coords)  # new position
                         ])
@@ -170,6 +171,8 @@ def play_game():
                         if settings.black_king.get_is_in_check() and len(king_valid_moves) == 0:
                             # white has won the game
                             settings.winner = 'White'
+                            settings.reset_game()
+                            menu.winning_screen("White")
 
                         settings.turn_step = 2  # turns to other player now
                         # so resets the variable used for tracking the currently selected piece
@@ -224,7 +227,7 @@ def play_game():
                             settings.selected_piece.get_valid_moves():
 
                         # add move to history
-                        history.move_history[history.cur_session]["black"].append([
+                        history.move_history[history.cur_session].append([
                             settings.compute_notation(settings.selected_piece.get_current_position()),  # old position
                             settings.compute_notation(click_coords)  # new position
                         ])
@@ -265,6 +268,8 @@ def play_game():
                         if settings.white_king.get_is_in_check() and len(king_valid_moves) == 0:
                             # black has won the game
                             settings.winner = 'Black'
+                            settings.reset_game()
+                            menu.winning_screen("Black")
 
                         settings.turn_step = 0  # turns back to other player now
                         # so resets the variable used for tracking the currently selected piece
