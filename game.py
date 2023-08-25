@@ -36,29 +36,16 @@ def get_object_coords(piece):
 
 
 # testable
-def get_clicked_white(click_coords, white_piece_objects):
-    for piece in white_piece_objects:
+def get_clicked_piece(click_coords, piece_objects):
+    for piece in piece_objects:
         if click_coords == piece.get_current_position():
             return piece
 
 
-# testable
-def get_clicked_black(click_coords, black_piece_objects):
-    for piece in black_piece_objects:
-        if click_coords == piece.get_current_position():
-            return piece
-
-
-def get_white_object_coords():
+def get_all_object_coords(piece_objects):
     # maps through white_piece_objects array of objects and passes each object into the
     # get_object_co-ords function and returns the co-ords as an array
-    return list(map(get_object_coords, settings.white_piece_objects))
-
-
-def get_black_object_coords():
-    # maps through black_piece_objects array of objects and passes each object into the
-    # get_object_co-ords function and returns the co-ords as an array
-    return list(map(get_object_coords, settings.black_piece_objects))
+    return list(map(get_object_coords, piece_objects))
 
 
 # testable
@@ -126,7 +113,7 @@ def play_game():
                     if click_coords in white_object_coords:  # if white piece has been clicked
                         # King is selected and we are trying to move to Rook, but also we are allowed to castle on this Rook
                         if isinstance(settings.selected_piece, King) \
-                                and isinstance(get_clicked_white(click_coords, settings.white_piece_objects), Rook) \
+                                and isinstance(get_clicked_piece(click_coords, settings.white_piece_objects), Rook) \
                                 and click_coords in settings.selected_piece.get_valid_moves():
                             if click_coords == (0, 0):  # short castle
                                 # move king to short castle pos
@@ -147,9 +134,9 @@ def play_game():
 
                         # Standard piece selection logic
                         else:
-                            settings.selected_piece = get_clicked_white(click_coords, settings.white_piece_objects)
-                            settings.selected_piece.calculate_valid_moves(history, get_white_object_coords(),
-                                                                          get_black_object_coords())
+                            settings.selected_piece = get_clicked_piece(click_coords, settings.white_piece_objects)
+                            settings.selected_piece.calculate_valid_moves(history, get_all_object_coords(settings.white_piece_objects),
+                                                                          get_all_object_coords(settings.black_piece_objects))
 
                             if settings.turn_step == 0:  # if steps is 0 it moves onto the next step(1)
                                 settings.turn_step = 1
@@ -169,7 +156,7 @@ def play_game():
                         pawn_promotion_for_white(click_coords, settings.selected_piece, settings.white_piece_objects)
 
                         if click_coords in black_object_coords:
-                            black_piece = get_clicked_black(click_coords, settings.black_piece_objects)
+                            black_piece = get_clicked_piece(click_coords, settings.black_piece_objects)
                             settings.captured_piece_objects_white.append(black_piece)
 
                             if isinstance(black_piece, King):
@@ -193,7 +180,7 @@ def play_game():
                     if click_coords in black_object_coords:  # if black piece has been clicked
                         # King is selected and we are trying to move to Rook, but also we are allowed to castle on this Rook
                         if isinstance(settings.selected_piece, King) \
-                                and isinstance(get_clicked_black(click_coords, settings.black_piece_objects), Rook) \
+                                and isinstance(get_clicked_piece(click_coords, settings.black_piece_objects), Rook) \
                                 and click_coords in settings.selected_piece.get_valid_moves():
                             if click_coords == (0, 7):  # short castle
                                 settings.selected_piece.force_move_to_selected_position((1, 7))  # move king to short castle pos
@@ -212,9 +199,9 @@ def play_game():
 
                         # Standard piece selection logic
                         else:
-                            settings.selected_piece = get_clicked_black(click_coords, settings.black_piece_objects)
-                            settings.selected_piece.calculate_valid_moves(history, get_white_object_coords(),
-                                                                          get_black_object_coords())
+                            settings.selected_piece = get_clicked_piece(click_coords, settings.black_piece_objects)
+                            settings.selected_piece.calculate_valid_moves(history, get_all_object_coords(settings.white_piece_objects),
+                                                                          get_all_object_coords(settings.black_piece_objects))
 
                             if settings.turn_step == 2:  # if step is 2 it moves onto the next step(3) of black player
                                 settings.turn_step = 3
@@ -231,7 +218,7 @@ def play_game():
                         pawn_promotion_for_black(click_coords, settings.selected_piece, settings.black_piece_objects)
 
                         if click_coords in white_object_coords:
-                            white_piece = get_clicked_white(click_coords, settings.white_piece_objects)
+                            white_piece = get_clicked_piece(click_coords, settings.white_piece_objects)
                             settings.captured_piece_objects_black.append(white_piece)
 
                             if isinstance(white_piece, King):
