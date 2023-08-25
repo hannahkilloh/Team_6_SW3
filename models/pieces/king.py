@@ -7,10 +7,10 @@ class King(Piece):
         self.__is_in_check = False
 
     # calculates whether king is in check and returns true if so and sets is_in_check property
-    def calculate_king_in_check(self, enemy_pieces, white_locations, black_locations, settings, pos_override=None):
+    def calculate_king_in_check(self, enemy_pieces, white_locations, black_locations, pos_override=None):
         possible_enemy_moves = []
         for piece in enemy_pieces:
-            current_piece_possible_moves = piece.calculate_valid_moves(None, white_locations, black_locations, settings)
+            current_piece_possible_moves = piece.calculate_valid_moves(None, white_locations, black_locations)
             possible_enemy_moves.extend(current_piece_possible_moves)
 
         if pos_override is not None:
@@ -32,7 +32,7 @@ class King(Piece):
         else:
             return "k"
 
-    def calculate_castling_moves(self, move_history, white_locations, black_locations, settings):
+    def calculate_castling_moves(self, move_history, white_locations, black_locations):
         castling_moves = []
         if move_history is not None:
             if self._colour == 'black':
@@ -71,7 +71,7 @@ class King(Piece):
 
         return castling_moves
 
-    def calculate_valid_moves(self, move_history, white_locations, black_locations, settings, is_adjacent_=None):
+    def calculate_valid_moves(self, move_history, white_locations, black_locations, is_adjacent_=None):
         moves_list = []
         if self._colour == 'white':
             friends_list = white_locations
@@ -88,7 +88,7 @@ class King(Piece):
                 moves_list.append(target)
 
         # calling the castling function
-        castling_moves = self.calculate_castling_moves(move_history, white_locations, black_locations, settings)
+        castling_moves = self.calculate_castling_moves(move_history, white_locations, black_locations)
         moves_list.extend(castling_moves)
 
         return moves_list

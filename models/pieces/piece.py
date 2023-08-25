@@ -23,7 +23,7 @@ class Piece:
         self._valid_moves = []
         return self._current_position
 
-    def calculate_valid_moves(self, move_history, white_locations, black_locations, settings):
+    def calculate_valid_moves(self, move_history, white_locations, black_locations):
         pass  # This method will be overridden by subclasses
 
     def check_valid_moves_for_check(self, valid_moves, white_locations, black_locations, settings):
@@ -62,7 +62,7 @@ class Piece:
                 pos_override = None
 
             # check if this position would result in a check
-            is_king_in_check_for_cur_move = king.calculate_king_in_check(enemy_list, white_locations_copy, black_locations_copy, settings, pos_override=pos_override)
+            is_king_in_check_for_cur_move = king.calculate_king_in_check(enemy_list, white_locations_copy, black_locations_copy, pos_override=pos_override)
             if not is_king_in_check_for_cur_move:
                 new_moves.append(m)
         print(new_moves)

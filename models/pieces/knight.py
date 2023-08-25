@@ -11,7 +11,7 @@ class Knight(Piece):
         else:
             return "n"
 
-    def calculate_valid_moves(self, move_history, white_locations, black_locations, settings):
+    def calculate_valid_moves(self, move_history, white_locations, black_locations):
         moves_list = []
         if self._colour == 'white':
             friends_list = white_locations
