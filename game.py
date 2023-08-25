@@ -126,8 +126,9 @@ def play_game():
                                                                                         settings)
 
                             # test for check
-                            settings.selected_piece.check_valid_moves_for_check(valid_moves, get_all_object_coords(settings.white_piece_objects),
+                            valid_moves = settings.selected_piece.check_valid_moves_for_check(valid_moves, get_all_object_coords(settings.white_piece_objects),
                                                                                 get_all_object_coords(settings.black_piece_objects), settings)
+                            settings.selected_piece._valid_moves = valid_moves
 
                             if settings.turn_step == 0:  # if steps is 0 it moves onto the next step(1)
                                 settings.turn_step = 1
@@ -162,9 +163,11 @@ def play_game():
                             ]
 
                         # check if black's king is in check and out of moves, thus making white the winner
-                        settings.black_king.calculate_valid_moves(history, get_all_object_coords(settings.white_piece_objects),
-                                                                  get_all_object_coords(settings.black_piece_objects), settings)
-                        if settings.black_king.get_is_in_check() and len(settings.black_king.get_valid_moves) == 0:
+                        settings.black_king.calculate_king_in_check(settings.black_piece_objects, get_all_object_coords(settings.white_piece_objects), get_all_object_coords(settings.black_piece_objects), settings)
+
+                        king_valid_moves = settings.black_king.calculate_valid_moves(history, get_all_object_coords(settings.white_piece_objects), get_all_object_coords(settings.black_piece_objects), settings)
+                        king_valid_moves = settings.black_king.check_valid_moves_for_check(king_valid_moves, get_all_object_coords(settings.white_piece_objects), get_all_object_coords(settings.black_piece_objects), settings)
+                        if settings.black_king.get_is_in_check() and len(king_valid_moves) == 0:
                             # white has won the game
                             settings.winner = 'White'
 
@@ -211,8 +214,9 @@ def play_game():
                                                                                         settings)
 
                             # test for check
-                            settings.selected_piece.check_valid_moves_for_check(valid_moves, get_all_object_coords(settings.white_piece_objects),
+                            valid_moves = settings.selected_piece.check_valid_moves_for_check(valid_moves, get_all_object_coords(settings.white_piece_objects),
                                                                                 get_all_object_coords(settings.black_piece_objects), settings)
+                            settings.selected_piece._valid_moves = valid_moves
 
                             if settings.turn_step == 2:  # if step is 2 it moves onto the next step(3) of black player
                                 settings.turn_step = 3
@@ -247,9 +251,18 @@ def play_game():
                             ]
 
                         # check if white's king is in check and out of moves, thus making black the winner
-                        settings.white_king.calculate_valid_moves(history, get_all_object_coords(settings.white_piece_objects),
-                                                                  get_all_object_coords(settings.black_piece_objects), settings)
-                        if settings.white_king.get_is_in_check() and len(settings.white_king.get_valid_moves()) == 0:
+                        settings.white_king.calculate_king_in_check(settings.black_piece_objects,
+                                                                    get_all_object_coords(settings.white_piece_objects),
+                                                                    get_all_object_coords(settings.black_piece_objects), settings)
+
+                        king_valid_moves = settings.white_king.calculate_valid_moves(history, get_all_object_coords(settings.white_piece_objects),
+                                                                                     get_all_object_coords(settings.black_piece_objects),
+                                                                                     settings)
+                        king_valid_moves = settings.white_king.check_valid_moves_for_check(king_valid_moves,
+                                                                                           get_all_object_coords(settings.white_piece_objects),
+                                                                                           get_all_object_coords(settings.black_piece_objects),
+                                                                                           settings)
+                        if settings.white_king.get_is_in_check() and len(king_valid_moves) == 0:
                             # black has won the game
                             settings.winner = 'Black'
 
