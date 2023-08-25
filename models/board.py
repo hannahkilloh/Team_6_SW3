@@ -2,7 +2,7 @@ import pygame
 from models.pieces.pawn import Pawn
 from models.buttons import Button
 from models.pieces.king import King
-# from Chess_Battle.menu import winning_screen
+from models.helpers import get_file_path_from_root
 
 
 class BoardSettings:
@@ -21,31 +21,22 @@ class Board:
     def __init__(self, board_settings, settings):
         self.board_settings = board_settings
         self.settings = settings
-        self.resign_button = Button(image=pygame.image.load("assets/images/resign_button.png"), pos=(900, 850),
-                                    text_input="", font=self.settings.get_font(), base_color="blue",
+        self.resign_button = Button(image=pygame.image.load(get_file_path_from_root("assets/images/resign_button.png")),
+                                    pos=(900, 850), text_input="", font=self.settings.get_font(), base_color="blue",
                                     hovering_color='#7BFCFC', settings=self.settings)
 
     def initialise(self):
         self.settings.timer.tick(self.settings.fps)
         # self.settings.win.fill(self.board_settings.tile_colour_1)
         # Adding the main game background and setting the position
-        main_game_background = pygame.image.load("assets/images/chess_battle_background_MAIN.png").convert()
+        main_game_background = pygame.image.load(
+            get_file_path_from_root("assets/images/chess_battle_background_MAIN.png")).convert()
         self.settings.win.blit(main_game_background, (0, 0))
 
         self.draw_board()
         self.draw_pieces()
 
     def draw_board(self):
-
-        # for i in range(32):
-        #     column = i % 4
-        #     row = i // 4
-        #     if row % 2 == 0:
-        #         pygame.draw.rect(self.settings.win, self.board_settings.tile_colour_2, [
-        #             600 - (column * 200), row * 100, 100, 100])
-        #     else:
-        #         pygame.draw.rect(self.settings.win, self.board_settings.tile_colour_2, [
-        #             700 - (column * 200), row * 100, 100, 100])
         status_text = ['White: Select a Piece to Move!', 'White: Select a Destination!',
                        'Black: Select a Piece to Move!', 'Black: Select a Destination!']
 
@@ -66,11 +57,11 @@ class Board:
                                                                self.settings.get_scale_factor_y()),
                                                            int(self.resign_button.rect.bottom *
                                                                self.settings.get_scale_factor_y())):
-                self.resign_button = Button(image=pygame.image.load("assets/images/resign_button_hover.png"),
+                self.resign_button = Button(image=pygame.image.load(get_file_path_from_root("assets/images/resign_button_hover.png")),
                                             pos=(900, 850), text_input="", font=self.settings.get_font(),
                                             base_color="blue", hovering_color='#7BFCFC', settings=self.settings)
             else:
-                self.resign_button = Button(image=pygame.image.load("assets/images/resign_button.png"),
+                self.resign_button = Button(image=pygame.image.load(get_file_path_from_root("assets/images/resign_button.png")),
                                             pos=(900, 850), text_input="", font=self.settings.get_font(),
                                             base_color="blue", hovering_color='#7BFCFC', settings=self.settings)
             button.update(self.settings.win)

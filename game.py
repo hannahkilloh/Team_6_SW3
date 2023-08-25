@@ -7,14 +7,16 @@ from models.pieces.pawn import Pawn
 from models.pieces.queen import Queen
 from models.pieces.king import King
 from models.pieces.rook import Rook
+from models.helpers import get_file_path_from_root
+
 
 pygame.init()
 pygame.font.init()
-pygame.display.set_icon(pygame.image.load('assets/images/chess_icon.ico'))
+pygame.display.set_icon(pygame.image.load(get_file_path_from_root('assets/images/chess_icon.ico')))
 
 # can pass in any colours, to set theme up easier
 board_settings = BoardSettings(
-    '#0000D2', '#7BFCFC', 'white', '#0000D2', 'assets/fonts/JetBrainsMono-Regular.ttf')
+    '#0000D2', '#7BFCFC', 'white', '#0000D2', get_file_path_from_root('assets/fonts/JetBrainsMono-Regular.ttf'))
 settings = Settings()
 board = Board(board_settings, settings)
 
@@ -32,28 +34,19 @@ def get_object_coords(piece):
     return piece.get_current_position()
 
 
-def get_clicked_white(click_coords):
-    for piece in settings.white_piece_objects:
+
+# testable
+def get_clicked_piece(click_coords, piece_objects):
+    for piece in piece_objects:
         if click_coords == piece.get_current_position():
             return piece
 
 
-def get_clicked_black(click_coords):
-    for piece in settings.black_piece_objects:
-        if click_coords == piece.get_current_position():
-            return piece
 
-
-def get_white_object_coords():
+def get_all_object_coords(piece_objects):
     # maps through white_piece_objects array of objects and passes each object into the
     # get_object_co-ords function and returns the co-ords as an array
-    return list(map(get_object_coords, settings.white_piece_objects))
-
-
-def get_black_object_coords():
-    # maps through black_piece_objects array of objects and passes each object into the
-    # get_object_co-ords function and returns the co-ords as an array
-    return list(map(get_object_coords, settings.black_piece_objects))
+    return list(map(get_object_coords, piece_objects))
 
 
 # loops through all piece objects passed to it and returns the king
@@ -103,6 +96,7 @@ def play_game():
 
                     if click_coords in white_object_coords:  # if white piece has been clicked
                         # King is selected and we are trying to move to Rook, but also we are allowed to castle on this Rook
+
                         if isinstance(settings.selected_piece, King) and isinstance(get_clicked_white(click_coords), Rook) and click_coords in settings.selected_piece.get_valid_moves():
                             if click_coords == (0, 0):  # short castle
                                 settings.selected_piece.force_move_to_selected_position((1, 0))  # move king to short castle pos
@@ -121,6 +115,7 @@ def play_game():
 
                         # Standard piece selection logic
                         else:
+
                             settings.selected_piece = get_clicked_white(click_coords)
                             valid_moves = settings.selected_piece.calculate_valid_moves(history, get_white_object_coords(), get_black_object_coords(), settings)
 
@@ -151,7 +146,8 @@ def play_game():
                             settings.white_piece_objects.append(queen)
 
                         if click_coords in black_object_coords:
-                            black_piece = get_clicked_black(click_coords)
+
+                            black_piece = get_clicked_piece(click_coords, settings.black_piece_objects)
                             settings.captured_piece_objects_white.append(black_piece)
 
                             # sets black piece array to new array excluding the one that has been clicked
@@ -178,6 +174,7 @@ def play_game():
 
                     if click_coords in black_object_coords:  # if black piece has been clicked
                         # King is selected and we are trying to move to Rook, but also we are allowed to castle on this Rook
+                        
                         if isinstance(settings.selected_piece, King) and isinstance(get_clicked_black(click_coords), Rook) and click_coords in settings.selected_piece.get_valid_moves():
                             if click_coords == (0, 7):  # short castle
                                 settings.selected_piece.force_move_to_selected_position((1, 7))  # move king to short castle pos
@@ -196,6 +193,7 @@ def play_game():
 
                         # Standard piece selection logic
                         else:
+
                             settings.selected_piece = get_clicked_black(click_coords)
                             valid_moves = settings.selected_piece.calculate_valid_moves(history, get_white_object_coords(), get_black_object_coords(), settings)
 
@@ -226,7 +224,8 @@ def play_game():
                             settings.black_piece_objects.append(queen)
 
                         if click_coords in white_object_coords:
-                            white_piece = get_clicked_white(click_coords)
+
+                            white_piece = get_clicked_piece(click_coords, settings.white_piece_objects)
                             settings.captured_piece_objects_black.append(white_piece)
 
                             # sets white piece array to new array excluding the one that has been clicked
