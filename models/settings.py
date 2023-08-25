@@ -41,6 +41,7 @@ class Settings:
         # Current piece selection, default to a value not in the board
         self.selected_piece = None
         self.winner = ""
+        self.history_being_shown = -1
         self.reset_game()
 
     def reset_game(self):
