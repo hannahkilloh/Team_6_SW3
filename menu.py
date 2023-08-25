@@ -89,14 +89,47 @@ if __name__ == '__main__':
             with open("moves.json", "r") as json_file:
                 game_history_data = json.load(json_file)
 
-            # Display the games history from the moves.json file
+            # Initial font and position settings for json file entries
             font = pygame.font.Font('assets/fonts/JetBrainsMono-Bold.ttf', 20)
-            y_position = 430  # y axis
-            for entry in game_history_data:
-                history_text = font.render(entry, True, "blue")
-                history_rect = history_text.get_rect(center=(500, y_position))
+            y_position = 455  # y axis
+
+            # Display only the 4 most recent games in on the Games history screen
+            num_entries_to_display = 4
+            start_index = max(len(game_history_data) - num_entries_to_display, 0)
+
+            entries = []
+            i = 0
+            for key, value in game_history_data.items():
+                if i >= start_index:
+                    entries.append((key, value))
+                i += 1
+
+            entries.reverse()
+            for entry in entries:
+                # draw timestamp
+                history_text = font.render(entry[0], True, "blue")
+                history_rect = history_text.get_rect(center=(250, y_position))
                 settings.win.blit(history_text, history_rect)
-                y_position += 30  # y-axis spacing between the entries
+
+                # draw white moves
+                white_string = ""
+                for move in entry[1]["white"]:
+                    pass
+
+                white_moves = font.render(white_string, True, "blue")
+                white_rect = white_moves.get_rect(center=(350, y_position))
+                settings.win.blit(white_moves, white_rect)
+
+                # draw black moves
+                black_string = ""
+                for move in entry[1]["black"]:
+                    pass
+
+                black_moves = font.render(black_string, True, "blue")
+                black_rect = black_moves.get_rect(center=(350, y_position))
+                settings.win.blit(black_moves, black_rect)
+
+                y_position += 70
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
