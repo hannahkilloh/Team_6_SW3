@@ -12,7 +12,7 @@ pygame.display.set_caption("Chess Battle")
 
 
 def set_background():
-    BG = pygame.image.load("assets/images/menu_background.png").convert()
+    BG = pygame.image.load(get_file_path_from_root("assets/images/menu_background.png")).convert()
     BG.set_alpha(400)
     settings.win.blit(BG, (0, 0))
 
@@ -86,7 +86,7 @@ def history():
 
         # game_logo.update(settings.win)
 
-        history_back = Button(image=pygame.image.load("assets/images/very_short_button.png").convert_alpha(),
+        history_back = Button(image=pygame.image.load(get_file_path_from_root("assets/images/very_short_button.png")).convert_alpha(),
                               pos=(500, 825), text_input="BACK", font=settings.get_font(),
                               base_color="blue", hovering_color="#7BFCFC", settings=settings)
 
@@ -94,11 +94,11 @@ def history():
         history_back.update(settings.win)
 
         history_box_image = ImageOnScreen(
-            image=pygame.image.load("assets/images/chess_history_table.png").convert_alpha(), pos=(500, 270))
+            image=pygame.image.load(get_file_path_from_root("assets/images/chess_history_table.png")).convert_alpha(), pos=(500, 270))
         history_box_image.update(settings.win)
 
         history_box_image_empty = ImageOnScreen(
-            image=pygame.image.load("assets/images/chess_history_table_empty.png").convert_alpha(), pos=(500, 700))
+            image=pygame.image.load(get_file_path_from_root("assets/images/chess_history_table_empty.png")).convert_alpha(), pos=(500, 700))
         history_box_image_empty.update(settings.win)
 
         # Load game history data from moves.json file
@@ -121,7 +121,7 @@ def history():
             if i >= start_index:
                 entries.append((key, value))
                 buttons.append(
-                    Button(image=pygame.image.load("assets/images/blank_button_very_long.png").convert_alpha(),
+                    Button(image=pygame.image.load(get_file_path_from_root("assets/images/blank_button_very_long.png")).convert_alpha(),
                            pos=(500, 120 + (button_index * 110)), text_input=key, font=settings.get_font(),
                            base_color="blue", hovering_color="#7BFCFC", settings=settings, internal_id=button_index))
                 button_index += 1
@@ -174,13 +174,13 @@ def main_menu():
 
         menu_mouse_pos = pygame.mouse.get_pos()
 
-        play_button = Button(image=pygame.image.load("assets/images/blank_button_long.png").convert_alpha(),
+        play_button = Button(image=pygame.image.load(get_file_path_from_root("assets/images/blank_button_long.png")).convert_alpha(),
                              pos=(500, 350), text_input="Play Chess", font=settings.get_font(), base_color="blue",
                              hovering_color='#7BFCFC', settings=settings)
-        history_button = Button(image=pygame.image.load("assets/images/blank_button_long.png").convert_alpha(),
+        history_button = Button(image=pygame.image.load(get_file_path_from_root("assets/images/blank_button_long.png")).convert_alpha(),
                                 pos=(500, 500), text_input="Games History", font=settings.get_font(),
                                 base_color="blue", hovering_color='#7BFCFC', settings=settings)
-        quit_button = Button(image=pygame.image.load("assets/images/blank_button_long.png").convert_alpha(),
+        quit_button = Button(image=pygame.image.load(get_file_path_from_root("assets/images/blank_button_long.png")).convert_alpha(),
                              pos=(500, 650), text_input="Quit", font=settings.get_font(), base_color="blue",
                              hovering_color='#7BFCFC', settings=settings)
         game_logo.update(settings.win)
