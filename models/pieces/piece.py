@@ -27,6 +27,7 @@ class Piece:
         pass  # This method will be overridden by subclasses
 
     def check_valid_moves_for_check(self, valid_moves, white_locations, black_locations, settings):
+        new_moves = []
         white_locations_copy = white_locations.copy()
         black_locations_copy = black_locations.copy()
         for m in valid_moves:
@@ -55,11 +56,17 @@ class Piece:
                 if self._current_position == locations[i]:
                     locations[i] = m
 
+            if self.piece_type == "king":
+                pos_override = m
+            else:
+                pos_override = None
+
             # check if this position would result in a check
-            is_king_in_check_for_cur_move = king.calculate_king_in_check(enemy_list, white_locations_copy, black_locations_copy, settings)
+            is_king_in_check_for_cur_move = king.calculate_king_in_check(enemy_list, white_locations_copy, black_locations_copy, settings, pos_override=pos_override)
             if not is_king_in_check_for_cur_move:
-                self._valid_moves.append(m)
-            print(self._valid_moves)
+                new_moves.append(m)
+        print(new_moves)
+        return new_moves
 
     def get_short_notation(self):
         pass  # This method will be overridden by subclasses
