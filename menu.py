@@ -2,8 +2,13 @@ import pygame
 import sys
 from models.settings import Settings
 from models.buttons import Button, ImageOnScreen
+from models.helpers import get_file_path_from_root
 import game
 import json
+
+pygame.init()
+settings = Settings()
+pygame.display.set_caption("Chess Battle")
 
 
 def set_background():
@@ -12,11 +17,14 @@ def set_background():
     settings.win.blit(BG, (0, 0))
 
 
+set_background()
+
 game_logo = ImageOnScreen(
-    image=pygame.image.load("assets/images/chess_battle_logo_MAIN.png"), pos=(500, 150))
+    image=pygame.image.load(get_file_path_from_root("assets/images/chess_battle_logo_MAIN.png")).convert_alpha(),
+    pos=(500, 150))
 
 winning_bubble = ImageOnScreen(
-    image=pygame.image.load("assets/images/chess_bot_and_speechbubble.png"), pos=(500, 500))
+    image=pygame.image.load(get_file_path_from_root("assets/images/chess_bot_and_speechbubble.png")).convert_alpha(), pos=(500, 500))
 
 
 # Winning screen to be displayed at the end of game with options to go to main menu, play a new game/
@@ -27,14 +35,14 @@ def winning_screen(winner):
 
         menu_mouse_pos = pygame.mouse.get_pos()
 
-        new_game_button = Button(image=pygame.image.load("assets/images/very_short_button.png").convert_alpha(),
+        new_game_button = Button(image=pygame.image.load(get_file_path_from_root("assets/images/very_short_button.png")).convert_alpha(),
                                  pos=(200, 800), text_input="Replay", font=settings.get_font(),
                                  base_color="blue",
                                  hovering_color='#7BFCFC', settings=settings)
-        main_menu_button = Button(image=pygame.image.load("assets/images/very_short_button.png").convert_alpha(),
+        main_menu_button = Button(image=pygame.image.load(get_file_path_from_root("assets/images/very_short_button.png")).convert_alpha(),
                                   pos=(500, 800), text_input="Menu", font=settings.get_font(),
                                   base_color="blue", hovering_color='#7BFCFC', settings=settings)
-        quit_button = Button(image=pygame.image.load("assets/images/very_short_button.png").convert_alpha(),
+        quit_button = Button(image=pygame.image.load(get_file_path_from_root("assets/images/very_short_button.png")).convert_alpha(),
                              pos=(800, 800), text_input="Quit", font=settings.get_font(), base_color="blue",
                              hovering_color='#7BFCFC', settings=settings)
         game_logo.update(settings.win)
@@ -200,11 +208,6 @@ def main_menu():
         settings.screen_.blit(scaled_win, (0, 0))
         pygame.display.flip()
 
-
-pygame.init()
-settings = Settings()
-pygame.display.set_caption("Chess Battle")
-set_background()
 
 if __name__ == '__main__':
     main_menu()
