@@ -1,3 +1,5 @@
+import math
+
 import pygame
 
 from models.history import History
@@ -43,7 +45,7 @@ def get_clicked_piece(click_coords, piece_objects):
 
 
 def get_all_object_coords(piece_objects):
-    # maps through white_piece_objects array of objects and passes each object into the
+    # maps through and passes each object into the
     # get_object_co-ords function and returns the co-ords as an array
     return list(map(get_object_coords, piece_objects))
 
@@ -78,6 +80,10 @@ def pawn_promotion_for_black(click_coords, selected_piece, black_piece_objects):
         black_piece_objects.append(queen)
 
 
+class InvalidSelectionError(Exception):
+    pass
+
+
 def play_game():
     run = True
     while run:
@@ -99,16 +105,15 @@ def play_game():
                 run = False
 
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and not settings.game_over:
-                x_coord = (event.pos[0] / settings.get_scale_factor_x()) // 100  # x coord
-                y_coord = (event.pos[1] / settings.get_scale_factor_y()) // 100  # y coord
+                x_coord = int((event.pos[0] / settings.get_scale_factor_x()) // 100)  # x coord
+                y_coord = int((event.pos[1] / settings.get_scale_factor_y()) // 100)  # y coord
                 click_coords = (x_coord, y_coord)
 
                 # if the step is 0 or 1 then it is the whites turn
                 if settings.turn_step <= 1:
-                    # maps through white_piece_objects array of objects and passes each object into the
-                    # get_object_co-ords function and returns the co-ords as an array
-                    white_object_coords = list(map(get_object_coords, settings.white_piece_objects))
-                    black_object_coords = list(map(get_object_coords, settings.black_piece_objects))
+
+                    white_object_coords = get_all_object_coords(settings.white_piece_objects)
+                    black_object_coords = get_all_object_coords(settings.black_piece_objects)
 
                     if click_coords in white_object_coords:  # if white piece has been clicked
                         # King is selected and we are trying to move to Rook, but also we are allowed to castle on this Rook
@@ -135,11 +140,21 @@ def play_game():
                         # Standard piece selection logic
                         else:
                             settings.selected_piece = get_clicked_piece(click_coords, settings.white_piece_objects)
-                            settings.selected_piece.calculate_valid_moves(history, get_all_object_coords(settings.white_piece_objects),
+                            valid_piece_moves = settings.selected_piece.calculate_valid_moves(history, get_all_object_coords(settings.white_piece_objects),
                                                                           get_all_object_coords(settings.black_piece_objects))
 
                             if settings.turn_step == 0:  # if steps is 0 it moves onto the next step(1)
                                 settings.turn_step = 1
+
+                    elif settings.turn_step == 0 and click_coords not in white_object_coords:
+                        # Todo: raise custom exception
+                        raise InvalidSelectionError("Select a white piece you dirty sausage")
+
+                    elif settings.selected_piece is not None and click_coords not in \
+                        settings.selected_piece.get_valid_moves():
+                            # Todo: raise custom exception
+                            raise InvalidSelectionError("invalid moves")
+
                     elif settings.selected_piece is not None and click_coords in \
                             settings.selected_piece.get_valid_moves():
 
@@ -172,6 +187,23 @@ def play_game():
 
                 # if the step is 2 or 3 then it is the blacks turn
                 if settings.turn_step > 1:
+
+                    # settings.selected_piece = get_clicked_piece(click_coords, settings.black_piece_objects)
+                    # if settings.turn_step == 2 and settings.selected_piece not in black_object_coords:
+                    #     print("Select a black piece")
+                    # else:
+                    #     if settings.turn_step == 2:
+                    #         settings.turn_step = 3
+
+                        # if settings.turn_step == 2 and click_coords not in black_object_coords:
+                        #     print("It's not you turn!")
+                        #     if settings.turn_step == 1 and click_coords not in white_object_coords:
+                        #         print("It's not you turn!")
+                        #
+                        #     else:
+                        #         if settings.turn_step == 2:  # if step is 2 it moves onto the next step(3) of black player
+                        #             settings.turn_step = 3
+
                     # maps through white_piece_objects array of objects and passes each object into the
                     # get_object_co-ords function and returns the co-ords as an array
                     white_object_coords = list(map(get_object_coords, settings.white_piece_objects))
@@ -203,8 +235,6 @@ def play_game():
                             settings.selected_piece.calculate_valid_moves(history, get_all_object_coords(settings.white_piece_objects),
                                                                           get_all_object_coords(settings.black_piece_objects))
 
-                            if settings.turn_step == 2:  # if step is 2 it moves onto the next step(3) of black player
-                                settings.turn_step = 3
                     elif settings.selected_piece is not None and click_coords in \
                             settings.selected_piece.get_valid_moves():
 
@@ -228,6 +258,7 @@ def play_game():
                             settings.white_piece_objects = [
                                 x for x in settings.white_piece_objects if x.get_current_position() != click_coords
                             ]
+
 
                         settings.turn_step = 0  # turns back to other player now
                         # so resets the variable used for tracking the currently selected piece
