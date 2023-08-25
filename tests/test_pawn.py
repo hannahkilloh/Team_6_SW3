@@ -14,7 +14,7 @@ class PawnTests(unittest.TestCase):
     # TESTS THAT PAWN ACTUALLY MOVES, THAT THE new_position AND THE SPECIFIED MATCH
     def test_moved(self):
         pawn = Pawn('white', (0, 1))
-        pawn.calculate_valid_moves(None, [], [], None)
+        pawn._valid_moves = pawn.calculate_valid_moves(None, [], [], None)
         new_position = pawn.move_to_selected_position((0, 2))
         self.assertEqual((0, 2), new_position)
 
@@ -50,7 +50,7 @@ class PawnTests(unittest.TestCase):
     # THAT PAWN HAS MOVED WHEN CAPTURE WAS AVAILABLE
     def test_move_diagonal_if_captured(self):
         pawn = Pawn('black', (0, 3))  # PASSING A BLACK PIECE ON TILE 0,3, DOESN'T NEED IMAGE INPUT
-        pawn.calculate_valid_moves(None, [(1, 2)], [], None)  # PASSING W.LOCATION TO THE CALCULATE VALID MOVES FUNC
+        pawn._valid_moves = pawn.calculate_valid_moves(None, [(1, 2)], [], None)  # PASSING W.LOCATION TO THE CALCULATE VALID MOVES FUNC
         # PASSING NEW WHITE LOCATION POSITION TO FUNC AND SETTING IT EQUAL TO NEW POSITION VARIABLE
         new_position = pawn.move_to_selected_position((1, 2))
         # ASSERTING IF THE NEW POSITION IS EQUAL TO THE PROPOSED WHITE LOCATION CAPTURE
