@@ -5,12 +5,12 @@ from models.pieces.king import King
 class KingTests(unittest.TestCase):
     def test_valid_black_moves(self):
         king = King('black', (3, 7))
-        valid_moves = king.calculate_valid_moves(None, [], [], [])
+        valid_moves = king.calculate_valid_moves(None, [], [], None)
         self.assertCountEqual([(2, 7), (2, 6), (3, 6), (4, 6), (4, 7)], valid_moves)
 
     def test_valid_white_moves(self):
         king = King('white', (3, 0))
-        valid_moves = king.calculate_valid_moves(None, [], [], [])
+        valid_moves = king.calculate_valid_moves(None, [], [], None)
         self.assertCountEqual([(2, 0), (2, 1), (3, 1), (4, 1), (4, 0)], valid_moves)
 
     def test_moved(self):
@@ -22,34 +22,34 @@ class KingTests(unittest.TestCase):
 
     def test_invalid_move(self):
         king = King('black', (1, 0))
-        king.calculate_valid_moves(None, [], [], [])
+        king.calculate_valid_moves(None, [], [], None)
         new_position = king.move_to_selected_position((0, 3))
         self.assertNotEqual((0, 3), new_position)
 
     def test_blocking_black_pieces(self):
         king = King('black', (3, 7))
-        valid_moves = king.calculate_valid_moves(None, [], [(2, 7), (2, 6), (3, 6), (4, 6), (4, 7)], [])
+        valid_moves = king.calculate_valid_moves(None, [], [(2, 7), (2, 6), (3, 6), (4, 6), (4, 7)], None)
         self.assertEqual([], valid_moves)
 
     def test_blocking_white_pieces(self):
         king = King('white', (3, 0))
-        valid_moves = king.calculate_valid_moves(None, [(2, 0), (2, 1), (3, 1), (4, 1), (4, 0)], [], [])
+        valid_moves = king.calculate_valid_moves(None, [(2, 0), (2, 1), (3, 1), (4, 1), (4, 0)], [], None)
         self.assertEqual([], valid_moves)
 
     def test_finds_one_available_not_blocked(self):
         king = King('white', (3, 0))
-        valid_moves = king.calculate_valid_moves(None, [(2, 1), (3, 1), (4, 1), (4, 0)], [], [])
+        valid_moves = king.calculate_valid_moves(None, [(2, 1), (3, 1), (4, 1), (4, 0)], [], None)
         self.assertEqual([(2, 0)], valid_moves)
 
     def test_valid_move_edge_of_board(self):
         king = King('black', (0, 5))
-        valid_moves = king.calculate_valid_moves(None, [], [], [])
+        valid_moves = king.calculate_valid_moves(None, [], [], None)
         self.assertCountEqual([(0, 4), (1, 4), (1, 5), (1, 6), (0, 6)], valid_moves)
 
     # king corner of board
     def test_corner_of_board(self):
         king = King('black', (0, 7))
-        valid_moves = king.calculate_valid_moves(None, [], [], [])
+        valid_moves = king.calculate_valid_moves(None, [], [], None)
         self.assertCountEqual([(0, 6), (1, 6), (1, 7)], valid_moves)
 
     def test_king_can_capture(self):
