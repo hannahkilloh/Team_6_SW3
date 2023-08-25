@@ -32,6 +32,8 @@ class Settings:
         self.game_over = False
         self.white_piece_objects = []
         self.black_piece_objects = []
+        self.white_king = None
+        self.black_king = None
         # Lists to keep track of captured pieces per player
         self.captured_piece_objects_white = []
         self.captured_piece_objects_black = []
