@@ -55,6 +55,29 @@ def get_king(pieces):
             return piece
 
 
+# testable
+def pawn_promotion_for_white(click_coords, selected_piece, white_piece_objects):
+    if isinstance(selected_piece, Pawn) and click_coords[1] == 7:
+        for index in range(len(white_piece_objects)):
+            if white_piece_objects[index].get_current_position() == click_coords:
+                white_piece_objects.pop(index)
+                break
+
+        queen = Queen('white', (click_coords[0], click_coords[1]))
+        white_piece_objects.append(queen)
+
+
+# testable
+def pawn_promotion_for_black(click_coords, selected_piece, black_piece_objects):
+    if isinstance(selected_piece, Pawn) and click_coords[1] == 0:
+        for index in range(len(black_piece_objects)):
+            if black_piece_objects[index].get_current_position() == click_coords:
+                black_piece_objects.pop(index)
+                break
+
+        queen = Queen('black', (click_coords[0], click_coords[1]))
+        black_piece_objects.append(queen)
+
 def play_game():
     run = True
     while run:
@@ -145,13 +168,7 @@ def play_game():
                         settings.selected_piece.move_to_selected_position(click_coords)
 
                         # Pawn Promotion for bottom of board
-                        if isinstance(settings.selected_piece, Pawn) and click_coords[1] == 7:
-                            for index in range(len(settings.white_piece_objects)):
-                                if settings.white_piece_objects[index].get_current_position() == click_coords:
-                                    settings.white_piece_objects.pop(index)
-                                    break
-                            queen = Queen('white', (click_coords[0], click_coords[1]))
-                            settings.white_piece_objects.append(queen)
+                        pawn_promotion_for_white(click_coords, settings.selected_piece, settings.white_piece_objects)
 
                         if click_coords in black_object_coords:
                             black_piece = get_clicked_piece(click_coords, settings.black_piece_objects)
@@ -234,13 +251,7 @@ def play_game():
                         settings.selected_piece.move_to_selected_position(click_coords)
 
                         # Pawn Promotion for top
-                        if isinstance(settings.selected_piece, Pawn) and click_coords[1] == 0:
-                            for index in range(len(settings.black_piece_objects)):
-                                if settings.black_piece_objects[index].get_current_position() == click_coords:
-                                    settings.black_piece_objects.pop(index)
-                                    break
-                            queen = Queen('black', (click_coords[0], click_coords[1]))
-                            settings.black_piece_objects.append(queen)
+                        pawn_promotion_for_black(click_coords, settings.selected_piece, settings.black_piece_objects)
 
                         if click_coords in white_object_coords:
                             white_piece = get_clicked_piece(click_coords, settings.white_piece_objects)
