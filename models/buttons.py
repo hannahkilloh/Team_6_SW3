@@ -1,5 +1,5 @@
 class Button:
-    def __init__(self, image, pos, text_input, font, base_color, hovering_color, settings):  # initialises properties
+    def __init__(self, image, pos, text_input, font, base_color, hovering_color, settings, internal_id=""):  # initialises properties
         self.image = image
         self.x_pos = pos[0]
         self.y_pos = pos[1]
@@ -12,6 +12,7 @@ class Button:
         self.rect = self.image.get_rect(center=(self.x_pos, self.y_pos))
         self.text_rect = self.text.get_rect(center=(self.x_pos, self.y_pos))
         self.settings = settings
+        self.internal_id = internal_id
 
     def update(self, screen):  # puts image and text on the screen
         if self.image is not None:
