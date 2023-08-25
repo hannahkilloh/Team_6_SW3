@@ -19,7 +19,7 @@ class TestBishop(unittest.TestCase):
         # Test valid moves when the bishop is not blocked by any pieces.
         own_locations = []
         opponent_locations = []
-        valid_moves = self.bishop.calculate_valid_moves(None, own_locations, opponent_locations)
+        valid_moves = self.bishop.calculate_valid_moves(None, own_locations, opponent_locations, [])
         # Only consider the positive quadrant moves, as they are mirrored in the negative quadrant.
         expected_moves = [(1, 1), (2, 2), (3, 3), (4, 4),
                           (5, 5), (6, 6), (7, 7)]
@@ -30,7 +30,7 @@ class TestBishop(unittest.TestCase):
         # Example: Bishop is blocked by own pieces at (1, 1) and (2, 2).
         own_locations = [(1, 1), (2, 2)]
         opponent_locations = []
-        valid_moves = self.bishop.calculate_valid_moves(None, own_locations, opponent_locations)
+        valid_moves = self.bishop.calculate_valid_moves(None, own_locations, opponent_locations, [])
         # Assert that the blocked positions are not in the valid_moves list.
         blocked_positions = [(1, 1), (2, 2)]
         for pos in blocked_positions:
@@ -41,7 +41,7 @@ class TestBishop(unittest.TestCase):
         own_locations = []
         opponent_locations = []
         # Only consider the positive quadrant moves, as they are mirrored in the negative quadrant.
-        valid_moves = self.bishop.calculate_valid_moves(None, own_locations, opponent_locations)
+        valid_moves = self.bishop.calculate_valid_moves(None, own_locations, opponent_locations, [])
         expected_moves = [(1, 1), (2, 2), (3, 3), (4, 4),
                           (5, 5), (6, 6), (7, 7)]
         self.assertEqual(valid_moves, expected_moves)
@@ -50,7 +50,7 @@ class TestBishop(unittest.TestCase):
         # Test that the bishop can capture an opponent's piece.
         own_locations = []
         opponent_locations = [(1, 1)]  # Example: Opponent's piece at (1, 1).
-        valid_moves = self.bishop.calculate_valid_moves(None, own_locations, opponent_locations)
+        valid_moves = self.bishop.calculate_valid_moves(None, own_locations, opponent_locations, [])
         # Assert that the valid_moves list contains the position (1, 1).
         self.assertIn((1, 1), valid_moves)
 
