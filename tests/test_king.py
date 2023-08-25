@@ -15,7 +15,8 @@ class KingTests(unittest.TestCase):
 
     def test_moved(self):
         king = King('black', (3, 5))
-        king.calculate_valid_moves(None, [], [], [])
+        valid_moves = king.calculate_valid_moves(None, [], [], None)
+        king._valid_moves = valid_moves
         new_position = king.move_to_selected_position((3, 4))
         self.assertEqual((3, 4), new_position)
 
@@ -53,13 +54,15 @@ class KingTests(unittest.TestCase):
 
     def test_king_can_capture(self):
         king = King('black', (3, 7))
-        king.calculate_valid_moves(None, [(4, 6)], [], None)
+        valid_moves = king.calculate_valid_moves(None, [(4, 6)], [], None)
+        king._valid_moves = valid_moves
         new_position = king.move_to_selected_position((4, 6))
         self.assertEqual((4, 6), new_position)
 
     def test_king_can_capture_black_piece(self):
         king = King('black', (3, 0))
-        king.calculate_valid_moves(None, [(4, 1)], [], [])
+        valid_moves = king.calculate_valid_moves(None, [(4, 1)], [], None)
+        king._valid_moves = valid_moves
         new_position = king.move_to_selected_position((4, 1))
         self.assertEqual((4, 1), new_position)
 

@@ -1,90 +1,66 @@
 import unittest
-from models.pieces.queen import Queen
-
-# todo: don't think these colours need swapped
+from models.pieces.pawn import Pawn
 
 
-class QueenTests(unittest.TestCase):
-    def test_valid_white_moves(self):
-        queen = Queen('white', (3, 7))
-        valid_moves = queen.calculate_valid_moves(None, [], [])
-        expected_moves = [(0, 7), (1, 7), (2, 7), (4, 7), (5, 7), (6, 7), (7, 7),
-                          (2, 6), (1, 5), (0, 4),
-                          (3, 6), (3, 5), (3, 4), (3, 3), (3, 2), (3, 1), (3, 0),
-                          (4, 6), (5, 5), (6, 4), (7, 3)]
-        self.assertCountEqual(expected_moves, valid_moves)
+# todo: ONCE THE BOARD AND COLOURS ARE FLIPPED, ALL 'black' AND 'white' WILL SWAP
 
-    def test_valid_black_moves(self):
-        queen = Queen('black', (3, 0))
-        valid_moves = queen.calculate_valid_moves(None, [], [])
-        expected_moves = [(0, 0), (1, 0), (2, 0), (4, 0), (5, 0), (6, 0), (7, 0),
-                          (2, 1), (1, 2), (0, 3),
-                          (3, 7), (3, 6), (3, 5), (3, 4), (3, 3), (3, 2), (3, 1),
-                          (4, 1), (5, 2), (6, 3), (7, 4)]
-        self.assertCountEqual(expected_moves, valid_moves)
+class PawnTests(unittest.TestCase):
+    # TESTS PAWN CAN MOVE ONE OR TWO STEPS AS FIRST MOVE
+    def test_first_valid_moves(self):
+        pawn = Pawn('white', (0, 1))
+        valid_moves = pawn.calculate_valid_moves(None, [], [], None)
+        self.assertCountEqual([(0, 2), (0, 3)], valid_moves)
 
-    def test_invalid_black_move(self):
-        queen = Queen('black', (3, 0))
-        valid_moves = queen.calculate_valid_moves(None, [], [])
-        expected_moves = [(7, 5)]
-        self.assertNotEqual(expected_moves, valid_moves)
-
-    def test_invalid_white_move(self):
-        queen = Queen('white', (3, 7))
-        valid_moves = queen.calculate_valid_moves(None, [], [])
-        expected_moves = [(0, 2)]
-        self.assertNotEqual(expected_moves, valid_moves)
-
+    # TESTS THAT PAWN ACTUALLY MOVES, THAT THE new_position AND THE SPECIFIED MATCH
     def test_moved(self):
-        queen = Queen('black', (3, 0))
-        queen.calculate_valid_moves([], [], [])
-        new_position = queen.move_to_selected_position((3, 1))
-        self.assertEqual((3, 1), new_position)
+        pawn = Pawn('white', (0, 1))
+        pawn._valid_moves = pawn.calculate_valid_moves(None, [], [], None)
+        new_position = pawn.move_to_selected_position((0, 2))
+        self.assertEqual((0, 2), new_position)
 
-    def test_blocking_same_piece(self):
-        queen = Queen('black', (3, 0))
-        expected_moves = [(0, 0), (1, 0), (2, 0), (4, 0), (5, 0), (6, 0), (7, 0),
-                          (2, 1), (1, 2), (0, 3),
-                          (4, 1), (5, 2), (6, 3), (7, 4)]
-        valid_moves = queen.calculate_valid_moves(None, [], [(3, 1)])
-        self.assertCountEqual(expected_moves, valid_moves)
+    # TEST PAWN ONLY MOVES ONCE AFTER FIRST MOVE
+    def test_moves_after_first(self):
+        pawn = Pawn('white', (0, 2))
+        valid_moves = pawn.calculate_valid_moves(None, [], [], None)
+        self.assertEqual([(0, 3)], valid_moves)
 
-    def test_valid_black_moves_with_all_blocking_whites(self):
-        queen = Queen('black', (3, 0))
-        expected_moves = [(2, 0), (2, 1), (3, 1), (4, 1), (4, 0)]
-        valid_moves = queen.calculate_valid_moves(None, [(2, 0), (2, 1), (3, 1), (4, 1), (4, 0)], [])
-        self.assertCountEqual(expected_moves, valid_moves)
+    # # IF IT HAS A BLACK IN FRONT IT SHOULD HAVE [] EMPTY ARRAY AS THERE ARE NO AVAILABLE MOVES
+    def test_blocking_black_piece(self):
+        pawn = Pawn('white', (0, 3))
+        valid_moves = pawn.calculate_valid_moves(None, [], [(0, 4)], None)
+        self.assertEqual([], valid_moves)
 
-    def test_valid_black_moves_with_some_blocking_whites(self):
-        queen = Queen('black', (3, 0))
-        expected_moves = [(2, 0), (2, 1), (3, 1),
-                          (4, 1), (5, 2), (6, 3), (7, 4),
-                          (4, 0), (5, 0), (6, 0), (7, 0)]
-        valid_moves = queen.calculate_valid_moves(None, [(2, 0), (2, 1), (3, 1)], [])
-        self.assertCountEqual(expected_moves, valid_moves)
+    # SAME FOR A BLOCKING WHITE PIECE
+    def test_blocking_white_piece(self):
+        pawn = Pawn('black', (0, 4))
+        valid_moves = pawn.calculate_valid_moves(None, [(0, 3)], [], None)
+        self.assertEqual([], valid_moves)
 
-    def test_valid_white_moves_with_all_blocking_blacks(self):
-        queen = Queen('white', (3, 7))
-        expected_moves = [(2, 7), (2, 6), (3, 6), (4, 6), (4, 7)]
-        valid_moves = queen.calculate_valid_moves(None, [], [(2, 7), (2, 6), (3, 6), (4, 6), (4, 7)])
-        self.assertCountEqual(expected_moves, valid_moves)
+    def test_blocking_same_colour(self):
+        pawn = Pawn('black', (0, 4))
+        valid_moves = pawn.calculate_valid_moves(None, [], [(0, 3)], None)
+        self.assertEqual([], valid_moves)
 
-    def test_valid_white_moves_with_some_blocking_blacks(self):
-        queen = Queen('white', (3, 7))
-        expected_moves = [(2, 7), (2, 6), (3, 6),
-                          (4, 6), (5, 5), (6, 4), (7, 3),
-                          (4, 7), (5, 7), (6, 7), (7, 7)]
-        valid_moves = queen.calculate_valid_moves(None, [], [(2, 7), (2, 6), (3, 6)])
-        self.assertCountEqual(expected_moves, valid_moves)
+    # THAT PAWN CAN MOVE TO THE RIGHT WHEN CAPTURE IS AVAILABLE
+    def test_valid_move_when_capture_available(self):
+        pawn = Pawn('black', (0, 3))  # PASSING A BLACK PIECE ON TILE 0,3, DOESN'T NEED IMAGE INPUT
+        valid_moves = pawn.calculate_valid_moves(None, [(1, 2)], [], None)  # PASSING WHITE CO-ORDS THAT WOULD ALLOW CAPTURING
+        self.assertCountEqual([(0, 2), (1, 2)], valid_moves)  # THE TWO POSSIBLE CO-ORDS FOR THE BLACK PIECE TO MOVE TO
 
-    def test_captures_black_piece(self):
-        queen = Queen('white', (3, 7))
-        queen.calculate_valid_moves(None, [], [(3, 6)])
-        new_position = queen.move_to_selected_position((3, 6))
-        self.assertEqual((3, 6), new_position)
+    # THAT PAWN HAS MOVED WHEN CAPTURE WAS AVAILABLE
+    def test_move_diagonal_if_captured(self):
+        pawn = Pawn('black', (0, 3))  # PASSING A BLACK PIECE ON TILE 0,3, DOESN'T NEED IMAGE INPUT
+        pawn._valid_moves = pawn.calculate_valid_moves(None, [(1, 2)], [], None)  # PASSING W.LOCATION TO THE CALCULATE VALID MOVES FUNC
+        # PASSING NEW WHITE LOCATION POSITION TO FUNC AND SETTING IT EQUAL TO NEW POSITION VARIABLE
+        new_position = pawn.move_to_selected_position((1, 2))
+        # ASSERTING IF THE NEW POSITION IS EQUAL TO THE PROPOSED WHITE LOCATION CAPTURE
+        self.assertEqual((1, 2), new_position)
 
-    def test_captures_white_piece(self):
-        queen = Queen('black', (3, 0))
-        queen.calculate_valid_moves(None, [(3, 1)], [])
-        new_position = queen.move_to_selected_position((3, 1))
-        self.assertEqual((3, 1), new_position)
+    def test_captures_available_enemy(self):
+        pawn = Pawn('black', (0, 3))  # PASSING A BLACK PIECE ON TILE 0,3, DOESN'T NEED IMAGE INPUT
+        valid_moves = pawn.calculate_valid_moves(None, [(1, 2)], [], None)  # PASSING WHITE CO-ORDS THAT WOULD ALLOW CAPTURING
+        self.assertCountEqual([(1, 2), (0, 2)], valid_moves)  # THE TWO POSSIBLE CO-ORDS FOR THE BLACK PIECE TO MOVE TO
+
+
+if __name__ == '__main__':
+    unittest.main()
