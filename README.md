@@ -1,6 +1,10 @@
+<p align="center">
+  <img src="https://github.com/hannahkilloh/Team_6_SW3/assets/55206800/ec286730-1bc5-4258-ac0d-e808c282177f)" alt="Sublime's chess battle logo"/>
+</p>
+
 # Chess Battle - Python Chess Game
 
-Chess Battle is a Pythonic chess game board that allows you to play chess against a friend, a neighbor, a CFG classmate, a crush from Tinder, a sibling, I guess you get the point by now.
+Chess Battle is a Pythonic chess game board that allows you to play chess against a friend, a neighbour, a CFG classmate, a crush from Tinder, or a sibling, I guess you get the point by now.
 It provides a graphical user interface for a chessboard, complete with goofy and fun chess piece graphics.
 This README will guide you through the project, its setup, and usage.
 
