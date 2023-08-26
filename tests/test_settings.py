@@ -1,6 +1,6 @@
 import unittest
+from unittest.mock import patch
 import pygame
-
 from models.settings import Settings
 
 
@@ -35,8 +35,6 @@ class TestSettingsClass(unittest.TestCase):
         self.settings.reset_game()
         self.assertFalse(self.settings.game_over)
         self.assertEqual(self.settings.turn_step, 0)
-
-    # Add more test cases for other methods and attributes of the Settings class
 
 
 if __name__ == '__main__':
