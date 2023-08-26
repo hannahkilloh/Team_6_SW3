@@ -55,6 +55,29 @@ def get_king(pieces):
             return piece
 
 
+# testable
+def pawn_promotion_for_white(click_coords, selected_piece, white_piece_objects):
+    if isinstance(selected_piece, Pawn) and click_coords[1] == 7:
+        for index in range(len(white_piece_objects)):
+            if white_piece_objects[index].get_current_position() == click_coords:
+                white_piece_objects.pop(index)
+                break
+
+        queen = Queen('white', (click_coords[0], click_coords[1]))
+        white_piece_objects.append(queen)
+
+
+# testable
+def pawn_promotion_for_black(click_coords, selected_piece, black_piece_objects):
+    if isinstance(selected_piece, Pawn) and click_coords[1] == 0:
+        for index in range(len(black_piece_objects)):
+            if black_piece_objects[index].get_current_position() == click_coords:
+                black_piece_objects.pop(index)
+                break
+
+        queen = Queen('black', (click_coords[0], click_coords[1]))
+        black_piece_objects.append(queen)
+
 def play_game():
     run = True
     while run:
@@ -69,11 +92,11 @@ def play_game():
 
         if settings.white_king is not None:
             settings.white_king.calculate_king_in_check(settings.black_piece_objects, white_object_coords,
-                                                        black_object_coords, settings)
+                                                        black_object_coords)
 
         if settings.black_king is not None:
             settings.black_king.calculate_king_in_check(settings.white_piece_objects, white_object_coords,
-                                                        black_object_coords, settings)
+                                                        black_object_coords)
 
         board.initialise()
         draw_captured_objects()
@@ -121,15 +144,13 @@ def play_game():
                         else:
 
                             settings.selected_piece = get_clicked_piece(click_coords, settings.white_piece_objects)
-                            valid_moves = settings.selected_piece.calculate_valid_moves(history,
-                                                                                        get_all_object_coords(settings.white_piece_objects),
-                                                                                        get_all_object_coords(settings.black_piece_objects),
-                                                                                        settings)
+                            settings.selected_piece.calculate_valid_moves(history,
+                                                  get_all_object_coords(settings.white_piece_objects),
+                                                  get_all_object_coords(settings.black_piece_objects))
 
                             # test for check
-                            valid_moves = settings.selected_piece.check_valid_moves_for_check(valid_moves, get_all_object_coords(settings.white_piece_objects),
+                            settings.selected_piece.check_valid_moves_for_check(get_all_object_coords(settings.white_piece_objects),
                                                                                 get_all_object_coords(settings.black_piece_objects), settings)
-                            settings.selected_piece._valid_moves = valid_moves
 
                             if settings.turn_step == 0:  # if steps is 0 it moves onto the next step(1)
                                 settings.turn_step = 1
@@ -146,13 +167,7 @@ def play_game():
                         settings.selected_piece.move_to_selected_position(click_coords)
 
                         # Pawn Promotion for bottom of board
-                        if isinstance(settings.selected_piece, Pawn) and click_coords[1] == 7:
-                            for index in range(len(settings.white_piece_objects)):
-                                if settings.white_piece_objects[index].get_current_position() == click_coords:
-                                    settings.white_piece_objects.pop(index)
-                                    break
-                            queen = Queen('white', (click_coords[0], click_coords[1]))
-                            settings.white_piece_objects.append(queen)
+                        pawn_promotion_for_white(click_coords, settings.selected_piece, settings.white_piece_objects)
 
                         if click_coords in black_object_coords:
                             black_piece = get_clicked_piece(click_coords, settings.black_piece_objects)
@@ -164,11 +179,12 @@ def play_game():
                             ]
 
                         # check if black's king is in check and out of moves, thus making white the winner
-                        settings.black_king.calculate_king_in_check(settings.black_piece_objects, get_all_object_coords(settings.white_piece_objects), get_all_object_coords(settings.black_piece_objects), settings)
+                        settings.black_king.calculate_king_in_check(settings.black_piece_objects, get_all_object_coords(settings.white_piece_objects), get_all_object_coords(settings.black_piece_objects))
 
-                        king_valid_moves = settings.black_king.calculate_valid_moves(history, get_all_object_coords(settings.white_piece_objects), get_all_object_coords(settings.black_piece_objects), settings)
-                        king_valid_moves = settings.black_king.check_valid_moves_for_check(king_valid_moves, get_all_object_coords(settings.white_piece_objects), get_all_object_coords(settings.black_piece_objects), settings)
-                        if settings.black_king.get_is_in_check() and len(king_valid_moves) == 0:
+                        settings.black_king.calculate_valid_moves(history, get_all_object_coords(settings.white_piece_objects), get_all_object_coords(settings.black_piece_objects))
+                        settings.black_king.check_valid_moves_for_check(get_all_object_coords(settings.white_piece_objects), get_all_object_coords(settings.black_piece_objects), settings)
+
+                        if settings.black_king.get_is_in_check() and len(settings.black_king.get_valid_moves()) == 0:
                             # white has won the game
                             settings.winner = 'White'
                             settings.reset_game()
@@ -211,15 +227,13 @@ def play_game():
                         else:
 
                             settings.selected_piece = get_clicked_piece(click_coords, settings.black_piece_objects)
-                            valid_moves = settings.selected_piece.calculate_valid_moves(history,
-                                                                                        get_all_object_coords(settings.white_piece_objects),
-                                                                                        get_all_object_coords(settings.black_piece_objects),
-                                                                                        settings)
+                            settings.selected_piece.calculate_valid_moves(history,
+                                                                        get_all_object_coords(settings.white_piece_objects),
+                                                                        get_all_object_coords(settings.black_piece_objects))
 
                             # test for check
-                            valid_moves = settings.selected_piece.check_valid_moves_for_check(valid_moves, get_all_object_coords(settings.white_piece_objects),
+                            settings.selected_piece.check_valid_moves_for_check(get_all_object_coords(settings.white_piece_objects),
                                                                                 get_all_object_coords(settings.black_piece_objects), settings)
-                            settings.selected_piece._valid_moves = valid_moves
 
                             if settings.turn_step == 2:  # if step is 2 it moves onto the next step(3) of black player
                                 settings.turn_step = 3
@@ -236,13 +250,7 @@ def play_game():
                         settings.selected_piece.move_to_selected_position(click_coords)
 
                         # Pawn Promotion for top
-                        if isinstance(settings.selected_piece, Pawn) and click_coords[1] == 0:
-                            for index in range(len(settings.black_piece_objects)):
-                                if settings.black_piece_objects[index].get_current_position() == click_coords:
-                                    settings.black_piece_objects.pop(index)
-                                    break
-                            queen = Queen('black', (click_coords[0], click_coords[1]))
-                            settings.black_piece_objects.append(queen)
+                        pawn_promotion_for_black(click_coords, settings.selected_piece, settings.black_piece_objects)
 
                         if click_coords in white_object_coords:
                             white_piece = get_clicked_piece(click_coords, settings.white_piece_objects)
@@ -256,16 +264,14 @@ def play_game():
                         # check if white's king is in check and out of moves, thus making black the winner
                         settings.white_king.calculate_king_in_check(settings.black_piece_objects,
                                                                     get_all_object_coords(settings.white_piece_objects),
-                                                                    get_all_object_coords(settings.black_piece_objects), settings)
+                                                                    get_all_object_coords(settings.black_piece_objects))
 
-                        king_valid_moves = settings.white_king.calculate_valid_moves(history, get_all_object_coords(settings.white_piece_objects),
-                                                                                     get_all_object_coords(settings.black_piece_objects),
-                                                                                     settings)
-                        king_valid_moves = settings.white_king.check_valid_moves_for_check(king_valid_moves,
-                                                                                           get_all_object_coords(settings.white_piece_objects),
+                        settings.white_king.calculate_valid_moves(history, get_all_object_coords(settings.white_piece_objects),
+                                                                                     get_all_object_coords(settings.black_piece_objects))
+                        settings.white_king.check_valid_moves_for_check(get_all_object_coords(settings.white_piece_objects),
                                                                                            get_all_object_coords(settings.black_piece_objects),
                                                                                            settings)
-                        if settings.white_king.get_is_in_check() and len(king_valid_moves) == 0:
+                        if settings.white_king.get_is_in_check() and len(settings.white_king.get_valid_moves()) == 0:
                             # black has won the game
                             settings.winner = 'Black'
                             settings.reset_game()

@@ -12,7 +12,7 @@ class Rook(Piece):
         else:
             return "r"
 
-    def calculate_valid_moves(self, move_history, white_locations, black_locations, settings):
+    def calculate_valid_moves(self, move_history, white_locations, black_locations, update_protected_property=True):
         moves_list = []
 
         # Use the get_friends_and_enemies function to set friends_list and enemies_list
@@ -48,6 +48,9 @@ class Rook(Piece):
 
                 # Increment the chain to explore further in the current direction.
                 chain += 1
+
+        if update_protected_property:
+            self._valid_moves = moves_list
 
         # Set the valid moves for this rook object and return the list of valid moves.
         return moves_list

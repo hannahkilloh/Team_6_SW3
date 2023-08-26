@@ -11,7 +11,7 @@ class Pawn(Piece):
         else:
             return ""
 
-    def calculate_valid_moves(self, move_history, white_locations, black_locations, settings):
+    def calculate_valid_moves(self, move_history, white_locations, black_locations, update_protected_property=True):
         moves_list = []  # moves list calculates the possible moves of each piece
         if self._colour == 'white':
             no_blocking_white_piece = (self._current_position[0], self._current_position[1] + 1) not in white_locations
@@ -70,5 +70,8 @@ class Pawn(Piece):
             diagonal_left_is_white = (self._current_position[0] - 1, self._current_position[1] - 1) in white_locations
             if diagonal_left_is_white:
                 moves_list.append((self._current_position[0] - 1, self._current_position[1] - 1))
+
+        if update_protected_property:
+            self._valid_moves = moves_list
 
         return moves_list
