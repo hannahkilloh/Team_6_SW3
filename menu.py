@@ -8,7 +8,7 @@ import json
 
 pygame.init()
 settings = Settings()
-pygame.display.set_caption("Chess Battle")
+pygame.display.set_caption("Chess Battle!")
 
 
 def set_background():
