@@ -19,6 +19,7 @@ This README will guide you through the project, its setup, and usage.
 ## How to Install and Run the Project
 
 To run Chess Battle on your local machine, follow these steps:
+TODO: Not sure if this steps will work. Still trying to figure it out :)
 
 1. Clone the repository to your local machine:
 
