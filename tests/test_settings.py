@@ -3,6 +3,18 @@ from unittest.mock import patch
 import pygame
 from models.settings import Settings
 
+# Mock classes for testing
+class MockPiece:
+    def get_short_notation(self):
+        return 'MockShortNotation'
+
+class MockScreen:
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+
+    def get_size(self):
+        return (self.width, self.height)
 
 class TestSettingsClass(unittest.TestCase):
     def setUp(self):
@@ -35,6 +47,35 @@ class TestSettingsClass(unittest.TestCase):
         self.settings.reset_game()
         self.assertFalse(self.settings.game_over)
         self.assertEqual(self.settings.turn_step, 0)
+
+    def test_compute_notation(self):
+        # Mock the selected_piece for this test
+        self.settings.selected_piece = MockPiece()
+
+        coords = (1, 2)
+        notation = self.settings.compute_notation(coords)
+
+        expected_notation = 'MockShortNotationg3'
+        self.assertEqual(notation, expected_notation)
+
+    def test_get_scale_factor_x(self):
+        # Mock the screen_ object for this test
+        self.settings.screen_ = MockScreen(2000, 1000)
+
+        scale_factor_x = self.settings.get_scale_factor_x()
+        expected_scale_factor_x = 2.0  # Expected scale factor
+        self.assertEqual(scale_factor_x, expected_scale_factor_x)
+
+    def test_load_json(self):
+        # Mock the file system access for this test
+        with patch('models.settings.os.path.exists') as mock_os_exists, \
+                patch('models.settings.open') as mock_open:
+            mock_os_exists.return_value = True
+            mock_open.return_value.__enter__.return_value.read.return_value = '{"key": "value"}'
+
+            data = self.settings.load_json('test_file')
+            expected_data = {"key": "value"}  # Replace with the expected data
+            self.assertEqual(data, expected_data)
 
 
 if __name__ == '__main__':
