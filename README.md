@@ -11,15 +11,15 @@ This README will guide you through the project, its setup, and usage.
 ## Table of Contents
 
 1. [How to Install and Run the Project](#how-to-install-and-run-the-project)
-2. [How to Use the Project](#how-to-use-the-project)
-3. [Project Structure](#project-structure)
-4. [Credits](#credits)
-5. [License](#license)
+2. [How to Run the Test Suites](#how-to-run-the-test-suites)
+3. [How to Use the Project](#how-to-use-the-project)
+4. [Project Structure](#project-structure)
+5. [Credits](#credits)
+6. [License](#license)
 
 ## How to Install and Run the Project
 
 To run Chess Battle on your local machine, follow these steps:
-TODO: Not sure if this steps will work. Still trying to figure it out :)
 
 1. Clone the repository to your local machine:
 
@@ -59,6 +59,13 @@ TODO: Not sure if this steps will work. Still trying to figure it out :)
 
 7. Enjoy playing Chess Battle!
 
+## How to run the test suites
+
+```bash
+ python run_tests.py
+```
+<img width="704" alt="image" src="https://github.com/hannahkilloh/Team_6_SW3/assets/55206800/57c14b17-e062-40d2-ba70-a6e70e156a9f">
+
 ## How to Use the Project
 
 Chess Battle provides a user-friendly interface for playing chess. Here's how to use it:
@@ -78,8 +85,6 @@ Chess Battle provides a user-friendly interface for playing chess. Here's how to
   - The game keeps track of check and checkmate conditions (of course).
 
 - **Game History**: You can view a history of previous games, including the moves made in each game. Say Whaaaaaaaat?!
-
-TODO: I think this part is still pending, right?
 
 - **Winning Screen**: After a game ends, a winning screen will appear, allowing you to replay, return to the main menu, or quit the game.
 
