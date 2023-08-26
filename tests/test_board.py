@@ -5,7 +5,13 @@ from models.board import Board, BoardSettings
 
 class TestBoard(unittest.TestCase):
     def setUp(self):
-        self.board_settings = BoardSettings(None, None, status_text_background=None, tile_border_colour=None, font=None)
+        # Provide valid font paths here
+        font_path = "path/to/your/font.ttf"
+        self.board_settings = BoardSettings(
+            status_text_background=None,
+            tile_border_colour=None,  # Provide appropriate values
+            font=font_path  # Provide a valid font path here
+        )
         self.settings = Mock()
         self.board = Board(self.board_settings, self.settings)
 
