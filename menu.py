@@ -122,9 +122,9 @@ def history():
 
         entries = []
         buttons = []
-        i = 0
+        i = len(game_history_data) - 1  # Start at the end of the index to show most recent game first
         button_index = 0
-        for key, value in game_history_data.items():
+        for key, value in reversed(game_history_data.items()):
             if i >= start_index:
                 entries.append((key, value))
                 buttons.append(
@@ -133,12 +133,10 @@ def history():
                            pos=(500, 120 + (button_index * 60)), text_input=key, font=font,
                            base_color="blue", hovering_color="#7BFCFC", settings=settings, internal_id=button_index))
                 button_index += 1
-            i += 1
+            i -= 1
 
         for b in buttons:
             b.update(settings.win)
-
-        entries.reverse(self=False)
 
         # draw moves
         if settings.history_being_shown > -1:
