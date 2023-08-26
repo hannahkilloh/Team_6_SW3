@@ -2,8 +2,6 @@ import unittest
 from models.pieces.pawn import Pawn
 
 
-# todo: ONCE THE BOARD AND COLOURS ARE FLIPPED, ALL 'black' AND 'white' WILL SWAP
-
 class PawnTests(unittest.TestCase):
     # TESTS PAWN CAN MOVE ONE OR TWO STEPS AS FIRST MOVE
     def test_first_valid_moves(self):
