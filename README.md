@@ -11,7 +11,7 @@ This README will guide you through the project, its setup, and usage.
 ## Table of Contents
 
 1. [How to Install and Run the Project](#how-to-install-and-run-the-project)
-2. [How to run the test suites] (#how-to-run-the-test-suites)
+2. [How to Run the Test Suites](#how-to-run-the-test-suites)
 3. [How to Use the Project](#how-to-use-the-project)
 4. [Project Structure](#project-structure)
 5. [Credits](#credits)
@@ -64,6 +64,7 @@ To run Chess Battle on your local machine, follow these steps:
 ```bash
  python run_tests.py
 ```
+<img width="704" alt="image" src="https://github.com/hannahkilloh/Team_6_SW3/assets/55206800/57c14b17-e062-40d2-ba70-a6e70e156a9f">
 
 ## How to Use the Project
 
