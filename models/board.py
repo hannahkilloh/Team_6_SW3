@@ -6,10 +6,8 @@ from models.helpers import get_file_path_from_root
 
 
 class BoardSettings:
-    def __init__(self, tile_colour_1, tile_colour_2, status_text_background, tile_border_colour,
+    def __init__(self, status_text_background, tile_border_colour,
                  font):
-        # self.tile_colour_1 = tile_colour_1
-        # self.tile_colour_2 = tile_colour_2
         self.status_text_background = status_text_background
         self.tile_border_colour = tile_border_colour
         self.font = pygame.font.Font(font, 20)

@@ -15,8 +15,7 @@ pygame.font.init()
 pygame.display.set_icon(pygame.image.load(get_file_path_from_root('assets/images/chess_icon.ico')))
 
 # can pass in any colours, to set theme up easier
-board_settings = BoardSettings(
-    '#0000D2', '#7BFCFC', 'white', '#0000D2', get_file_path_from_root('assets/fonts/JetBrainsMono-Regular.ttf'))
+board_settings = BoardSettings('white', '#0000D2', get_file_path_from_root('assets/fonts/JetBrainsMono-Regular.ttf'))
 settings = Settings()
 board = Board(board_settings, settings)
 
