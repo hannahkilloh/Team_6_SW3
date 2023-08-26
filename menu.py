@@ -109,7 +109,7 @@ def history():
 
         history_box_image_empty = ImageOnScreen(
             image=pygame.image.load(
-                get_file_path_from_root("assets/images/games_history_bottom_box.png")).convert_alpha(), pos=(500, 580))
+                get_file_path_from_root("assets/images/games_history_chess_game_notation_box.png")).convert_alpha(), pos=(500, 580))
         history_box_image_empty.update(settings.win)
 
         # Load game history data from moves.json file
@@ -153,7 +153,7 @@ def history():
             y_pos = 0
             for line in lines:
                 moves = font.render(line, True, "blue")
-                moves_rect = moves.get_rect(center=(500, 400 + y_pos))
+                moves_rect = moves.get_rect(center=(500, 450 + y_pos))
                 settings.win.blit(moves, moves_rect)
                 y_pos += 30
 
