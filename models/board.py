@@ -1,3 +1,5 @@
+from threading import Timer
+
 import pygame
 from models.pieces.pawn import Pawn
 from models.buttons import Button
@@ -6,10 +8,8 @@ from models.helpers import get_file_path_from_root
 
 
 class BoardSettings:
-    def __init__(self, tile_colour_1, tile_colour_2, status_text_background, tile_border_colour,
+    def __init__(self, status_text_background, tile_border_colour,
                  font):
-        # self.tile_colour_1 = tile_colour_1
-        # self.tile_colour_2 = tile_colour_2
         self.status_text_background = status_text_background
         self.tile_border_colour = tile_border_colour
         self.font = pygame.font.Font(font, 20)
@@ -24,6 +24,8 @@ class Board:
         self.resign_button = Button(image=pygame.image.load(get_file_path_from_root("assets/images/resign_button.png")),
                                     pos=(900, 850), text_input="", font=self.settings.get_font(), base_color="blue",
                                     hovering_color='#7BFCFC', settings=self.settings)
+        self.display_error = False
+        self.error_message = ""
 
     def initialise(self):
         self.settings.timer.tick(self.settings.fps)
@@ -35,6 +37,7 @@ class Board:
 
         self.draw_board()
         self.draw_pieces()
+        self.draw_error()
 
     def draw_board(self):
         status_text = ['White: Select a Piece to Move!', 'White: Select a Destination!',
@@ -108,3 +111,22 @@ class Board:
                                                          self.settings.selected_piece.get_current_position()[1]
                                                          * 100 + 1, 100, 100], 2)
             self.draw_move_suggestions(colour, self.settings.selected_piece.get_valid_moves())
+
+    def draw_error(self):
+        if self.display_error:
+            invalid_selection = Button(image=pygame.image.load("assets/images/blank_button_long.png").convert_alpha(),
+                                       pos=(400, 400), text_input=self.error_message, font=self.settings.get_font(),
+                                       base_color="blue",
+                                       hovering_color='#7BFCFC', settings=self.settings)
+            invalid_selection.update(self.settings.win)
+
+            hide_message_timer = Timer(1.0, self.hide_error_message)
+            hide_message_timer.start()
+
+    def display_error_message(self, message):
+        self.display_error = True
+        self.error_message = message
+
+    def hide_error_message(self):
+        self.display_error = False
+        self.error_message = ""
