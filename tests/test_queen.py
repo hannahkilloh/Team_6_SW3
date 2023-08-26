@@ -1,8 +1,6 @@
 import unittest
 from models.pieces.queen import Queen
 
-# todo: don't think these colours need swapped
-
 
 class QueenTests(unittest.TestCase):
     def test_valid_white_moves(self):
@@ -37,7 +35,7 @@ class QueenTests(unittest.TestCase):
 
     def test_moved(self):
         queen = Queen('black', (3, 0))
-        queen.calculate_valid_moves([], [], [])
+        queen.calculate_valid_moves(None, [], [])
         new_position = queen.move_to_selected_position((3, 1))
         self.assertEqual((3, 1), new_position)
 

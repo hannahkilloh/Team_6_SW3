@@ -32,6 +32,8 @@ class Settings:
         self.game_over = False
         self.white_piece_objects = []
         self.black_piece_objects = []
+        self.white_king = None
+        self.black_king = None
         # Lists to keep track of captured pieces per player
         self.captured_piece_objects_white = []
         self.captured_piece_objects_black = []
@@ -39,6 +41,7 @@ class Settings:
         # Current piece selection, default to a value not in the board
         self.selected_piece = None
         self.winner = ""
+        self.history_being_shown = -1
         self.reset_game()
 
     def reset_game(self):

@@ -11,7 +11,7 @@ class Knight(Piece):
         else:
             return "n"
 
-    def calculate_valid_moves(self, move_history, white_locations, black_locations):
+    def calculate_valid_moves(self, move_history, white_locations, black_locations, update_protected_property=True):
         moves_list = []
         if self._colour == 'white':
             friends_list = white_locations
@@ -24,5 +24,7 @@ class Knight(Piece):
             if target not in friends_list and 0 <= target[0] <= 7 and 0 <= target[1] <= 7:
                 moves_list.append(target)
 
-        self._valid_moves = moves_list
+        if update_protected_property:
+            self._valid_moves = moves_list
+
         return moves_list

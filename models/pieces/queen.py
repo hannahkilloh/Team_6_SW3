@@ -13,7 +13,7 @@ class Queen(Piece):
         else:
             return "q"
 
-    def calculate_valid_moves(self, move_history, white_locations, black_locations):
+    def calculate_valid_moves(self, move_history, white_locations, black_locations, update_protected_property=True):
         moves_list = []
 
         # create a new instance of rook and pass queens colour and position
@@ -27,5 +27,8 @@ class Queen(Piece):
         bishop_valid_moves = bishop.calculate_valid_moves(move_history, white_locations, black_locations)
         moves_list.extend(bishop_valid_moves)
 
-        self._valid_moves = moves_list
+        # if king is in check
+        if update_protected_property:
+            self._valid_moves = moves_list
+
         return moves_list

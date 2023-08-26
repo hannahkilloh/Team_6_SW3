@@ -15,7 +15,7 @@ class TestPiece(unittest.TestCase):
 
     def test_move_to_selected_position_valid(self):
         # Test moving to a valid position.
-        self.piece._Piece__valid_moves = [(0, 1), (1, 0)]
+        self.piece._valid_moves = [(0, 1), (1, 0)]
         new_position = self.piece.move_to_selected_position((1, 0))
         self.assertEqual(new_position, (1, 0))
 
