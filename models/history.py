@@ -8,17 +8,14 @@ class History:
         self.cur_session = ""
         self.reset_history(settings)
 
-    def is_move_in_history(self, move, taking_material=False):
+    def is_move_in_history(self, move):
         # convert the int x, y coords to chess notation before checking history dict
-        move = self.settings.compute_notation(move, taking_material=taking_material)
+        move = self.settings.compute_notation(move)
         moves = self.move_history[self.cur_session]
         for m in moves:
             if m[0] == move:
                 return True
         return False
-
-    def is_move_in_history(self, move):
-        self.is_move_in_history(move, taking_material=False)
 
     def reset_history(self, settings):
         self.move_history = settings.load_json("moves")
