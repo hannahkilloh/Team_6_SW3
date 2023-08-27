@@ -4,18 +4,14 @@ from unittest.mock import Mock, patch
 import pygame
 
 from models.board import Board, BoardSettings
-from models.settings import get_file_path_from_root
+from models.settings import get_file_path_from_root, Settings
 
 
 class TestBoard(unittest.TestCase):
     def setUp(self):
-        font = pygame.font.Font(get_file_path_from_root('assets/fonts/JetBrainsMono-Bold.ttf'))
-        self.board_settings = BoardSettings(
-            status_text_background='white',
-            tile_border_colour='#0000D2',
-            font=pygame.font.Font(font, 20)
-        )
-        self.settings = Mock()
+        self.board_settings = BoardSettings('white', '#0000D2',
+                                       get_file_path_from_root('assets/fonts/JetBrainsMono-Regular.ttf'))
+        self.settings = Settings()
         self.board = Board(self.board_settings, self.settings)
 
     def test_initialization(self):
@@ -26,8 +22,8 @@ class TestBoard(unittest.TestCase):
         # Mock the required objects and methods
         self.settings.game_over = False
         self.settings.turn_step = 0
-        self.settings.get_scale_factor_x.return_value = 1.0
-        self.settings.get_scale_factor_y.return_value = 1.0
+        self.settings.get_scale_factor_x = 1.0
+        self.settings.get_scale_factor_y = 1.0
         self.settings.winner = None
 
         with patch('pygame.image.load') as mock_load, patch.object(self.settings, 'get_font'), patch.object(
@@ -54,7 +50,7 @@ class TestBoard(unittest.TestCase):
         # Mock the required objects and methods
         mock_color = 'red'
         mock_potential_moves = [(1, 2), (3, 4)]
-        self.settings.win = Mock()
+        self.settings.win = pygame.Surface((1000, 900))
 
         self.board.draw_move_suggestions(mock_color, mock_potential_moves)
 
@@ -66,7 +62,7 @@ class TestBoard(unittest.TestCase):
         mock_king_piece = Mock()
         mock_king_piece.get_is_in_check.return_value = True
         mock_king_piece.get_current_position.return_value = (2, 3)
-        self.settings.win = Mock()
+        self.settings.win = pygame.Surface((1000, 900))
 
         self.board.draw_flashing_check(mock_king_piece)
 
