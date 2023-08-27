@@ -28,40 +28,38 @@ class Piece:
 
     def check_valid_moves_for_check(self, white_locations, black_locations, settings):
         new_moves = []
-        white_locations_copy = white_locations.copy()
-        black_locations_copy = black_locations.copy()
-
         for valid_move in self._valid_moves:
-            # get locations of current team pieces
             if self._colour == "white":
-                friendly_locations = white_locations_copy
-            else:
-                friendly_locations = black_locations_copy
-
-            # get the king of the same team
-            if self._colour == "white":
-                king = settings.white_king
+                locations = white_locations.copy()
                 enemy_list = settings.black_piece_objects.copy()
+                king = settings.white_king
             else:
-                king = settings.black_king
+                locations = black_locations.copy()
                 enemy_list = settings.white_piece_objects.copy()
+                king = settings.black_king
 
-            if valid_move in friendly_locations:
-                friendly_locations.remove(valid_move)
+            # set the current position of that list to the current move we are testing
+            for i in range(len(locations)):
+                if self._current_position == locations[i]:
+                    locations[i] = valid_move
 
+            # if new position is occupied by enemy piece, remove it (simulates taking)
             for enemy in enemy_list:
                 if enemy.get_current_position() == valid_move:
                     enemy_list.remove(enemy)
-
-            # set the current position of that list to the current move we are testing
-            for i in range(len(friendly_locations)):
-                if self._current_position == friendly_locations[i]:
-                    friendly_locations[i] = valid_move
 
             if self._piece_type == "king":
                 pos_override = valid_move
             else:
                 pos_override = None
+
+            # setup locations arrays for passing to calculate_king_in_check depending on current player colour
+            if self._colour == "white":
+                white_locations_copy = locations
+                black_locations_copy = black_locations.copy()
+            else:
+                white_locations_copy = white_locations.copy()
+                black_locations_copy = locations
 
             # check if this position would result in a check
             is_king_in_check_for_cur_move = king.calculate_king_in_check(enemy_list, white_locations_copy, black_locations_copy, pos_override=pos_override)

@@ -36,39 +36,26 @@ class King(Piece):
     def calculate_castling_moves(self, move_history, white_locations, black_locations):
         castling_moves = []
         if move_history is not None:
-            if self._colour == 'black':
-                # king is in initial position, and has not moved once.
-                is_king_initial_pos = not move_history.is_move_in_history((3, 7))
-                is_a_rook_initial_pos = not move_history.is_move_in_history((0, 7))
-                is_b_rook_initial_pos = not move_history.is_move_in_history((7, 7))
-                is_a_adjacent_pos_free = ((1, 7) not in white_locations and (1, 7) not in black_locations) and (
-                            (2, 7) not in white_locations and (2, 7) not in black_locations)
-                is_b_adjacent_pos_free = ((6, 7) not in white_locations and (6, 7) not in black_locations) and (
-                            (5, 7) not in white_locations and (5, 7) not in black_locations) and (
-                                                     (4, 7) not in white_locations and (4, 7) not in black_locations)
-                if is_king_initial_pos and is_a_rook_initial_pos and is_a_adjacent_pos_free:
-                    # can castle with left rook
-                    castling_moves.append((0, 7))
-                if is_king_initial_pos and is_b_rook_initial_pos and is_b_adjacent_pos_free:
-                    # can castle with right rook
-                    castling_moves.append((7, 7))
+            if self._colour == "black":
+                second_pos = 7
+            else:
+                second_pos = 0
 
-            elif self._colour == 'white':
-                # king is in initial position, and has not moved once.
-                is_king_initial_pos = not move_history.is_move_in_history((3, 0))
-                is_a_rook_initial_pos = not move_history.is_move_in_history((0, 0))
-                is_b_rook_initial_pos = not move_history.is_move_in_history((7, 0))
-                is_a_adjacent_pos_free = ((1, 0) not in white_locations and (1, 0) not in black_locations) and (
-                            (2, 0) not in white_locations and (2, 0) not in black_locations)
-                is_b_adjacent_pos_free = ((6, 0) not in white_locations and (6, 0) not in black_locations) and (
-                            (5, 0) not in white_locations and (5, 0) not in black_locations) and (
-                                                     (4, 0) not in white_locations and (4, 0) not in black_locations)
-                if is_king_initial_pos and is_a_rook_initial_pos and is_a_adjacent_pos_free:
-                    # can castle with left rook
-                    castling_moves.append((0, 0))
-                if is_king_initial_pos and is_b_rook_initial_pos and is_b_adjacent_pos_free:
-                    # can castle with right rook
-                    castling_moves.append((7, 0))
+            # king is in initial position, and has not moved once.
+            is_king_initial_pos = not move_history.is_move_in_history((3, second_pos))
+            is_a_rook_initial_pos = not move_history.is_move_in_history((0, second_pos))
+            is_b_rook_initial_pos = not move_history.is_move_in_history((7, second_pos))
+            is_a_adjacent_pos_free = ((1, second_pos) not in white_locations and (1, second_pos) not in black_locations) and (
+                    (2, second_pos) not in white_locations and (2, second_pos) not in black_locations)
+            is_b_adjacent_pos_free = ((6, second_pos) not in white_locations and (6, second_pos) not in black_locations) and (
+                    (5, second_pos) not in white_locations and (5, second_pos) not in black_locations) and (
+                                             (4, second_pos) not in white_locations and (4, second_pos) not in black_locations)
+            if is_king_initial_pos and is_a_rook_initial_pos and is_a_adjacent_pos_free:
+                # can castle with left rook
+                castling_moves.append((0, second_pos))
+            if is_king_initial_pos and is_b_rook_initial_pos and is_b_adjacent_pos_free:
+                # can castle with right rook
+                castling_moves.append((7, second_pos))
 
         return castling_moves
 
