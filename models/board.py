@@ -32,7 +32,7 @@ class Board:
         # self.settings.win.fill(self.board_settings.tile_colour_1)
         # Adding the main game background and setting the position
         main_game_background = pygame.image.load(
-            get_file_path_from_root("assets/images/chess_battle_background_MAIN.png")).convert()
+            get_file_path_from_root("assets/images/chess_board_MAIN.png")).convert()
         self.settings.win.blit(main_game_background, (0, 0))
 
         self.draw_board()
