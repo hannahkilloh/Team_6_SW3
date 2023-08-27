@@ -48,7 +48,7 @@ def get_all_object_coords(piece_objects):
 # loops through all piece objects passed to it and returns the king
 def get_king(pieces):
     for piece in pieces:
-        if piece.piece_type == "king":
+        if piece.get_piece_type() == "king":
             return piece
 
 
