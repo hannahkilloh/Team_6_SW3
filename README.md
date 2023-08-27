@@ -64,6 +64,7 @@ To run Chess Battle on your local machine, follow these steps:
 ```bash
  python run_tests.py
 ```
+
 <img width="704" alt="image" src="https://github.com/hannahkilloh/Team_6_SW3/assets/55206800/57c14b17-e062-40d2-ba70-a6e70e156a9f">
 
 ## How to Use the Project
@@ -71,6 +72,8 @@ To run Chess Battle on your local machine, follow these steps:
 Chess Battle provides a user-friendly interface for playing chess. Here's how to use it:
 
 - **Main Menu**: When you start the game, you'll be greeted with a main menu that offers the following options:
+
+  > **_NOTE:_** For users with smaller screens (under 16 inches), here's a tip to enhance your experience: Hold down the Shift key while dragging the corner of your screen inward to resize it while maintaining the aspect ratio.
 
   - **Play Chess**: Start a new game of chess.
   - **Games History**: View a history of previous games.
@@ -84,7 +87,7 @@ Chess Battle provides a user-friendly interface for playing chess. Here's how to
   - Pawn promotion occurs when a pawn reaches the opposite end of the board. Also supported.
   - The game keeps track of check and checkmate conditions (of course).
 
-- **Game History**: You can view a history of previous games, including the moves made in each game. Say Whaaaaaaaat?!
+- **Game History**: You can view a history of previous games, including the moves made in each game. Say Whaaaaaaaat?!. All the movements are being recorded on the moves.json file for you.
 
 - **Winning Screen**: After a game ends, a winning screen will appear, allowing you to replay, return to the main menu, or quit the game.
 
