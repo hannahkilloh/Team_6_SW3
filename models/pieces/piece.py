@@ -1,7 +1,6 @@
 import pygame
 from models.helpers import get_file_path_from_root
 
-
 class Piece:
     def __init__(self, colour, current_position, piece_type, small_size, normal_size):
         self._colour = colour
@@ -30,47 +29,40 @@ class Piece:
     def check_valid_moves_for_check(self, white_locations, black_locations, settings):
         new_moves = []
         for valid_move in self._valid_moves:
-            white_locations_copy = white_locations.copy()
-            black_locations_copy = black_locations.copy()
-            # get locations of current team pieces
             if self._colour == "white":
-                # set the current position of that list to the current move we are testing
-                for i in range(len(white_locations_copy)):
-                    if self._current_position == white_locations_copy[i]:
-                        white_locations_copy[i] = valid_move
-                    elif valid_move == white_locations_copy[i]:
-                        white_locations_copy.remove(valid_move)
-                # if new position is occupied by enemy piece, remove it (simulates taking)
+                locations = white_locations.copy()
                 enemy_list = settings.black_piece_objects.copy()
-                for enemy in enemy_list:
-                    if enemy.get_current_position() == valid_move:
-                        enemy_list.remove(enemy)
-                # get the king of the same team
                 king = settings.white_king
             else:
-                # set the current position of that list to the current move we are testing
-                for i in range(len(black_locations_copy)):
-                    if self._current_position == black_locations_copy[i]:
-                        black_locations_copy[i] = valid_move
-                    elif valid_move == black_locations_copy[i]:
-                        black_locations_copy.remove(valid_move)
-                # if new position is occupied by enemy piece, remove it (simulates taking)
+                locations = black_locations.copy()
                 enemy_list = settings.white_piece_objects.copy()
-                for enemy in enemy_list:
-                    if enemy.get_current_position() == valid_move:
-                        enemy_list.remove(enemy)
-                # get the king of the same team
                 king = settings.black_king
+
+            # set the current position of that list to the current move we are testing
+            for i in range(len(locations)):
+                if self._current_position == locations[i]:
+                    locations[i] = valid_move
+
+            # if new position is occupied by enemy piece, remove it (simulates taking)
+            for enemy in enemy_list:
+                if enemy.get_current_position() == valid_move:
+                    enemy_list.remove(enemy)
 
             if self.piece_type == "king":
                 pos_override = valid_move
             else:
                 pos_override = None
 
+            # setup locations arrays for passing to calculate_king_in_check depending on current player colour
+            if self._colour == "white":
+                white_locations_copy = locations
+                black_locations_copy = black_locations.copy()
+            else:
+                white_locations_copy = white_locations.copy()
+                black_locations_copy = locations
+
             # check if this position would result in a check
-            is_king_in_check_for_cur_move = king.calculate_king_in_check(enemy_list, white_locations_copy,
-                                                                         black_locations_copy,
-                                                                         pos_override=pos_override)
+            is_king_in_check_for_cur_move = king.calculate_king_in_check(enemy_list, white_locations_copy, black_locations_copy, pos_override=pos_override)
             if not is_king_in_check_for_cur_move:
                 new_moves.append(valid_move)
 
