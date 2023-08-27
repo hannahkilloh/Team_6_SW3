@@ -50,30 +50,27 @@ class Settings:
         # Current piece selection, default to a value not in the board
         self.selected_piece = None
         self.winner = ""
-        self.black_piece_objects = [Pawn('black', (0, 6)), Pawn('black', (1, 6)),
-                                    Pawn('black', (2, 6)), Pawn('black', (3, 6)),
-                                    Pawn('black', (4, 6)), Pawn('black', (5, 6)),
-                                    Pawn('black', (6, 6)), Pawn('black', (7, 6)),
-
-                                    King('black', (3, 7)),
-                                    Knight('black', (1, 7)), Knight('black', (6, 7)),
-                                    Rook('black', (7, 7)), Rook('black', (0, 7)),
-                                    Bishop('black', (2, 7)), Bishop('black', (5, 7)),
-                                    Queen('black', (4, 7))]
-
-        self.white_piece_objects = [Pawn('white', (0, 1)), Pawn('white', (1, 1)),
-                                    Pawn('white', (2, 1)), Pawn('white', (3, 1)),
-                                    Pawn('white', (4, 1)), Pawn('white', (5, 1)),
-                                    Pawn('white', (6, 1)), Pawn('white', (7, 1)),
-
-                                    King('white', (3, 0)),
-                                    Knight('white', (1, 0)), Knight('white', (6, 0)),
-                                    Rook('white', (0, 0)), Rook('white', (7, 0)),
-                                    Bishop('white', (2, 0)), Bishop('white', (5, 0)),
-                                    Queen('white', (4, 0))]
-
+        self.black_piece_objects = self.setup_objects("black")
+        self.white_piece_objects = self.setup_objects("white")
         self.captured_piece_objects_white = []
         self.captured_piece_objects_black = []
+
+    def setup_objects(self, colour):
+        pawn_offset = 1 if colour == "white" else 6
+        king_offset = 0 if colour == "white" else 7
+        knight_offset = 0 if colour == "white" else 7
+        rook_offset = 0 if colour == "white" else 7
+        bishop_offset = 0 if colour == "white" else 7
+        queen_offset = 0 if colour == "white" else 7
+        return [Pawn(colour, (0, pawn_offset)), Pawn(colour, (1, pawn_offset)),
+                Pawn(colour, (2, pawn_offset)), Pawn(colour, (3, pawn_offset)),
+                Pawn(colour, (4, pawn_offset)), Pawn(colour, (5, pawn_offset)),
+                Pawn(colour, (6, pawn_offset)), Pawn(colour, (7, pawn_offset)),
+                King(colour, (3, king_offset)),
+                Knight(colour, (1, knight_offset)), Knight(colour, (6, knight_offset)),
+                Rook(colour, (7, rook_offset)), Rook(colour, (0, rook_offset)),
+                Bishop(colour, (2, bishop_offset)), Bishop(colour, (5, bishop_offset)),
+                Queen(colour, (4, queen_offset))]
 
     def compute_notation(self, coords):
         return self.selected_piece.get_short_notation() + self.x_names[int(coords[0])] + str(int(coords[1]) + 1)
