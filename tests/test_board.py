@@ -4,12 +4,12 @@ from unittest.mock import Mock, patch
 import pygame
 
 from models.board import Board, BoardSettings
-from models.settings import get_file_path_from_root,
+from models.settings import get_file_path_from_root
 
 
 class TestBoard(unittest.TestCase):
     def setUp(self):
-        font= pygame.font.Font(get_file_path_from_root('assets/fonts/JetBrainsMono-Bold.ttf'))
+        font = pygame.font.Font(get_file_path_from_root('assets/fonts/JetBrainsMono-Bold.ttf'))
         self.board_settings = BoardSettings(
             status_text_background='white',
             tile_border_colour='#0000D2',
