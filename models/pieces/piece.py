@@ -4,7 +4,7 @@ from models.helpers import get_file_path_from_root
 class Piece:
     def __init__(self, colour, current_position, piece_type, small_size, normal_size):
         self._colour = colour
-        self.piece_type = piece_type
+        self._piece_type = piece_type
         self._current_position = current_position
         self._valid_moves = []
         image_url = get_file_path_from_root(f'assets/images/{colour[0]}_{piece_type}.png')
@@ -48,7 +48,7 @@ class Piece:
                 if enemy.get_current_position() == valid_move:
                     enemy_list.remove(enemy)
 
-            if self.piece_type == "king":
+            if self._piece_type == "king":
                 pos_override = valid_move
             else:
                 pos_override = None
@@ -91,3 +91,6 @@ class Piece:
 
     def get_valid_moves(self):
         return self._valid_moves
+
+    def get_piece_type(self):
+        return self._piece_type

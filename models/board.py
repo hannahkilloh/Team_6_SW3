@@ -77,8 +77,8 @@ class Board:
     def draw_flashing_check(self, king_piece):
         if king_piece.get_is_in_check():
             pygame.draw.rect(self.settings.win, 'red', [king_piece.get_current_position()[0] * 100 + 1,
-                                                            king_piece.get_current_position()[1] * 100 + 1,
-                                                            100, 100], 5)
+                                                        king_piece.get_current_position()[1] * 100 + 1,
+                                                        100, 100], 5)
 
     def draw_piece(self, piece):
         x_coord = 10
