@@ -82,6 +82,10 @@ class InvalidSelectionError(Exception):
     pass
 
 
+# dump the current moves to the file system
+def dump_move_history():
+    settings.write_json("moves", history.move_history)
+
 def play_game():
     run = True
     while run:
@@ -200,6 +204,7 @@ def play_game():
                                 # white has won the game
                                 settings.winner = 'White'
                                 settings.reset_game()
+                                dump_move_history()
                                 menu.winning_screen("White")
 
                             settings.turn_step = 2  # turns to other player now
@@ -296,6 +301,7 @@ def play_game():
                                 # black has won the game
                                 settings.winner = 'Black'
                                 settings.reset_game()
+                                dump_move_history()
                                 menu.winning_screen("Black")
 
                             settings.turn_step = 0  # turns back to other player now
@@ -316,6 +322,5 @@ def play_game():
         if settings.winner != '':
             settings.game_over = True
 
-    # dump the current moves on quit
-    settings.write_json("moves", history.move_history)
+    dump_move_history()
     pygame.quit()
