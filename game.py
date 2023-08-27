@@ -310,7 +310,9 @@ def play_game():
 
                     # checking if resign button has been clicked
                     if board.resign_button.check_for_input(pygame.mouse.get_pos()):
+                        dump_move_history()
                         settings.reset_game()
+                        history.reset_history(settings)
             except InvalidSelectionError as error:
                 board.display_error_message(str(error))
 
