@@ -72,8 +72,10 @@ class Settings:
                 Bishop(colour, (2, bishop_offset)), Bishop(colour, (5, bishop_offset)),
                 Queen(colour, (4, queen_offset))]
 
-    def compute_notation(self, coords):
-        return self.selected_piece.get_short_notation() + self.x_names[int(coords[0])] + str(int(coords[1]) + 1)
+    def compute_notation(self, coords, taking_material):
+        piece_name = self.selected_piece.get_short_notation()
+        piece_name = piece_name if not taking_material else piece_name + "x"
+        return piece_name + self.x_names[int(coords[0])] + str(int(coords[1]) + 1)
 
     def get_font(self, size=35):  # Returns Press-Start-2P in the desired size
         return pygame.font.Font(get_file_path_from_root('assets/fonts/JetBrainsMono-Bold.ttf'), size)  # add size variable to settings file
