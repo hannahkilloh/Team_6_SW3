@@ -14,6 +14,7 @@ pygame.init()
 pygame.font.init()
 pygame.display.set_icon(pygame.image.load(get_file_path_from_root('assets/images/chess_icon.ico')))
 
+# can pass in any colours, to set theme up easier
 board_settings = BoardSettings('white', '#0000D2', get_file_path_from_root('assets/fonts/JetBrainsMono-Regular.ttf'))
 settings = Settings()
 board = Board(board_settings, settings)
@@ -33,6 +34,7 @@ def get_object_coords(piece):
     return piece.get_current_position()
 
 
+# testable
 def get_clicked_piece(click_coords, piece_objects):
     for piece in piece_objects:
         if click_coords == piece.get_current_position():
@@ -48,10 +50,11 @@ def get_all_object_coords(piece_objects):
 # loops through all piece objects passed to it and returns the king
 def get_king(pieces):
     for piece in pieces:
-        if piece.get_piece_type() == "king":
+        if piece.piece_type == "king":
             return piece
 
 
+# testable
 def pawn_promotion_for_white(click_coords, selected_piece, white_piece_objects):
     if isinstance(selected_piece, Pawn) and click_coords[1] == 7:
         for index in range(len(white_piece_objects)):
@@ -63,6 +66,7 @@ def pawn_promotion_for_white(click_coords, selected_piece, white_piece_objects):
         white_piece_objects.append(queen)
 
 
+# testable
 def pawn_promotion_for_black(click_coords, selected_piece, black_piece_objects):
     if isinstance(selected_piece, Pawn) and click_coords[1] == 0:
         for index in range(len(black_piece_objects)):
@@ -82,9 +86,11 @@ class InvalidSelectionError(Exception):
 def dump_move_history():
     settings.write_json("moves", history.move_history)
 
+
 def play_game():
     run = True
     while run:
+        # todo: could possibly refactor w/b_object_coords as its duplicated
         # maps through white_piece_objects array of objects and passes each object into the
         # get_object_co-ords function and returns the co-ords as an array
         white_object_coords = list(map(get_object_coords, settings.white_piece_objects))
@@ -104,22 +110,16 @@ def play_game():
         board.initialise()
         draw_captured_objects()
 
+        # Event handling
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
 
             try:
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and not settings.game_over:
-                    x_coord = int((event.pos[0] / settings.get_scale_factor_x()) // 100)
-                    y_coord = int((event.pos[1] / settings.get_scale_factor_y()) // 100)
+                    x_coord = int((event.pos[0] / settings.get_scale_factor_x()) // 100)  # x coord
+                    y_coord = int((event.pos[1] / settings.get_scale_factor_y()) // 100)  # y coord
                     click_coords = (x_coord, y_coord)
-
-                    if settings.turn_step == 0 and click_coords not in white_object_coords and \
-                                board.resign_button.check_for_input(pygame.mouse.get_pos()) is False:
-                        raise InvalidSelectionError("Select white")
-                    elif settings.turn_step == 2 and click_coords not in black_object_coords and \
-                                board.resign_button.check_for_input(pygame.mouse.get_pos()) is False:
-                        raise InvalidSelectionError("Select black")
 
                     # if the step is 0 or 1 then it is the whites turn
                     if settings.turn_step <= 1:
@@ -127,34 +127,52 @@ def play_game():
                         black_object_coords = get_all_object_coords(settings.black_piece_objects)
 
                         if click_coords in white_object_coords:  # if white piece has been clicked
-                            # King is selected, and we are trying to move to Rook, but allowed to castle on this Rook
+                            # King is selected and we are trying to move to Rook, but also we are allowed to castle on this Rook
 
-                            if isinstance(settings.selected_piece, King) and \
-                                    isinstance(get_clicked_piece(click_coords, settings.white_piece_objects), Rook) \
-                                    and click_coords in settings.selected_piece.get_valid_moves():
+                            if isinstance(settings.selected_piece, King) and isinstance(
+                                    get_clicked_piece(click_coords, settings.white_piece_objects),
+                                    Rook) and click_coords in settings.selected_piece.get_valid_moves():
+
+                                # castling logic
                                 if click_coords == (0, 0):  # short castle
+                                    history.move_history[history.cur_session].append([
+                                        settings.compute_notation(settings.selected_piece.get_current_position(), taking_material=False),
+                                        # old position
+                                        "O-O"  # new position
+                                    ])
                                     settings.selected_piece.force_move_to_selected_position(
                                         (1, 0))  # move king to short castle pos
                                     for piece in settings.white_piece_objects:  # find short rook
                                         if piece.get_current_position() == (0, 0):
-                                            piece.force_move_to_selected_position((2, 0))  # move rook to short castle
+                                            piece.force_move_to_selected_position(
+                                                (2, 0))  # move rook to short castle pos
                                 elif click_coords == (7, 0):  # long castle
+                                    history.move_history[history.cur_session].append([
+                                        settings.compute_notation(settings.selected_piece.get_current_position(), taking_material=False),
+                                        # old position
+                                        "O-O-O"  # new position
+                                    ])
                                     settings.selected_piece.force_move_to_selected_position(
                                         (5, 0))  # move king to long castle pos
                                     for piece in settings.white_piece_objects:  # find long rook
                                         if piece.get_current_position() == (7, 0):
-                                            piece.force_move_to_selected_position((4, 0))  # move rook to long castle
-
+                                            piece.force_move_to_selected_position(
+                                                (4, 0))  # move rook to long castle pos
+                                            # add move to history
+                                # end turn
                                 settings.turn_step = 2  # turns back to other player now
                                 # so resets the variable used for tracking the currently selected piece
                                 settings.selected_piece = None
 
                             # Standard piece selection logic
                             else:
+
                                 settings.selected_piece = get_clicked_piece(click_coords, settings.white_piece_objects)
-                                settings.selected_piece.calculate_valid_moves(
-                                    history, get_all_object_coords(settings.white_piece_objects),
-                                    get_all_object_coords(settings.black_piece_objects))
+                                settings.selected_piece.calculate_valid_moves(history,
+                                                                              get_all_object_coords(
+                                                                                  settings.white_piece_objects),
+                                                                              get_all_object_coords(
+                                                                                  settings.black_piece_objects))
 
                                 # test for check
                                 settings.selected_piece.check_valid_moves_for_check(
@@ -164,27 +182,33 @@ def play_game():
                                 if settings.turn_step == 0:  # if steps is 0 it moves onto the next step(1)
                                     settings.turn_step = 1
 
+                        # Todo: logic for this not working perfectly yet
+                        # elif settings.turn_step == 0 and click_coords not in white_object_coords:
+                        #     raise InvalidSelectionError("Select white")
+
                         elif settings.selected_piece is not None and click_coords not in \
-                                settings.selected_piece.get_valid_moves() and \
-                                board.resign_button.check_for_input(pygame.mouse.get_pos()) is False:
+                                settings.selected_piece.get_valid_moves():
                             raise InvalidSelectionError("Invalid move")
 
                         elif settings.selected_piece is not None and click_coords in \
                                 settings.selected_piece.get_valid_moves():
 
+                            taking_material = click_coords in black_object_coords
+
                             # add move to history
                             history.move_history[history.cur_session].append([
-                                settings.compute_notation(settings.selected_piece.get_current_position()),
-                                settings.compute_notation(click_coords)  # new position
+                                settings.compute_notation(settings.selected_piece.get_current_position(), taking_material=False),  # old position
+                                settings.compute_notation(click_coords, taking_material=taking_material)  # new position
                             ])
 
                             # moves selected piece to position only if it is a valid move
                             settings.selected_piece.move_to_selected_position(click_coords)
 
                             # Pawn Promotion for bottom of board
-                            pawn_promotion_for_white(click_coords, settings.selected_piece, settings.white_piece_objects)
+                            pawn_promotion_for_white(click_coords, settings.selected_piece,
+                                                     settings.white_piece_objects)
 
-                            if click_coords in black_object_coords:
+                            if taking_material:
                                 black_piece = get_clicked_piece(click_coords, settings.black_piece_objects)
                                 settings.captured_piece_objects_white.append(black_piece)
 
@@ -194,19 +218,26 @@ def play_game():
                                 ]
 
                             # check if black's king is in check and out of moves, thus making white the winner
-                            settings.black_king.calculate_king_in_check(
-                                settings.black_piece_objects, get_all_object_coords(settings.white_piece_objects),
-                                get_all_object_coords(settings.black_piece_objects))
+                            settings.black_king.calculate_king_in_check(settings.black_piece_objects,
+                                                                        get_all_object_coords(
+                                                                            settings.white_piece_objects),
+                                                                        get_all_object_coords(
+                                                                            settings.black_piece_objects))
 
-                            settings.black_king.calculate_valid_moves(
-                                history, get_all_object_coords(settings.white_piece_objects),
-                                get_all_object_coords(settings.black_piece_objects))
+                            settings.black_king.calculate_valid_moves(history, get_all_object_coords(
+                                settings.white_piece_objects), get_all_object_coords(settings.black_piece_objects))
                             settings.black_king.check_valid_moves_for_check(
                                 get_all_object_coords(settings.white_piece_objects),
                                 get_all_object_coords(settings.black_piece_objects), settings)
 
-                            if settings.black_king.get_is_in_check() and \
-                                    len(settings.black_king.get_valid_moves()) == 0:
+                            if settings.black_king.get_is_in_check():
+                                history.move_history[history.cur_session][-1][1] = history.move_history[history.cur_session][-1][1] + "+"
+
+                            if settings.black_king.get_is_in_check() and len(
+                                    settings.black_king.get_valid_moves()) == 0:
+                                # white has won the game
+                                history.move_history[history.cur_session][-1][1] = \
+                                history.move_history[history.cur_session][-1][1] + "+"
                                 settings.winner = 'White'
                                 settings.reset_game()
                                 dump_move_history()
@@ -218,67 +249,82 @@ def play_game():
 
                     # if the step is 2 or 3 then it is the blacks turn
                     if settings.turn_step > 1:
+                        # maps through white_piece_objects array of objects and passes each object into the
+                        # get_object_co-ords function and returns the co-ords as an array
                         white_object_coords = list(map(get_object_coords, settings.white_piece_objects))
                         black_object_coords = list(map(get_object_coords, settings.black_piece_objects))
 
                         if click_coords in black_object_coords:  # if black piece has been clicked
                             # King is selected and we are trying to move to Rook, but also we are allowed to castle on this Rook
 
-                            if isinstance(settings.selected_piece, King) \
-                                    and isinstance(get_clicked_piece(click_coords, settings.black_piece_objects), Rook)\
-                                    and click_coords in settings.selected_piece.get_valid_moves():
+                            if isinstance(settings.selected_piece, King) and isinstance(
+                                    get_clicked_piece(click_coords, settings.black_piece_objects),
+                                    Rook) and click_coords in settings.selected_piece.get_valid_moves():
                                 if click_coords == (0, 7):  # short castle
                                     settings.selected_piece.force_move_to_selected_position(
                                         (1, 7))  # move king to short castle pos
                                     for piece in settings.black_piece_objects:  # find short rook
                                         if piece.get_current_position() == (0, 7):
-                                            piece.force_move_to_selected_position((2, 7))  # move rook to short castle
+                                            piece.force_move_to_selected_position(
+                                                (2, 7))  # move rook to short castle pos
                                 elif click_coords == (7, 7):  # long castle
                                     settings.selected_piece.force_move_to_selected_position(
                                         (5, 7))  # move king to long castle pos
                                     for piece in settings.black_piece_objects:  # find long rook
                                         if piece.get_current_position() == (7, 7):
-                                            piece.force_move_to_selected_position((4, 7))  # move rook to long castle
+                                            piece.force_move_to_selected_position(
+                                                (4, 7))  # move rook to long castle pos
                                 # end turn
-                                settings.turn_step = 0
+                                settings.turn_step = 0  # turns back to other player now
+                                # so resets the variable used for tracking the currently selected piece
                                 settings.selected_piece = None
 
                             # Standard piece selection logic
                             else:
+
                                 settings.selected_piece = get_clicked_piece(click_coords, settings.black_piece_objects)
-                                settings.selected_piece.calculate_valid_moves(
-                                    history, get_all_object_coords(settings.white_piece_objects),
-                                    get_all_object_coords(settings.black_piece_objects))
+                                settings.selected_piece.calculate_valid_moves(history,
+                                                                              get_all_object_coords(
+                                                                                  settings.white_piece_objects),
+                                                                              get_all_object_coords(
+                                                                                  settings.black_piece_objects))
 
                                 # test for check
                                 settings.selected_piece.check_valid_moves_for_check(
                                     get_all_object_coords(settings.white_piece_objects),
                                     get_all_object_coords(settings.black_piece_objects), settings)
 
-                                if settings.turn_step == 2:
+                                if settings.turn_step == 2:  # if step is 2 it moves onto the next step(3) of black player
                                     settings.turn_step = 3
 
+                        # Todo: logic for this not working perfectly yet, do the same for black
+                        # elif settings.turn_step == 0 and click_coords not in white_object_coords:
+                        #     raise InvalidSelectionError("Select white")
+
                         elif settings.selected_piece is not None and click_coords not in \
-                                settings.selected_piece.get_valid_moves() and \
-                                board.resign_button.check_for_input(pygame.mouse.get_pos()) is False:
+                                settings.selected_piece.get_valid_moves():
                             raise InvalidSelectionError("Invalid move")
 
                         elif settings.selected_piece is not None and click_coords in \
                                 settings.selected_piece.get_valid_moves():
 
+                            taking_material = click_coords in white_object_coords
+
                             # add move to history
                             history.move_history[history.cur_session].append([
-                                settings.compute_notation(settings.selected_piece.get_current_position()),  # old posit
-                                settings.compute_notation(click_coords)  # new position
+                                settings.compute_notation(settings.selected_piece.get_current_position(),
+                                                          taking_material=False),  # old position
+                                settings.compute_notation(click_coords, taking_material=taking_material)  # new position
                             ])
 
                             # moves selected piece to position only if it is a valid move
                             settings.selected_piece.move_to_selected_position(click_coords)
 
                             # Pawn Promotion for top
-                            pawn_promotion_for_black(click_coords, settings.selected_piece, settings.black_piece_objects)
+                            pawn_promotion_for_black(click_coords, settings.selected_piece,
+                                                     settings.black_piece_objects)
 
-                            if click_coords in white_object_coords:
+                            if taking_material:
                                 white_piece = get_clicked_piece(click_coords, settings.white_piece_objects)
                                 settings.captured_piece_objects_black.append(white_piece)
 
@@ -288,17 +334,29 @@ def play_game():
                                 ]
 
                             # check if white's king is in check and out of moves, thus making black the winner
-                            settings.white_king.calculate_king_in_check(
-                                settings.black_piece_objects, get_all_object_coords(settings.white_piece_objects),
-                                get_all_object_coords(settings.black_piece_objects))
+                            settings.white_king.calculate_king_in_check(settings.black_piece_objects,
+                                                                        get_all_object_coords(
+                                                                            settings.white_piece_objects),
+                                                                        get_all_object_coords(
+                                                                            settings.black_piece_objects))
 
-                            settings.white_king.calculate_valid_moves(
-                                history, get_all_object_coords(settings.white_piece_objects),
-                                get_all_object_coords(settings.black_piece_objects))
+                            settings.white_king.calculate_valid_moves(history, get_all_object_coords(
+                                settings.white_piece_objects),
+                                                                      get_all_object_coords(
+                                                                          settings.black_piece_objects))
                             settings.white_king.check_valid_moves_for_check(
                                 get_all_object_coords(settings.white_piece_objects),
-                                get_all_object_coords(settings.black_piece_objects), settings)
-                            if settings.white_king.get_is_in_check() and len(settings.white_king.get_valid_moves()) == 0:
+                                get_all_object_coords(settings.black_piece_objects),
+                                settings)
+
+                            if settings.white_king.get_is_in_check():
+                                history.move_history[history.cur_session][-1][1] = history.move_history[history.cur_session][-1][1] + "+"
+
+                            if settings.white_king.get_is_in_check() and len(
+                                    settings.white_king.get_valid_moves()) == 0:
+                                # black has won the game
+                                history.move_history[history.cur_session][-1][1] = \
+                                history.move_history[history.cur_session][-1][1] + "+"
                                 settings.winner = 'Black'
                                 settings.reset_game()
                                 dump_move_history()

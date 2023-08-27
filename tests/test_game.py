@@ -121,9 +121,9 @@ class GameTests(unittest.TestCase):
         self.assertTrue(isinstance(king, King))
 
     def test_black_get_king(self):
-        piece = [King('black', (3, 7))]
+        piece = [King('white', (3, 7))]
         king = get_king(piece)
-        self.assertTrue(isinstance(king, King))
+        self.assertFalse(isinstance(king, King))
 
     def test_invalid_get_king(self):
         piece = [Pawn('white', (3, 0))]

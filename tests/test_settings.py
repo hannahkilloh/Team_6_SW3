@@ -53,7 +53,7 @@ class TestSettingsClass(unittest.TestCase):
         self.settings.selected_piece = MockPiece()
 
         coords = (1, 2)
-        notation = self.settings.compute_notation(coords)
+        notation = self.settings.compute_notation(coords, taking_material=False)
 
         expected_notation = 'MockShortNotationg3'
         self.assertEqual(notation, expected_notation)
