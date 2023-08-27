@@ -26,10 +26,7 @@ class Button:
                                      int(self.rect.bottom * self.settings.get_scale_factor_y()))
 
     def change_color(self, position):  # checks if were hovering over it ad if we are changes to desired colour
-        if position[0] in range(int(self.rect.left * self.settings.get_scale_factor_x()),
-                                int(self.rect.right * self.settings.get_scale_factor_x())) \
-                and position[1] in range(int(self.rect.top * self.settings.get_scale_factor_y()),
-                                         int(self.rect.bottom * self.settings.get_scale_factor_y())):
+        if self.check_for_input(position):
             self.text = self.font.render(self.text_input, True, self.hovering_color)
         else:
             self.text = self.font.render(self.text_input, True, self.base_color)

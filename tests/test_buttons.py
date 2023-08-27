@@ -53,20 +53,20 @@ class TestButtonAndImage(unittest.TestCase):
     #     self.assertTrue(self.button.check_for_input(position_inside_button))
     #     self.assertFalse(self.button.check_for_input(position_outside_button))
 
-    # def test_button_change_color(self):
-    #     self.settings.get_scale_factor_x.return_value = 1.0
-    #     self.settings.get_scale_factor_y.return_value = 1.0
-    #
-    #     position_hovering = (120, 120)
-    #     position_not_hovering = (90, 90)
-    #
-    #     self.button.change_color(position_hovering)
-    #     self.button_font.render.assert_called_with("Click Me", True, '#7BFCFC')
-    #
-    #     self.button_font.render.reset_mock()
-    #
-    #     self.button.change_color(position_not_hovering)
-    #     self.button_font.render.assert_called_with("Click Me", True, '#7BFCFC')
+    def test_button_change_color(self):
+        self.settings.get_scale_factor_x.return_value = 1.0
+        self.settings.get_scale_factor_y.return_value = 1.0
+
+        position_hovering = (120, 120)
+        position_not_hovering = (90, 90)
+
+        self.button.change_color(position_hovering)
+        self.button_font.render.assert_called_with("Click Me", True, '#7BFCFC')
+
+        self.button_font.render.reset_mock()
+
+        self.button.change_color(position_not_hovering)
+        self.button_font.render.assert_called_with("Click Me", True, '#7BFCFC')
 
     def test_image_on_screen_initialization(self):
         self.assertEqual(self.image_on_screen.image, self.image)
