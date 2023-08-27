@@ -110,6 +110,13 @@ def play_game():
                     y_coord = int((event.pos[1] / settings.get_scale_factor_y()) // 100)
                     click_coords = (x_coord, y_coord)
 
+                    if settings.turn_step == 0 and click_coords not in white_object_coords and \
+                                board.resign_button.check_for_input(pygame.mouse.get_pos()) is False:
+                        raise InvalidSelectionError("Select white")
+                    elif settings.turn_step == 2 and click_coords not in black_object_coords and \
+                                board.resign_button.check_for_input(pygame.mouse.get_pos()) is False:
+                        raise InvalidSelectionError("Select black")
+
                     # if the step is 0 or 1 then it is the whites turn
                     if settings.turn_step <= 1:
                         white_object_coords = get_all_object_coords(settings.white_piece_objects)
@@ -153,12 +160,9 @@ def play_game():
                                 if settings.turn_step == 0:  # if steps is 0 it moves onto the next step(1)
                                     settings.turn_step = 1
 
-                        # Todo: logic for this not working perfectly yet
-                        # elif settings.turn_step == 0 and click_coords not in white_object_coords:
-                        #     raise InvalidSelectionError("Select white")
-
                         elif settings.selected_piece is not None and click_coords not in \
-                                settings.selected_piece.get_valid_moves():
+                                settings.selected_piece.get_valid_moves() and \
+                                board.resign_button.check_for_input(pygame.mouse.get_pos()) is False:
                             raise InvalidSelectionError("Invalid move")
 
                         elif settings.selected_piece is not None and click_coords in \
@@ -249,12 +253,9 @@ def play_game():
                                 if settings.turn_step == 2:
                                     settings.turn_step = 3
 
-                        # Todo: logic for this not working perfectly yet, do the same for black
-                        # elif settings.turn_step == 0 and click_coords not in white_object_coords:
-                        #     raise InvalidSelectionError("Select white")
-
                         elif settings.selected_piece is not None and click_coords not in \
-                                settings.selected_piece.get_valid_moves():
+                                settings.selected_piece.get_valid_moves() and \
+                                board.resign_button.check_for_input(pygame.mouse.get_pos()) is False:
                             raise InvalidSelectionError("Invalid move")
 
                         elif settings.selected_piece is not None and click_coords in \
