@@ -142,9 +142,12 @@ def history():
         if settings.history_being_shown > -1:
             lines = []
             move_string = ""
+            i = 1
             for m in entries[settings.history_being_shown][1]:
-                move_string += ">".join(m)
-                move_string += ","
+                move_string += str(i) + "."
+                move_string += " ".join(m)
+                move_string += ", "
+                i = i + 1
                 if len(move_string) > 50:
                     lines.append(move_string)
                     move_string = ""
