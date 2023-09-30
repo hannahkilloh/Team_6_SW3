@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/hannahkilloh/Team_6_SW3/assets/55206800/ec286730-1bc5-4258-ac0d-e808c282177f)" alt="Sublime's chess battle logo"/>
+  <img src="assets/images/chess_battle_logo_MAIN.png"/>
 </p>
 
 # Chess Battle - Python Chess Game
